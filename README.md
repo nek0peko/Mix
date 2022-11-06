@@ -1,13 +1,8 @@
-## Mix `Double space mixture`
-
-![3A885E7D48BB9DFA285D9003C3C7AFD9](https://gitee.com/wibus/blog-assets-goo/raw/master/asset-pic/20210217163055.jpg)
-
 ## 关于主题
 
-- 最新版本：2.0.0 [![wakatime](https://wakatime.com/badge/github/wibus-wee/Mix-Message.svg)](https://wakatime.com/badge/github/wibus-wee/Mix-Message)
-- 鸣谢：[@QingChiXiaoYe](https://github.com/QingChiXiaoYe), [@Musenxi](https://github.com/Musenxi), [@mx-space](https://github.com/mx-space)
-- [![DeepScan grade](https://deepscan.io/api/teams/14175/projects/17272/branches/390527/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=14175&pid=17272&bid=390527)
-- Demo（可能随时挂掉嘤嘤嘤）: https://blog.iucky.cn
+- Forked from: [wibus-wee/Mix-2.0.0](https://github.com/wibus-wee/Mix)
+
+- 支持版本：Typecho v1.2.0-rc.2及以上
 
 ## 主题特色
 
@@ -25,13 +20,13 @@
 
 防剧透短代码 qwq
 
-## 作者的话
+## 碎碎念
 
-如果此主题对你有帮助，或者你想支持作者做出更好的作品。欢迎捐赠。
+前段时间看到Typecho又更新了，好奇心作祟就想试着自己搭个博客啥的，结果好不容易找到一个好看的Typecho主题，但是完结了QAQ，不过还是非常感谢[Wibus佬](https://github.com/wibus-wee)从Mix Space的移植！
 
-当然此主题免费，就看你的啦
+作为一个从没碰过前端的后端程序员，折腾了老半天才部署好_(:з」∠)_
 
-> 记得捐赠后联系我！！（头部更多方块有联系我链接，点击即可）
-> 捐赠请备注：Mix主题～～
+之前一换主题就报错，Typecho给的错误信息又很模糊，后来找到日志才发现Typecho的widget helper里面重构了，导致Mix跟Typecho的继承关系对不上；终于不报错能进站后，又显示不出各种图片，看NetWork里好几个访问gitee的403和一些别的，然后又去[保罗佬](https://github.com/Dreamer-Paul)的博客里一张一张的偷背景图（笑），不过至今还是有一张没找到：
+![image](https://user-images.githubusercontent.com/87629374/200160524-ae7e8d82-1738-4955-89ca-fc985294de4b.png)
 
-<img src="https://gitee.com/wibus/blog-assets-goo/raw/master/asset-pic/%E5%BE%AE%E4%BF%A1%E8%B5%9E%E8%B5%8F.jpg" alt="https://gitee.com/wibus/blog-assets-goo/raw/master/asset-pic/微信赞赏.jpg" style="zoom:50%;" />
+总之，能力有限不会做一些实质性的改动，只是一些个人的定制
