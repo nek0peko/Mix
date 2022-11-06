@@ -27,11 +27,14 @@
                         </path>
                     </svg>
                     .
-                    <!-- -->
                     <?php $this->options->LeftHTML(); ?>
                 </p>
             </div>
             <div class="col-m-6 right to-center">
+                <!-- 暂时隐藏RSS -->
+                <p style="display: none"><a href="/feed" target="_blank rel=" noopener"">RSS订阅</a>·
+                    <a href="https://travellings.link/" target="_blank" rel="noreferrer">开往</a>
+                </p>
                 <?php if (!empty($this->options->Show_what_1) && in_array('ShowAly', $this->options->Show_what_1)): ?>
                     <p><?php echo online_users() ?>个小伙伴正在浏览<?php $this->options->RightHTML(); ?></p>
                 <?php endif; ?>

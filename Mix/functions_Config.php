@@ -161,11 +161,12 @@ function themeConfig($form)
     $FriendURL = new Text('FriendURL', NULL, _t(''), _t('友链内页链接'), _t('这里填写的是URL，填入<code>友链</code>页面链接，可省略'));
     $form->addInput($FriendURL);
 
-    $RSS = new Text('RSS', NULL, _t(''), _t('自定义RSS订阅链接'), _t('这里填写的是RSSURL，RSS订阅将会显示在顶部'));
-    $form->addInput($RSS);
-
-    $RSS_Site = new Text('RSS_Site', NULL, _t(''), _t('自定义RSS目标站点链接'), _t('这里填写的是站点URL，不是RSS订阅链接！用于点击跳转至源站！'));
-    $form->addInput($RSS_Site);
+//    // 暂时隐藏RSS
+//    $RSS = new Text('RSS', NULL, _t(''), _t('自定义RSS订阅链接'), _t('这里填写的是RSSURL，RSS订阅将会显示在顶部'));
+//    $form->addInput($RSS);
+//
+//    $RSS_Site = new Text('RSS_Site', NULL, _t(''), _t('自定义RSS目标站点链接'), _t('这里填写的是站点URL，不是RSS订阅链接！用于点击跳转至源站！'));
+//    $form->addInput($RSS_Site);
 
     /* ---------------------这是一条分割线--------------------- */
 
