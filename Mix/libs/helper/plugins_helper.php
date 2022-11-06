@@ -1,7 +1,3 @@
-
-
-
-
 <?php
 /**
  * CodePretty代码美化Beautiful
@@ -11,13 +7,16 @@
 
 Typecho_Plugin::factory('Widget_Archive')->header = array('CodePretty', 'header');
 Typecho_Plugin::factory('Widget_Archive')->footer = array('CodePretty', 'footer');
-class CodePretty{
-     /**
+
+class CodePretty
+{
+    /**
      *为header添加css文件
-     *@return void
+     * @return void
      */
-    public static function header() {
-        $cssUrl = $GLOBALS['assetURL'].'code_pretty/styles/Mac.css';
+    public static function header()
+    {
+        $cssUrl = $GLOBALS['assetURL'] . 'code_pretty/styles/Mac.css';
         // 自带CSS列表：
         // 1. mix.css -- 白色无边框
         // 2. WhiteMac.css -- 白色Mac代码高亮
@@ -27,16 +26,17 @@ class CodePretty{
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
     }
 
-    
+
     /**
      *为footer添加js文件
-     *@return void
+     * @return void
      */
-    public static function footer() {
-        $jsUrl = $GLOBALS['assetURL'].'code_pretty/prism.js';
-        $jsUrl_clipboard = $GLOBALS['assetURL'].'code_pretty/clipboard.min.js';
+    public static function footer()
+    {
+        $jsUrl = $GLOBALS['assetURL'] . 'code_pretty/prism.js';
+        $jsUrl_clipboard = $GLOBALS['assetURL'] . 'code_pretty/clipboard.min.js';
 
-            echo <<<HTML
+        echo <<<HTML
 <script type="text/javascript">
 	(function(){
 		var pres = document.querySelectorAll('pre');
@@ -67,12 +67,13 @@ HTML;
 
 Typecho_Plugin::factory('admin/write-post.php')->bottom = array('editor', 'reset');
 Typecho_Plugin::factory('admin/write-page.php')->bottom = array('editor', 'reset');
+
 class editor
 {
     public static function reset()
     {
         Typecho_Widget::widget('Widget_Options')->to($options);
-?>
+        ?>
 
         <style>
             .wmd-button.custom {
@@ -106,13 +107,13 @@ class editor
             }
         </style>
         <script>
-            $(function() {
+            $(function () {
                 $("#wmd-button-bar .wmd-edittab").remove()
                 $("#wmd-button-row .wmd-spacer").remove()
                 $("#wmd-button-row #wmd-more-button").remove()
                 $("#wmd-button-row #wmd-code-button").remove()
                 $("#wmd-button-row #wmd-heading-button").remove()
-                $("#wmd-fullscreen-button").on("click", function() {
+                $("#wmd-fullscreen-button").on("click", function () {
                     $(".fullscreen #text").css("top", $('.fullscreen #wmd-button-bar').outerHeight())
                 })
                 $("#wmd-button-row #wmd-fullscreen-button").before(`
@@ -141,28 +142,28 @@ class editor
                         <svg t="1607496478319" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7487" data-spm-anchor-id="a313x.7781069.0.i37" width="15" height="15"><path d="M868.8 105.6 155.2 105.6c-28.8 0-51.2 25.6-48 54.4l75.2 600c1.6 17.6 12.8 32 28.8 38.4l281.6 118.4c11.2 4.8 25.6 4.8 36.8 0l281.6-118.4c16-6.4 27.2-20.8 28.8-38.4l75.2-600C920 129.6 897.6 105.6 868.8 105.6zM865.6 179.2l-70.4 558.4c-1.6 8-6.4 16-14.4 19.2l-259.2 108.8c-6.4 3.2-12.8 3.2-19.2 0l-259.2-108.8c-8-3.2-12.8-11.2-14.4-19.2L158.4 179.2c-1.6-14.4 9.6-27.2 24-27.2l659.2 0C856 153.6 867.2 166.4 865.6 179.2z" p-id="7488" fill="#888888"></path><path d="M716.8 252.8 331.2 252.8c-28.8 0-51.2 25.6-48 54.4l17.6 136c3.2 24 24 41.6 48 41.6l294.4 0c14.4 0 25.6 12.8 24 27.2l-9.6 80c-1.6 8-6.4 16-14.4 19.2l-120 51.2c-6.4 3.2-12.8 3.2-19.2 0l-120-51.2c-8-3.2-12.8-11.2-14.4-19.2l-3.2-28.8c-1.6-12.8-14.4-22.4-27.2-20.8-12.8 1.6-22.4 14.4-20.8 27.2l4.8 41.6c1.6 17.6 12.8 32 28.8 38.4l142.4 60.8c11.2 4.8 25.6 4.8 36.8 0l142.4-60.8c16-6.4 27.2-20.8 28.8-38.4l14.4-121.6c3.2-28.8-19.2-54.4-48-54.4l-300.8 0c-12.8 0-22.4-9.6-24-20.8l-11.2-88c-1.6-14.4 9.6-27.2 24-27.2l358.4 0c11.2 0 20.8-8 24-19.2l0 0C742.4 267.2 731.2 252.8 716.8 252.8z" p-id="7489" fill="#888888"></path></svg>
                     </li>
                 `)
-                $("#j-wmd-scode").on("click", function(){
+                $("#j-wmd-scode").on("click", function () {
                     insertAtCursor('[scode type="类型"]文字[/scode]');
                 })
-                $("#j-wmd-linecode").on("click", function() {
+                $("#j-wmd-linecode").on("click", function () {
                     insertAtCursor(' `行内代码` ');
                 })
-                $("#j-wmd-code").on("click", function() {
+                $("#j-wmd-code").on("click", function () {
                     insertAtCursor('\n```html\n<div>可以将html换成你需要使用的语法（您需要先在外观设置里开启代码高亮才会显示）</div>\n```\n');
                 })
-                $("#j-wmd-delete").on("click", function() {
+                $("#j-wmd-delete").on("click", function () {
                     insertAtCursor(' ~~ 删除线效果 ~~ ');
                 })
-                $("#j-wmd-table").on("click", function() {
+                $("#j-wmd-table").on("click", function () {
                     insertAtCursor('\n表头|表头|表头\n---|:--:|---:\n居左|居中|居右\n居左|居中|居右\n');
                 })
-                $("#j-wmd-title").on("click", function() {
+                $("#j-wmd-title").on("click", function () {
                     insertAtCursor('\n# 一级标题\n## 二级标题\n### 三级标题\n#### 四级标题\n##### 五级标题\n###### 六级标题\n');
                 })
-                $("#j-wmd-footer").on("click", function() {
+                $("#j-wmd-footer").on("click", function () {
                     insertAtCursor('\n使用 Markdown[^1]可以效率的书写文档, 直接转换成 HTML[^2],。\n\n[^1]:Markdown是一种纯文本标记语言\n\n[^2]:HyperText Markup Language 超文本标记语言\n');
                 })
-                $("#j-wmd-html").on("click", function() {
+                $("#j-wmd-html").on("click", function () {
                     insertAtCursor('\n!!!\n这里写原生html代码\n!!!\n');
                 })
 
@@ -239,7 +240,7 @@ class editor
                         data: formData,
                         contentType: false,
                         processData: false,
-                        success: function(data) {
+                        success: function (data) {
                             var url = data[0],
                                 title = data[1].title;
                             textarea.val(textarea.val().replace(uploadingText, '![' + title + '](' + url + ')'));
@@ -248,7 +249,7 @@ class editor
                             // 附件上传的UI更新
                             fileUploadComplete(index, url, data[1]);
                         },
-                        error: function(error) {
+                        error: function (error) {
                             textarea.val(textarea.val().replace(uploadingText, '[图片上传错误...]\n'));
                             // 触发输入框更新事件，把状态压人栈中，解决预览不更新的问题
                             textarea.trigger('paste');
@@ -259,7 +260,7 @@ class editor
                 }
 
                 // 监听输入框粘贴事件
-                document.getElementById('text').addEventListener('paste', function(e) {
+                document.getElementById('text').addEventListener('paste', function (e) {
                     var clipboardData = e.clipboardData;
                     var items = clipboardData.items;
                     for (var i = 0; i < items.length; i++) {
@@ -322,7 +323,7 @@ class editor
 
                 // 增加插入事件
                 function attachInsertEvent(el) {
-                    $('.insert', el).click(function() {
+                    $('.insert', el).click(function () {
                         var t = $(this),
                             p = t.parents('li');
                         Typecho.insertFileToEditor(t.text(), p.data('url'), p.data('image'));
@@ -333,15 +334,15 @@ class editor
                 // 增加删除事件
                 function attachDeleteEvent(el) {
                     var file = $('a.insert', el).text();
-                    $('.delete', el).click(function() {
+                    $('.delete', el).click(function () {
                         if (confirm('<?php _e('确认要删除文件 %s 吗?'); ?>'.replace('%s', file))) {
                             var cid = $(this).parents('li').data('cid');
                             $.post('<?php Helper::security()->index('/action/contents-attachment-edit'); ?>', {
                                     'do': 'delete',
                                     'cid': cid
                                 },
-                                function() {
-                                    $(el).fadeOut(function() {
+                                function () {
+                                    $(el).fadeOut(function () {
                                         $(this).remove();
                                         updateAttacmentNumber();
                                     });
@@ -369,11 +370,11 @@ class editor
 
                     li.effect('highlight', {
                         color: '#FBC2C4'
-                    }, 2000, function() {
+                    }, 2000, function () {
                         $(this).remove();
                     });
                 }
             })
         </script>
-<?php }
+    <?php }
 } ?>

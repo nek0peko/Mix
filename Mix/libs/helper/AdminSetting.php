@@ -1,5 +1,7 @@
 <?php
-class AdminSetting{
+
+class AdminSetting
+{
 
     /**
      * 输出到后台外观设置的css
@@ -24,7 +26,8 @@ EOF;
         return $styleHTML;
     }
 
-    public static function Welcome(){
+    public static function Welcome()
+    {
 
         $db = Typecho_Db::get();
         $backupInfo = "";
@@ -47,7 +50,7 @@ EOF;
         class="mdui-chip-icon mdui-color-green"><i class="mdui-icon material-icons">&#xe8ba;</i></span><span class="mdui-chip-title">配套插件已启用</span></div>';
         }
         if (!Admin_Helper::isPluginAvailable("Links_Plugin", "Links")) {
-          $pluginInfo .= '<script>alert("主题监测到配套插件出现问题 \n请你启动或重新启动Links插件")</script>';
+            $pluginInfo .= '<script>alert("主题监测到配套插件出现问题 \n请你启动或重新启动Links插件")</script>';
         }
 
         $welcomeHTML = <<<EOF

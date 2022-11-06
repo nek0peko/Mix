@@ -7,7 +7,8 @@
  * Here is Some Idea.
  */
 
-class Content{
+class Content
+{
     /**
      * 输出文章摘要
      * @param $content
@@ -85,6 +86,7 @@ class Content{
             . '(\\]?)';                          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
         // phpcs:enable
     }
+
     /**
      * 获取短代码属性数组
      * Date: 2020-12-27
@@ -144,6 +146,7 @@ class Content{
         return '\\' . $tagName . '&gt; (.*)(\n\n)?';
 
     }
+
     public static function tagParseCallback($matches)
     {
         if ($matches[1] == '[' && $matches[6] == ']') {
@@ -161,6 +164,7 @@ class Content{
         return '<span class="label bg-' . $type . '">' . $content . '</span>';
 
     }
+
     public static function returnExceptShortCodeContent($content)
     {
 
@@ -251,6 +255,7 @@ class Content{
 
         return $content;
     }
+
     /**
      * 一篇文章中引用另一篇文章正则替换回调函数
      * @param $matches
@@ -258,7 +263,7 @@ class Content{
      */
     public static function quoteOtherPostCallback($matches)
     {
-        
+
         // 不解析类似 [[post]] 双重括号的代码
         if ($matches[1] == '[' && $matches[6] == ']') {
             return substr($matches[0], 1, -1);
@@ -320,6 +325,7 @@ class Content{
 EOF;
 
     }
+
     /**
      * 标签页，标签功能
      */
@@ -376,6 +382,7 @@ aria-controls='" . $id . "' role=\"tab\" href='#$id'>$name</a></li>";
 </div>
 EOF;
     }
+
     /**
      * 解析文章内容为图片列表（相册）
      * @param $content
@@ -431,7 +438,8 @@ EOF;
 
 
     }
-        /**
+
+    /**
      * 文章内相册解析
      * @param $matches
      * @return bool|string
@@ -460,14 +468,15 @@ EOF;
      * Date: 2021-1-26
      */
 
-    public static function seeParseCallback($matches){
+    public static function seeParseCallback($matches)
+    {
         // 不解析类似 [[player]] 双重括号的代码
         if ($matches[1] == '[' && $matches[6] == ']') {
             return substr($matches[0], 1, -1);
         }
         $attr = htmlspecialchars_decode($matches[3]);//还原转义前的参数列表
         $attrs = self::shortcode_parse_atts($attr);//获取短代码的参数
-        return '<span class="spoiler" title="你知道的太多了">'."\n\n" . $matches[5] . "\n".'</span>';
+        return '<span class="spoiler" title="你知道的太多了">' . "\n\n" . $matches[5] . "\n" . '</span>';
     }
 
     /**
@@ -475,19 +484,20 @@ EOF;
      * Date: 2021-2-15
      */
 
-    public static function bilibiliCallback($matches){
+    public static function bilibiliCallback($matches)
+    {
         // 不解析类似 [[player]] 双重括号的代码
         if ($matches[1] == '[' && $matches[6] == ']') {
             return substr($matches[0], 1, -1);
         }
         $attr = htmlspecialchars_decode($matches[3]);//还原转义前的参数列表
         $attrs = self::shortcode_parse_atts($attr);//获取短代码的参数
-        if(empty(@$attrs['style'])){
+        if (empty(@$attrs['style'])) {
             $style = 'gray';
-        }else{
+        } else {
             $style = @$attrs['style'];
         }
-        return '<iframe src="https://api.paugram.com/bili?bv='.@$attrs['id'].'&style="'.$style.'"" style="height: 10em; width: 100%"></iframe>';
+        return '<iframe src="https://api.paugram.com/bili?bv=' . @$attrs['id'] . '&style="' . $style . '"" style="height: 10em; width: 100%"></iframe>';
     }
 
     /**
@@ -495,14 +505,15 @@ EOF;
      * Date: 2021-2-15
      */
 
-    public static function bPlayerParseCallback($matches){
+    public static function bPlayerParseCallback($matches)
+    {
         // 不解析类似 [[player]] 双重括号的代码
         if ($matches[1] == '[' && $matches[6] == ']') {
             return substr($matches[0], 1, -1);
         }
         $attr = htmlspecialchars_decode($matches[3]);//还原转义前的参数列表
         $attrs = self::shortcode_parse_atts($attr);//获取短代码的参数
-        return '<iframe src="https://v.itggg.cn/?url="'.@$attrs[url].'"" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" width="100%" height="500px" frameborder="0"></iframe>';
+        return '<iframe src="https://v.itggg.cn/?url="' . @$attrs[url] . '"" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" width="100%" height="500px" frameborder="0"></iframe>';
     }
 
     /**
@@ -540,6 +551,7 @@ EOF;
         return $playCode;
 
     }
+
     /**
      * 音乐解析的正则替换回调函数
      * @param $matches
@@ -570,22 +582,23 @@ EOF;
         if (empty(@$attrs['photo'])) {
             @$attrs['photo'] = 'https://gitee.com/wibus/blog-assets-goo/raw/master/asset-pic/sM2XCJTW8BdUe5i.jpg';
         }
-        if (!empty(@$attrs['wangyi'])){
-            $wangyi_url = 'https://api.paugram.com/netease?id='.@$attrs['wangyi'].'';
+        if (!empty(@$attrs['wangyi'])) {
+            $wangyi_url = 'https://api.paugram.com/netease?id=' . @$attrs['wangyi'] . '';
             $wangyi_json_arr = file_get_contents($wangyi_url);
             $wangyi_json = json_decode($wangyi_json_arr);
             $title = $wangyi_json->{'title'};
             $artist = $wangyi_json->{'artist'};
             $cover = $wangyi_json->{'cover'};
             $link = $wangyi_json->{'link'};
-            $playCode = '<sqp data-title="'.$title.'" data-artist="'.$artist.'" data-cover="'.$cover.'" data-link="'.$link.'"></sqp>';
-            
-        }else{
-            $playCode = '<sqp "'.@$attrs['site'].'" data-title="' . @$attrs['title'] . '" data-artist="' . @$attrs['author'] . '" data-cover="' . @$attrs['photo'] . '" data-link="' . @$attrs['url'] . '"></sqp>';
+            $playCode = '<sqp data-title="' . $title . '" data-artist="' . $artist . '" data-cover="' . $cover . '" data-link="' . $link . '"></sqp>';
+
+        } else {
+            $playCode = '<sqp "' . @$attrs['site'] . '" data-title="' . @$attrs['title'] . '" data-artist="' . @$attrs['author'] . '" data-cover="' . @$attrs['photo'] . '" data-link="' . @$attrs['url'] . '"></sqp>';
         }
         return $playCode;
 
     }
+
     /**
      * 短代码解析正则替换回调函数
      * Date: 2020-12-27
@@ -647,10 +660,11 @@ EOF;
             case 'Shadow':
                 $type = "Shadow";
                 break;
-            
+
         }
-        return '<div class=" ' . $type . '">'."\n\n" . $matches[5] . "\n".'</div>';
+        return '<div class=" ' . $type . '">' . "\n\n" . $matches[5] . "\n" . '</div>';
     }
+
     /**
      * 解析显示按钮的短代码的正则替换回调函数
      * @param $matches
@@ -687,8 +701,8 @@ EOF;
      * @return bool|string
      */
 
-     public static function loadCallback($matches)
-     {
+    public static function loadCallback($matches)
+    {
         // 不解析类似 [[player]] 双重括号的代码
         if ($matches[1] == '[' && $matches[6] == ']') {
             return substr($matches[0], 1, -1);
@@ -702,7 +716,8 @@ EOF;
         return <<<EOF
 <progress value="{$value}" max="100"></progress>
 EOF;
-     }
+    }
+
     /**
      * 折叠框解析
      * @param $matches
@@ -744,7 +759,7 @@ EOF;
 
 
     }
-    
+
     /**
      * 文章解析函数
      * Date: 2020-12-27
@@ -760,7 +775,7 @@ EOF;
                 $content);
         }
         //解析防剧透功能
-        if (strpos($content,'[see') !== false){
+        if (strpos($content, '[see') !== false) {
             $pattern = self::get_shortcode_regex(array('see'));
             $content = preg_replace_callback("/$pattern/", array('Content', 'seeParseCallback'),
                 $content);
@@ -848,8 +863,8 @@ EOF;
         } else {
             $content = $obj->content;
 
-            
-        }            
+
+        }
         //文章中部分内容隐藏功能（回复后可见）
         if ($status || $result) {
             $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<div class=" Scode-tkzj">$1</div>', $content);
@@ -864,12 +879,13 @@ EOF;
     {
 
         //$way = "origin";
-        
+
         $content = Content::postContent($obj, $status, $way);
-        
+
         echo $content;
 
     }
+
     /**
      * 解析头部图标
      */
@@ -891,7 +907,6 @@ EOF;
         } else {
             $linkStatus = 'target="_self"';
         }
-
 
 
         if (trim($itemClass) !== "") {
@@ -917,25 +932,25 @@ EOF;
     /**
      * 解析头部图标
      * HTML样例代码
-            <div class="Header_link-section__1JFc9 global-link-section">
-
-            <a href="/timeline" >
-                <div class="Header_parent__3EA6A global-parent"><i class=""></i><span>览</span></div>
-            </a>
-
-            <div class="Header_children-wrapper__1z9Ni global-children-wrapper">
-
-            <a href="/timeline?type=note"
-                    >
-            <div class="Header_children__2ZydX global-children"><i class=""></i><span>生活</span></div>
-            </a>
-
-            <a href="/timeline?type=post" >
-                    <div class="Header_children__2ZydX global-children"><i class=""></i><span>博文</span></div>
-            </a>
-            </div>
-
-            </div>
+     * <div class="Header_link-section__1JFc9 global-link-section">
+     *
+     * <a href="/timeline" >
+     * <div class="Header_parent__3EA6A global-parent"><i class=""></i><span>览</span></div>
+     * </a>
+     *
+     * <div class="Header_children-wrapper__1z9Ni global-children-wrapper">
+     *
+     * <a href="/timeline?type=note"
+     * >
+     * <div class="Header_children__2ZydX global-children"><i class=""></i><span>生活</span></div>
+     * </a>
+     *
+     * <a href="/timeline?type=post" >
+     * <div class="Header_children__2ZydX global-children"><i class=""></i><span>博文</span></div>
+     * </a>
+     * </div>
+     *
+     * </div>
      */
     public static function returnHeadSideItem($headnavItem, $haveSub, $subListHtml, $ISsub = 'no')
     {
@@ -957,14 +972,13 @@ EOF;
         }
 
 
-
         if (trim($itemClass) !== "") {
             $ret = '<a ' . $linkStatus . ' href="' . $itemLink . '" rel="noreferrer"><div class="Header_parent__3EA6A global-parent"><i class="'
-            . $itemClass . '"></i><span>' . $itemName . '</span></div></a>';
+                . $itemClass . '"></i><span>' . $itemName . '</span></div></a>';
         }
         if ($ISsub != 'no') { //如果是小分支，children，覆盖上面的内容
             $ret = '<a ' . $linkStatus . ' href="' . $itemLink . '" rel="noreferrer"><div class="Header_children__2ZydX global-children"><i class="'
-            . $itemClass . '"></i><span>' . $itemName . '</span></a>';
+                . $itemClass . '"></i><span>' . $itemName . '</span></a>';
         }
         // <li> <a target="_self" href="xxx.com" class="auto" ><span class="nav-icon"><i data-feather="music"></i></span><span>网易云音乐</span></a></li>
         return $ret;

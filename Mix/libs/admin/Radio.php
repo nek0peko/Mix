@@ -22,21 +22,25 @@ class Radio extends Typecho_Widget_Helper_Form_Element
 {
 
 
-    public function start(){}
+    public function start()
+    {
+    }
 
-    public function end(){echo '</ul></div></div></div>';}
-
+    public function end()
+    {
+        echo '</ul></div></div></div>';
+    }
 
 
     public function __construct($name = NULL, array $options = NULL, $value = NULL, $label = NULL, $description = NULL)
     {
         /** 创建html元素,并设置class */
         //parent::__construct('ul', array('class' => 'typecho-option', 'id' => 'typecho-option-item-' . $name . '-' . self::$uniqueId));
-        $this->addItem(new CustomLabel('<div class="mdui-panel" mdui-panel=""><div class="mdui-panel-item"><div class="mdui-panel-item-header">'.$label. '</div><div class="mdui-panel-item-body"><ul class="typecho-option" id="typecho-option-item-'.$name.'-'.self::$uniqueId.'">'));
+        $this->addItem(new CustomLabel('<div class="mdui-panel" mdui-panel=""><div class="mdui-panel-item"><div class="mdui-panel-item-header">' . $label . '</div><div class="mdui-panel-item-body"><ul class="typecho-option" id="typecho-option-item-' . $name . '-' . self::$uniqueId . '">'));
 
         $this->name = $name;
-        self::$uniqueId ++;
-        self::$uniqueId ++;
+        self::$uniqueId++;
+        self::$uniqueId++;
 
         /** 运行自定义初始函数 */
         $this->init();
@@ -77,7 +81,7 @@ class Radio extends Typecho_Widget_Helper_Form_Element
      * @param array $options 选择项
      * @return Typecho_Widget_Helper_Layout
      */
-    public function input($name = NULL, array $options = NULL)
+    public function input(?string $name = null, ?array $options = null): ?Typecho_Widget_Helper_Layout
     {
         foreach ($options as $value => $label) {
             $this->_options[$value] = new Typecho_Widget_Helper_Layout('input');
@@ -91,7 +95,7 @@ class Radio extends Typecho_Widget_Helper_Form_Element
                 ->setAttribute('value', $value)
                 ->setAttribute('id', $id));
 
-            $item->addItem(new CustomLabel('<i class="mdui-radio-icon"></i>'.$label.'</label>'));
+            $item->addItem(new CustomLabel('<i class="mdui-radio-icon"></i>' . $label . '</label>'));
 
             //$labelItem = new Typecho_Widget_Helper_Layout('label');
             //$item->addItem($labelItem->setAttribute('for', $id)->html($label));
@@ -108,7 +112,7 @@ class Radio extends Typecho_Widget_Helper_Form_Element
      * @param mixed $value 表单元素值
      * @return void
      */
-    protected function _value($value)
+    protected function inputValue($value)
     {
         foreach ($this->_options as $option) {
             $option->removeAttribute('checked');

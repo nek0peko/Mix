@@ -21,19 +21,24 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 class Text extends Typecho_Widget_Helper_Form_Element
 {
 
-    public function start(){}
+    public function start()
+    {
+    }
 
-    public function end(){echo '</ul></div></div></div>';}
+    public function end()
+    {
+        echo '</ul></div></div></div>';
+    }
 
 
     public function __construct($name = NULL, array $options = NULL, $value = NULL, $label = NULL, $description = NULL)
     {
         /** 创建html元素,并设置class */
         //parent::__construct('ul', array('class' => 'typecho-option', 'id' => 'typecho-option-item-' . $name . '-' . self::$uniqueId));
-        $this->addItem(new CustomLabel('<div class="mdui-panel" mdui-panel=""><div class="mdui-panel-item"><div class="mdui-panel-item-header">'.$label. '</div><div class="mdui-panel-item-body"><ul style="padding-left: 0px; list-style: none!important" id="typecho-option-item-'.$name.'-'.self::$uniqueId.'">'));
+        $this->addItem(new CustomLabel('<div class="mdui-panel" mdui-panel=""><div class="mdui-panel-item"><div class="mdui-panel-item-header">' . $label . '</div><div class="mdui-panel-item-body"><ul style="padding-left: 0px; list-style: none!important" id="typecho-option-item-' . $name . '-' . self::$uniqueId . '">'));
 
         $this->name = $name;
-        self::$uniqueId ++;
+        self::$uniqueId++;
 
         /** 运行自定义初始函数 */
         $this->init();
@@ -66,7 +71,7 @@ class Text extends Typecho_Widget_Helper_Form_Element
      * @param array $options 选择项
      * @return Typecho_Widget_Helper_Layout
      */
-    public function input($name = NULL, array $options = NULL)
+    public function input(?string $name = null, ?array $options = null): ?Typecho_Widget_Helper_Layout
     {
         $this->addItem(new CustomLabel('<div class="mdui-textfield">'));
         $input = new Typecho_Widget_Helper_Layout('input', array('id' => $name . '-0-' . self::$uniqueId,
@@ -86,7 +91,7 @@ class Text extends Typecho_Widget_Helper_Form_Element
      * @param mixed $value 表单项默认值
      * @return void
      */
-    protected function _value($value)
+    protected function inputValue($value)
     {
         $this->input->setAttribute('value', htmlspecialchars($value));
     }

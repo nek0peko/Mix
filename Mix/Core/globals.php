@@ -9,7 +9,7 @@
 $GLOBALS['options'] = Typecho_Widget::widget('Widget_Options');
 if ($GLOBALS['options']->UseCDNAssets) {
     $GLOBALS['assetURL'] = $GLOBALS['options']->CDNURL;
-}else{
-    $GLOBALS['assetURL'] = $GLOBALS['options']->themeUrl.'/assets/';
+} else {
+    $GLOBALS['assetURL'] = $GLOBALS['options']->themeUrl . '/assets/';
 }
 ?>

@@ -11,10 +11,10 @@ if (preg_match("/options-theme.php/", $_SERVER['REQUEST_URI'])) {
     $welcome = AdminSetting::Welcome();
     echo $stylehtml;
     echo $welcome;
-    if($options->debug != 2){ //如果不是开发模式的话就不屏蔽
+    if ($options->debug != 2) { //如果不是开发模式的话就不屏蔽
         error_reporting(0);
         ini_set('display_errors', 0);
-    }elseif ($options->debug == 2) {
+    } elseif ($options->debug == 2) {
         echo "<script>
         mdui.snackbar({
             message: '您当前处于的开发模式已屏蔽更新提示<br/>关闭请前往选项开发者设置-Debug模式选择默认选项'

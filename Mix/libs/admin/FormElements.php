@@ -8,10 +8,8 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * Version    :
  * Description: 后台外观设置中的表单中的一些基本元素
  */
-
-
-
-class CustomLabel extends Typecho_Widget_Helper_Layout{
+class CustomLabel extends Typecho_Widget_Helper_Layout
+{
     public function __construct($html)
     {
         $this->html($html);
@@ -19,19 +17,31 @@ class CustomLabel extends Typecho_Widget_Helper_Layout{
         $this->end();
     }
 
-    public function start(){}
-    public function end(){}
+    public function start()
+    {
+    }
+
+    public function end()
+    {
+    }
 }
 
-class EndSymbol extends Typecho_Widget_Helper_Layout{
+class EndSymbol extends Typecho_Widget_Helper_Layout
+{
     public function __construct($num)
     {
-        for ($i =0;$i<$num;$i++){
+        for ($i = 0; $i < $num; $i++) {
             $this->addItem(new CustomLabel("</div>"));
         }
     }
-    public function start(){}
-    public function end(){}
+
+    public function start()
+    {
+    }
+
+    public function end()
+    {
+    }
 }
 
 class Title extends Typecho_Widget_Helper_Layout
@@ -46,19 +56,24 @@ class Title extends Typecho_Widget_Helper_Layout
      * @internal param string $tagName 标签名称
      * @internal param array $attributes 属性列表
      */
-    public function __construct($titleName,$subtitleName = null,$isOpen = false)
+    public function __construct($titleName, $subtitleName = null, $isOpen = false)
     {
         $this->addItem(new CustomLabel('<div class="mdui-panel-item">'));
 
         $this->addItem(new CustomLabel('<div class="mdui-panel-item-header">
-'.$titleName. '<small class="mdui-panel-item-sub-header">'.$subtitleName.'</small></div>'));
+' . $titleName . '<small class="mdui-panel-item-sub-header">' . $subtitleName . '</small></div>'));
 
         $this->addItem(new CustomLabel('<div class="mdui-panel-item-body">'));
 
     }
 
-    public function start(){}
-    public function end(){}
+    public function start()
+    {
+    }
+
+    public function end()
+    {
+    }
 }
 
 

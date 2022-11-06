@@ -13,19 +13,21 @@
 // 
 // ';
 
-class Admin_Helper{
+class Admin_Helper
+{
     public static function getBackgroundColor()
-        {
-            $colors = array(
-                array('#673AB7', '#512DA8'),
-                array('#20af42', '#1a9c39'),
-                array('#336666', '#2d4e4e'),
-                array('#2e3344', '#232735')
-            );
-            $randomKey = array_rand($colors, 1);
-            $randomColor = $colors[$randomKey];
-            return $randomColor;
-        }
+    {
+        $colors = array(
+            array('#673AB7', '#512DA8'),
+            array('#20af42', '#1a9c39'),
+            array('#336666', '#2d4e4e'),
+            array('#2e3344', '#232735')
+        );
+        $randomKey = array_rand($colors, 1);
+        $randomColor = $colors[$randomKey];
+        return $randomColor;
+    }
+
     public static function isPluginAvailable($className, $dirName)
     {
         if (class_exists($className)) {

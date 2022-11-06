@@ -1,7 +1,11 @@
 <?php
-class Utils{
+
+class Utils
+{
     private static $instance;//一个实例
-    private function loadLangIfNotLoad() {//loaded == false时候执行该语句
+
+    private function loadLangIfNotLoad()
+    {//loaded == false时候执行该语句
         if (!$this->loaded) {
             if (empty($this->locale)) {
                 $this->locale = $this->acceptLocale();
@@ -12,6 +16,7 @@ class Utils{
         }
 
     }
+
     /**
      * 替换默认的preg_replace_callback函数
      * @param $pattern
@@ -19,26 +24,29 @@ class Utils{
      * @param $subject
      * @return string
      */
-    public static function handle_preg_replace_callback($pattern, $callback, $subject){
-        return self::handleHtml($subject,function ($content) use ($callback, $pattern) {
-            return preg_replace_callback($pattern,$callback, $content);
+    public static function handle_preg_replace_callback($pattern, $callback, $subject)
+    {
+        return self::handleHtml($subject, function ($content) use ($callback, $pattern) {
+            return preg_replace_callback($pattern, $callback, $content);
         });
     }
 
 
-    public static function handle_preg_replace($pattern, $replacement, $subject){
-        return self::handleHtml($subject,function ($content) use ($replacement, $pattern) {
-            return preg_replace($pattern,$replacement, $content);
+    public static function handle_preg_replace($pattern, $replacement, $subject)
+    {
+        return self::handleHtml($subject, function ($content) use ($replacement, $pattern) {
+            return preg_replace($pattern, $replacement, $content);
         });
     }
 
-        /**
+    /**
      * 处理 HTML 文本，确保不会解析代码块中的内容
      * @param $content
      * @param callable $callback
      * @return string
      */
-    public static function handleHtml($content, $callback) {
+    public static function handleHtml($content, $callback)
+    {
         $replaceStartIndex = array();
         $replaceEndIndex = array();
         $currentReplaceId = 0;
@@ -127,22 +135,24 @@ class Utils{
             if (is_array($callback)) {
                 $className = $callback[0];
                 $method = $callback[1];
-                $renderedPart = call_user_func($className.'::'.$method, $part);
+                $renderedPart = call_user_func($className . '::' . $method, $part);
             } else {
                 $renderedPart = $callback($part);
             }
-            $output.= $renderedPart;
+            $output .= $renderedPart;
             if ($i < count($replaceStartIndex) - 1) {
-                $output.= substr($content, $replaceEndIndex[$i], $replaceStartIndex[$i + 1] - $replaceEndIndex[$i]);
+                $output .= substr($content, $replaceEndIndex[$i], $replaceStartIndex[$i + 1] - $replaceEndIndex[$i]);
             }
         }
         $output .= substr($content, $replaceEndIndex[count($replaceStartIndex) - 1]);
         return $output;
     }
-    public static function remove_last_comma($content){
-        if (substr($content,-1) == ","){ //如果一个JSON之后还有一个,的话
-            return substr($content,0,strlen($content)-1);
-        }else{
+
+    public static function remove_last_comma($content)
+    {
+        if (substr($content, -1) == ",") { //如果一个JSON之后还有一个,的话
+            return substr($content, 0, strlen($content) - 1);
+        } else {
             return $content;
         }
     }
