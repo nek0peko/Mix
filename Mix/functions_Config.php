@@ -5,7 +5,6 @@
  * themeConfig($form){}控制
  */
 
-
 function themeConfig($form)
 {
     Backup::echoBackup();
@@ -33,7 +32,7 @@ function themeConfig($form)
     $form->addInput($HeaderMore);
 
     // Blog Image
-    $HeaderPhoto = new Text('HeaderPhoto', NULL, _t('https://q.qlogo.cn/g?b=qq&nk=1596355173&s=640'), _t('头像图片地址'), _t('这里填写的是照片URL'));
+    $HeaderPhoto = new Text('HeaderPhoto', NULL, _t('https://q.qlogo.cn/g?b=qq&nk=1596355173&s=640'), _t('头像图片地址'), _t('这里填写的是图片URL'));
     $form->addInput($HeaderPhoto);
 
     /* ---------------------这是一条分割线--------------------- */

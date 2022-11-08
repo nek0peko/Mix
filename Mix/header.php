@@ -13,8 +13,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="next-head-count" content="9">
 
-
     <link rel="stylesheet" href="<?php echo $GLOBALS['assetURL'] ?>css/style1.css" data-n-g="">
+
+    <link rel="shortcut icon" href="<?php echo $GLOBALS['assetURL'] ?>img/favicon.ico" type="image/x-icon"/>
 
     <meta itemprop="image" content="<?php $this->options->HeaderPhoto(); ?>"/>
     <!--<link href="<?php echo $GLOBALS['assetURL'] ?>kico.css" rel="stylesheet" type="text/css">-->
