@@ -1,9 +1,9 @@
 @media all and (max-width:600px){
     html.dark nav#Header_head-menu__ofiV5 {
-        background: url(http://nek0peko.com/usr/images/background-night.png) top fixed!important
+        background: url(http://image.nek0peko.com/background-night.png) top fixed!important
     }
     nav#Header_head-menu__ofiV5 {
-        background: url(http://nek0peko.com/usr/images/background-night.png) top fixed
+        background: url(http://image.nek0peko.com/background-night.png) top fixed
     }
 }
 
@@ -2943,7 +2943,7 @@ html.light {
 }
 
 html.light body {
-	background: url(http://nek0peko.com/usr/images/background.png) top fixed!important
+	background: url(http://image.nek0peko.com/background.png) top fixed!important
 }
 
 html.light img {
@@ -2974,7 +2974,7 @@ html.dark {
 }
 
 html.dark body {
-	background: #000 url(http://nek0peko.com/usr/images/background-night.png) top fixed!important
+	background: #000 url(http://image.nek0peko.com/background-night.png) top fixed!important
 }
 
 html.dark img {
@@ -2997,7 +2997,7 @@ html.dark img {
 	}
 
 	body {
-		background: #000 url(http://nek0peko.com/usr/images/background-night.png) top fixed
+		background: #000 url(http://image.nek0peko.com/background-night.png) top fixed
 	}
 
 	img {
@@ -4035,7 +4035,7 @@ footer:before {
 	content: "";
 	z-index: -1;
 	position: absolute;
-	background: url(http://nek0peko.com/usr/images/footer.png) top/cover
+	background: url(http://image.nek0peko.com/footer.png) top/cover
 }
 
 @media screen and (max-width:600px) {

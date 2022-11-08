@@ -1,7 +1,7 @@
 <?php
 $this->need('header.php');
 $PostChoice = $this->fields->PostChoice;
-$this->need('component/headnav/headnav.php');
+$this->need('component/headnav.php');
 if ($PostChoice == 0): ?>
     <div id="main_load">
         <main class="is-article">

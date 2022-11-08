@@ -33,7 +33,7 @@
 </script>
 
 <?php
-$this->need('component/headnav/headnav.php');
+$this->need('component/headnav.php');
 ?>
 <style>
     .links {

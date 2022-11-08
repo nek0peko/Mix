@@ -21,7 +21,7 @@ $slug = "slug=$cate";
 
 // 头部必要元素
 $this->need('header.php');
-$this->need('component/headnav/headnav.php');
+$this->need('component/headnav.php');
 ?>
 
     <div id="main_load">
