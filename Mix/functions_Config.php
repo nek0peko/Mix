@@ -191,7 +191,7 @@ function themeConfig($form)
     $form->addInput($FooterHTML);
 
     // 博客底部左侧信息
-    $LeftHTML = new Textarea('LeftHTML', NULL, _t(''), _t('博客底部左侧信息'), _t('这里面填写的是HTML代码，位置是博客底部的右边。'));
+    $LeftHTML = new Textarea('LeftHTML', NULL, _t(''), _t('博客底部左侧信息'), _t('这里面填写的是HTML代码，位置是博客底部的左边。'));
     $form->addInput($LeftHTML);
 
     // 博客底部右侧信息
