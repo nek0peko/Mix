@@ -42,9 +42,8 @@
                                     <div class="SectionNews_card-cover-wrap__1DHPb">
                                         <div>
                                             <div style="position: relative; max-width: 100%; margin: auto;">
-                                                <div class="lazyload-image"><img
-                                                            src="<?php echo getFirstImg($this->cid, $GLOBALS['assetURL']); ?>"
-                                                            alt="photo"></div>
+                                                <div class="lazyload-image">
+                                                    <img src="<?php echo getFirstImg($posts->cid, $GLOBALS['assetURL']); ?>" alt="photo"></div>
                                                 <div class="placeholder-image hide"
                                                      style="max-width: 100%; position: absolute; filter: brightness(1.3); z-index: -1;">
                                                 </div>

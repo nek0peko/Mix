@@ -12,25 +12,12 @@ Helper::options()->commentsPageDisplay = 'first'; //强制评论第一页
 Helper::options()->commentsOrder = 'DESC'; //将最新的评论展示在前
 Helper::options()->commentsHTMLTagAllowed = '<a href=""> <img src=""> <img src="" class=""> <code> <del>';
 Helper::options()->commentsMarkdown = true;
-/**
- * thumb 随机头图
- * 逻辑：有图片附件，就调用第1个图片附件，否则随机显示
- */
-function thumb($cid, $site_Url)
-{
-    if (empty($imgurl)) {
-        $rand_num = 23; //随机图片数量，根据图片目录中图片实际数量设置
-        if ($rand_num == 0) {
-            $imgurl = $site_Url . 'img/0.png';
-            //如果$rand_num = 0,则显示默认图片，须命名为"0.png"，注意是绝对地址
-        } else {
-            $imgurl = $site_Url . 'img/' . rand(1, $rand_num) . '.png';
-            //随机图片，须按"1.png","2.png","3.png"...的顺序命名，注意是绝对地址
-        }
-    }
-    echo $imgurl;
-}
 
+/**
+ * getFirstImg 正则获取文章中的图片链接
+ * 若无图片附件，则使用随机图片
+ * @author nek0peko
+ */
 function getFirstImg($cid, $site_Url)
 {
     $db = Typecho_Db::get();
@@ -40,21 +27,35 @@ function getFirstImg($cid, $site_Url)
         ->order('table.contents.cid', Typecho_Db::SORT_ASC)
         ->limit(1));
 
-    preg_match_all("/(http:\/\/)[^>]*?.(png|jpg)/i", $rs['text'], $thumbUrl);  //通过正则式获取图片地址
-    $img_src = $thumbUrl[1][0];  //将赋值给img_src
-    $img_counter = count($thumbUrl[0]);  //一个src地址的计数器
+    preg_match_all("/(https:\/\/)[^>]*?.(png|jpg)/i", $rs['text'], $thumbUrl);
+    $img_url = $thumbUrl[0][0];
 
-    if ($img_counter == 0) {
-        $rand_num = 23;
-        if ($rand_num == 0) {
-            $img_src = $site_Url . 'img/0.png';
-            //如果$rand_num = 0，则显示默认图片，须命名为"0.png"，注意是绝对地址
-        } else {
-            $img_src = $site_Url . 'img/' . rand(1, $rand_num) . '.png';
-            //随机图片，须按"1.png","2.png","3.png"...的顺序命名，注意是绝对地址
-        }
+    if (count($thumbUrl[0]) == 0) {
+        $img_url = rand_img($site_Url);
     }
-    echo $img_src;
+
+    echo $img_url;
+}
+
+/**
+ * rand_img 随机图片
+ * 随机图片须按"1.png","2.png","3.png"...的顺序命名
+ * @author nek0peko
+ */
+function rand_img($site_Url): string
+{
+    // 是否随机图片，如果为false，则固定为一张图
+    $isRandom = true;
+    // assets/img目录中随机图片数量
+    $rand_num = 23;
+
+    if ($isRandom) {
+        $img_url = $site_Url . 'img/' . rand(1, $rand_num) . '.png';
+    } else {
+        $img_url = $site_Url . 'img/0.png';
+    }
+
+    return $img_url;
 }
 
 function parse_RSS($url, $site)
