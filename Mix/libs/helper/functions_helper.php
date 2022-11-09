@@ -31,28 +31,28 @@ function getFirstImg($cid, $site_Url)
     $img_url = $thumbUrl[0][0];
 
     if (count($thumbUrl[0]) == 0) {
-        $img_url = rand_img($site_Url);
+        $img_url = rand_thumb($site_Url);
     }
 
     echo $img_url;
 }
 
 /**
- * rand_img 随机图片
+ * rand_thumb 随机图片
  * 随机图片须按"1.png","2.png","3.png"...的顺序命名
  * @author nek0peko
  */
-function rand_img($site_Url): string
+function rand_thumb($site_Url): string
 {
     // 是否随机图片，如果为false，则固定为一张图
     $isRandom = true;
-    // assets/img目录中随机图片数量
+    // assets/img/thumb目录中随机图片数量
     $rand_num = 23;
 
     if ($isRandom) {
-        $img_url = $site_Url . 'img/' . rand(1, $rand_num) . '.png';
+        $img_url = $site_Url . 'img/thumb/' . rand(1, $rand_num) . '.png';
     } else {
-        $img_url = $site_Url . 'img/0.png';
+        $img_url = $site_Url . 'img/thumb/0.png';
     }
 
     return $img_url;

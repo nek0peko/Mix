@@ -73,7 +73,7 @@ include 'menu.php';
                                                 echo '<a href="' . $link['image'] . '" title="点击放大" target="_blank"><img class="avatar" src="' . $link['image'] . '" alt="' . $link['name'] . '" width="32" height="32"/></a>';
                                             } else {
                                                 $options = Typecho_Widget::widget('Widget_Options');
-                                                $nopic_url = Typecho_Common::url('/usr/plugins/Links/icon/' . rand(1, 10) . '.png', $options->siteUrl);
+                                                $nopic_url = Typecho_Common::url('/usr/themes/Mix/assets/img/icon/' . rand(1, 10) . '.png', $options->siteUrl);
                                                 echo '<img class="avatar" src="' . $nopic_url . '" alt="NOPIC" width="32" height="32"/>';
                                             }
                                             ?></td>
