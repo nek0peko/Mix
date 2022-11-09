@@ -259,10 +259,21 @@ class Links_Plugin implements Typecho_Plugin_Interface
         }
         $links = $db->fetchAll($sql);
         $str = "";
+
+        // 保证连续十个头像不会出现重复
+        $rand_nums = range(1, 10);
+        shuffle($rand_nums);
+        $count = 0;
         foreach ($links as $link) {
             if ($link['image'] == NULL) {
                 // 友链如果没有头像，则从10张猫猫中随机生成
-                $link['image'] = Typecho_Common::url('/usr/themes/Mix/assets/img/icon/' . rand(1, 10) . '.png', $options->siteUrl);
+                $link['image'] = Typecho_Common::url('/usr/themes/Mix/assets/img/icon/' . $rand_nums[$count] . '.png', $options->siteUrl);
+                if ($count == 9) {
+                    shuffle($rand_nums);
+                    $count = 0;
+                } else {
+                    $count++;
+                }
             }
             $str .= str_replace(
                 array('{lid}', '{name}', '{url}', '{sort}', '{title}', '{description}', '{image}', '{user}'),

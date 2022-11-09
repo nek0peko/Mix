@@ -29,9 +29,10 @@ function threadedComments($comments, $options)
     ?>">
         <div id="<?php $comments->theId(); ?>">
             <div class="comments-body">
-<!--                --><?php //$avatar = 'https://sdn.geekzu.org/avatar/' . md5(strtolower($comments->mail)) . '?d=wavatar'; ?>
-<!--                <img class="avatar" src="--><?php //echo $avatar ?><!--" alt="--><?php //echo $comments->author; ?><!--"/>-->
-                <img class="avatar" src="<?php echo $GLOBALS['assetURL'] . 'img/icon/' . rand(1, 10) . '.png' ?>" alt="<?php echo $comments->author; ?>"/>
+                <!--                --><?php //$avatar = 'https://sdn.geekzu.org/avatar/' . md5(strtolower($comments->mail)) . '?d=wavatar'; ?>
+                <!--                <img class="avatar" src="--><?php //echo $avatar ?><!--" alt="--><?php //echo $comments->author; ?><!--"/>-->
+                <img class="avatar" src="<?php echo $GLOBALS['assetURL'] . 'img/icon/' . rand(1, 10) . '.png' ?>"
+                     alt="<?php echo $comments->author; ?>"/>
                 <div class="line"></div>
                 <div class="comment_main">
                     <div class="comment_meta">

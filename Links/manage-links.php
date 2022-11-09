@@ -60,6 +60,10 @@ include 'menu.php';
                             </thead>
                             <tbody>
                             <?php if (!empty($links)): $alt = 0; ?>
+                                <!-- 保证连续十个头像不会出现重复 -->
+                                <?php $rand_nums = range(1, 10); ?>
+                                <?php shuffle($rand_nums); ?>
+                                <?php $count = 0; ?>
                                 <?php foreach ($links as $link): ?>
                                     <tr id="lid-<?php echo $link['lid']; ?>">
                                         <td><input type="checkbox" value="<?php echo $link['lid']; ?>" name="lid[]"/>
@@ -73,7 +77,13 @@ include 'menu.php';
                                                 echo '<a href="' . $link['image'] . '" title="点击放大" target="_blank"><img class="avatar" src="' . $link['image'] . '" alt="' . $link['name'] . '" width="32" height="32"/></a>';
                                             } else {
                                                 $options = Typecho_Widget::widget('Widget_Options');
-                                                $nopic_url = Typecho_Common::url('/usr/themes/Mix/assets/img/icon/' . rand(1, 10) . '.png', $options->siteUrl);
+                                                $nopic_url = Typecho_Common::url('/usr/themes/Mix/assets/img/icon/' . $rand_nums[$count] . '.png', $options->siteUrl);
+                                                if ($count == 9) {
+                                                    shuffle($rand_nums);
+                                                    $count = 0;
+                                                } else {
+                                                    $count++;
+                                                }
                                                 echo '<img class="avatar" src="' . $nopic_url . '" alt="NOPIC" width="32" height="32"/>';
                                             }
                                             ?></td>
