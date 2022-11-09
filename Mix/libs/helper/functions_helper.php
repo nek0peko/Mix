@@ -31,6 +31,31 @@ function thumb($cid, $site_Url)
     echo $imgurl;
 }
 
+function getFirstImg($cid, $site_Url)
+{
+    $db = Typecho_Db::get();
+    $rs = $db->fetchRow($db->select('table.contents.text')
+        ->from('table.contents')
+        ->where('table.contents.cid=?', $cid)
+        ->order('table.contents.cid', Typecho_Db::SORT_ASC)
+        ->limit(1));
+
+    preg_match_all("/(http:\/\/)[^>]*?.(png|jpg)/i", $rs['text'], $thumbUrl);  //通过正则式获取图片地址
+    $img_src = $thumbUrl[1][0];  //将赋值给img_src
+    $img_counter = count($thumbUrl[0]);  //一个src地址的计数器
+
+    if ($img_counter == 0) {
+        $rand_num = 23;
+        if ($rand_num == 0) {
+            $img_src = $site_Url . 'img/0.png';
+            //如果$rand_num = 0，则显示默认图片，须命名为"0.png"，注意是绝对地址
+        } else {
+            $img_src = $site_Url . 'img/' . rand(1, $rand_num) . '.png';
+            //随机图片，须按"1.png","2.png","3.png"...的顺序命名，注意是绝对地址
+        }
+    }
+    echo $img_src;
+}
 
 function parse_RSS($url, $site)
 {

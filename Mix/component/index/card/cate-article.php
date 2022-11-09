@@ -43,7 +43,7 @@
                                         <div>
                                             <div style="position: relative; max-width: 100%; margin: auto;">
                                                 <div class="lazyload-image"><img
-                                                            src="<?php echo thumb($this->cid, $GLOBALS['assetURL']); ?>"
+                                                            src="<?php echo getFirstImg($this->cid, $GLOBALS['assetURL']); ?>"
                                                             alt="photo"></div>
                                                 <div class="placeholder-image hide"
                                                      style="max-width: 100%; position: absolute; filter: brightness(1.3); z-index: -1;">
