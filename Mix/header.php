@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" href="<?php echo $GLOBALS['assetURL'] ?>css/style1.css" data-n-g="">
 
-    <link rel="shortcut icon" href="<?php echo $GLOBALS['assetURL'] ?>img/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="<?php echo $GLOBALS['assetURL'] ?>img/favicon.png" type="image/x-icon"/>
 
     <meta itemprop="image" content="<?php $this->options->HeaderPhoto(); ?>"/>
     <!--<link href="<?php echo $GLOBALS['assetURL'] ?>kico.css" rel="stylesheet" type="text/css">-->
@@ -27,9 +27,11 @@
         <style>
             /* body, nav#Header_head-menu__ofiV5 {
               background: url(
+
             <?php $this->options->BackGroundImage() ?>
-            ) top fixed!important;
-              } */
+
+                        ) top fixed!important;
+                          } */
             @media all and (max-width: 600px) {
                 nav#Header_head-menu__ofiV5 {
                     background: url(<?php $this->options->BackGroundImage() ?>) top fixed !important;
@@ -42,9 +44,11 @@
         <style>
             /* html.dark body, html.dark nav#Header_head-menu__ofiV5 {
               background: url(
+
             <?php $this->options->BackGroundImageDark() ?>
-            ) top fixed!important;
-              } */
+
+                        ) top fixed!important;
+                          } */
             @media all and (max-width: 600px) {
                 html.dark nav#Header_head-menu__ofiV5 {
                     background: url(<?php $this->options->BackGroundImageDark() ?>) top fixed !important;
