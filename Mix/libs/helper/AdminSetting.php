@@ -26,7 +26,7 @@ EOF;
         return $styleHTML;
     }
 
-    public static function Welcome()
+    public static function Welcome($photo_src, $name)
     {
 
         $db = Typecho_Db::get();
@@ -40,13 +40,11 @@ EOF;
         class="mdui-chip-title" style="color: rgb(255, 82, 82);">没有主题数据备份</span></div>';
         }
         if (!Admin_Helper::isPluginAvailable("Links_Plugin", "Links")) {
-            $pluginInfo = '<div class="mdui-chip" mdui-tooltip="{content: 
-    \'' . $pluginExInfo . '\'}" style="color: rgb(26, 188, 156);"><span 
+            $pluginInfo = '<div class="mdui-chip" mdui-tooltip="{content: \'\'}" style="color: rgb(26, 188, 156);"><span 
         class="mdui-chip-icon mdui-color-red"><i class="mdui-icon material-icons">&#xe8ba;</i></span><span 
-        class="mdui-chip-title" style="color: rgb(255, 82, 82);" >配套插件未启用，请及时安装</span></div>';
+        class="mdui-chip-title" style="color: rgb(255, 82, 82);">配套插件未启用，请及时安装</span></div>';
         } else {
-            $pluginInfo = '<div class="mdui-chip" mdui-tooltip="{content: 
-    \'' . $pluginExInfo . '\'}" style="color: rgb(26, 188, 156);"><span 
+            $pluginInfo = '<div class="mdui-chip" mdui-tooltip="{content: \'\'}" style="color: rgb(26, 188, 156);"><span 
         class="mdui-chip-icon mdui-color-green"><i class="mdui-icon material-icons">&#xe8ba;</i></span><span class="mdui-chip-title">配套插件已启用</span></div>';
         }
         if (!Admin_Helper::isPluginAvailable("Links_Plugin", "Links")) {
@@ -67,14 +65,14 @@ EOF;
 <div class="mdui-card">
   <!-- 卡片头部，包含头像、标题、副标题 -->
   <div id="Mix_header" class="mdui-card-header" mdui-dialog="{target: '#mail_dialog'}">
-    <!--<img class="mdui-card-header-avatar" src="$img"/>-->
+    <img class="mdui-card-header-avatar" src="$photo_src"/>
     <div class="mdui-card-header-title">Hello~~</div>
     <div class="mdui-card-header-subtitle">欢迎使用Mix主题!!</div>
   </div>
   
   <!-- 卡片的标题和副标题 -->
 <div class="mdui-card-primary mdui-p-t-1">
-    <div class="mdui-card-primary-title">Mix</div>
+    <div class="mdui-card-primary-title">Mix-2.0.0</div>
     <div class="mdui-card-primary-subtitle mdui-row mdui-row-gapless  mdui-p-t-1 mdui-p-l-1">
     <!--
         <div class="mdui-p-b-1" id="Mix_notice">公告信息</div>

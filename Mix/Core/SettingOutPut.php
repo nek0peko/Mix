@@ -8,7 +8,7 @@
  */
 if (preg_match("/options-theme.php/", $_SERVER['REQUEST_URI'])) {
     $stylehtml = AdminSetting::styleoutput();
-    $welcome = AdminSetting::Welcome();
+    $welcome = AdminSetting::Welcome($options->HeaderPhoto, $options->HeaderName);
     echo $stylehtml;
     echo $welcome;
     if ($options->debug != 2) { //如果不是开发模式的话就不屏蔽
