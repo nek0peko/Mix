@@ -1,5 +1,5 @@
 <div class="loader">
-    <?php if ($HeadNavPhoto): ?>
+    <?php if ($this->options->HeadNavPhoto): ?>
         <?php $this->options->HeadNavPhoto() ?>
     <?php else: ?>
         <svg height="200px" viewBox="0 0 200 200" version="1.1">

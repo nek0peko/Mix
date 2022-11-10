@@ -23,12 +23,13 @@ if ($options->rewrite == 1) {//定义博客php的地址，判断是否开启了�
     if (!defined('BLOG_URL_PHP'))
         define("BLOG_URL_PHP", BLOG_URL . 'index.php/');
 }
-// if (!defined("THEME_FILE")){
-//     define("THEME_FILE",total::returnThemePath());
-// }
-if (!defined("STATIC_PATH")) {
-    define('STATIC_PATH', '' . $GLOBALS['assetURL'] . '');
-}
+//if (!defined("THEME_FILE")) {
+//    define("THEME_FILE", total::returnThemePath());
+//}
+//if (!defined("STATIC_PATH")) {
+//    define('STATIC_PATH', '' . $GLOBALS['assetURL'] . '');
+//}
+
 /**
  * 主题使用必须引入的组件
  */

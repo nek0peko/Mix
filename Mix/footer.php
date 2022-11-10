@@ -35,7 +35,10 @@
                     <a href="https://travellings.link/" target="_blank" rel="noreferrer">开往</a>
                 </p>
                 <?php if (!empty($this->options->Show_what_1) && in_array('ShowAly', $this->options->Show_what_1)): ?>
-                    <p><?php echo online_users() ?>个小伙伴正在浏览<?php $this->options->RightHTML(); ?></p>
+                    <p>
+<!--                        --><?php //echo online_users() ?><!--个小伙伴正在浏览-->
+                        <?php $this->options->RightHTML(); ?>
+                    </p>
                 <?php endif; ?>
             </div>
         </div>
