@@ -283,15 +283,15 @@
 }
 
 .SectionNews_card-container__1nays .SectionNews_card-body__1Tj-4 {
-	background: -webkit-gradient(linear,left top,left bottom,from(rgba(38,69,61,.333)),to(rgba(38,69,61,.66)));
-	background: -webkit-linear-gradient(rgba(38,69,61,.333),rgba(38,69,61,.66));
-	background: -moz-linear-gradient(rgba(38,69,61,.333),rgba(38,69,61,.66));
-	background: linear-gradient(rgba(38,69,61,.333),rgba(38,69,61,.66));
+	background: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.333)),to(rgba(0,0,0,.66)));
+	background: -webkit-linear-gradient(rgba(0,0,0,.333),rgba(0,0,0,.66));
+	background: -moz-linear-gradient(rgba(0,0,0,.333),rgba(0,0,0,.66));
+	background: linear-gradient(rgba(0,0,0,.333),rgba(0,0,0,.66));
 	position: relative;
 	padding: 10px 25px;
 	background-repeat: no-repeat;
-	-webkit-backdrop-filter: saturate(180%) blur(15px);
-	backdrop-filter: saturate(180%) blur(15px);
+	-webkit-backdrop-filter: saturate(150%) blur(1px) contrast(50%);
+	backdrop-filter: saturate(150%) blur(1px) contrast(50%);
 	z-index: 4
 }
 
