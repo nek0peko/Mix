@@ -33,19 +33,21 @@ EOF;
         $backupInfo = "";
         if ($db->fetchRow($db->select()->from('table.options')->where('name = ?', 'theme:Mixbf'))) {
             $backupInfo = '<div class="mdui-chip" style="color: rgb(26, 188, 156);"><span 
-        class="mdui-chip-icon mdui-color-green"><i class="mdui-icon material-icons">&#xe8ba;</i></span><span class="mdui-chip-title">数据库存在主题数据备份</span></div>';
+        class="mdui-chip-icon mdui-color-green"><i class="mdui-icon material-icons">&#xe8ba;</i></span><span 
+        class="mdui-chip-title">数据库存在主题数据备份</span></div>';
         } else {
             $backupInfo = '<div class="mdui-chip" style="color: rgb(26, 188, 156);"><span 
         class="mdui-chip-icon mdui-color-red"><i class="mdui-icon material-icons">&#xe8ba;</i></span><span 
         class="mdui-chip-title" style="color: rgb(255, 82, 82);">没有主题数据备份</span></div>';
         }
         if (!Admin_Helper::isPluginAvailable("Links_Plugin", "Links")) {
-            $pluginInfo = '<div class="mdui-chip" mdui-tooltip="{content: \'\'}" style="color: rgb(26, 188, 156);"><span 
+            $pluginInfo = '<div class="mdui-chip" style="color: rgb(26, 188, 156);"><span 
         class="mdui-chip-icon mdui-color-red"><i class="mdui-icon material-icons">&#xe8ba;</i></span><span 
         class="mdui-chip-title" style="color: rgb(255, 82, 82);">配套插件未启用，请及时安装</span></div>';
         } else {
-            $pluginInfo = '<div class="mdui-chip" mdui-tooltip="{content: \'\'}" style="color: rgb(26, 188, 156);"><span 
-        class="mdui-chip-icon mdui-color-green"><i class="mdui-icon material-icons">&#xe8ba;</i></span><span class="mdui-chip-title">配套插件已启用</span></div>';
+            $pluginInfo = '<div class="mdui-chip" style="color: rgb(26, 188, 156);"><span 
+        class="mdui-chip-icon mdui-color-green"><i class="mdui-icon material-icons">&#xe8ba;</i></span><span 
+        class="mdui-chip-title">配套插件已启用</span></div>';
         }
         if (!Admin_Helper::isPluginAvailable("Links_Plugin", "Links")) {
             $pluginInfo .= '<script>alert("主题监测到配套插件出现问题 \n请你启动或重新启动Links插件")</script>';
