@@ -853,10 +853,10 @@ EOF;
      *
      * @param $obj
      * @param $status
-     * @param string $way
+     * @param $way
      * @return string
      */
-    public static function postContent($obj, $status, $way = "origin")
+    public static function postContent($obj, $status, $way)
     {
         if ($way == "origin") {
             $content = $obj->content;
@@ -878,7 +878,7 @@ EOF;
     public static function postContentHtml($obj, $status)
     {
 
-        //$way = "origin";
+        $way = "origin";
 
         $content = Content::postContent($obj, $status, $way);
 

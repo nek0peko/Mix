@@ -28,13 +28,12 @@ function getFirstImg($cid, $site_Url)
         ->limit(1));
 
     preg_match_all("/(https:\/\/)[^>]*?.(png|jpg)/i", $rs['text'], $thumbUrl);
-    $img_url = $thumbUrl[0][0];
 
     if (count($thumbUrl[0]) == 0) {
-        $img_url = rand_thumb($site_Url);
+        echo rand_thumb($site_Url);
+    } else {
+        echo $thumbUrl[0][0];
     }
-
-    echo $img_url;
 }
 
 /**
@@ -223,17 +222,16 @@ function themeInit($archive)
     }
 }
 
-function debug($t)
+function debug($t, $debug)
 {
-    switch ($options->debug) {
+    switch ($debug) {
         case 0:
             break;
         case 1:
-            $out = '<script>console.log("' . $t . '")</script>';
+            echo '<script>console.log("' . $t . '")</script>';
             break;
         case 2:
-            $out = '
-			<script>
+            echo '<script>
 				console.log("' . $t . '");
 				ks.notice("{$t}", {
 				    color: "yellow"
@@ -241,7 +239,6 @@ function debug($t)
 			</script>';
             break;
     };
-    echo $out;
 }
 
 ;

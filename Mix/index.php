@@ -25,7 +25,7 @@ $this->need('component/headnav.php');
             <!--顶部最大头像以及附属svg-->
             <?php $this->need('component/index/area-head.php'); ?>
             <?php if ($this->options->showIndexStyle == 1):
-            debug('小卡片样式');
+            debug('小卡片样式', $this->options->debug);
             ?>
             <?php if ($this->options->RSS): ?>
             <section
@@ -95,7 +95,7 @@ $this->need('component/headnav.php');
                         <?php $this->need('component/index/card/more.php'); ?>
                     <?php endif; ?>
                     <?php elseif ($this->options->showIndexStyle == 2):
-                        debug('纯文字样式');
+                        debug('纯文字样式', $this->options->debug);
                         $this->need('component/index/text/show_article.php');
                     endif;
                     ?>
