@@ -27,9 +27,9 @@
     </div>
     <?php if (!empty($this->options->Show_what) && in_array('ShowCopyRight', $this->options->Show_what)): ?>
         <section class="Copyright_copyright-session__3Q0fD">
-            <p>文章标题: <?php $this->title() ?></p>
-            <p>文章作者: <?php $this->author(); ?></p>
-            <p>文章链接: <span><?php $this->permalink() ?></span></p>
+            <p>文章标题：<?php $this->title() ?></p>
+            <p>文章作者：<?php $this->author(); ?></p>
+            <p>文章链接：<span><?php $this->permalink() ?></span></p>
             <hr/>
             <div>
                 <p>商业转载请联系站长获得授权，非商业转载请注明本文出处及文章链接，未经站长允许不得对文章文字内容进行修改演绎。<br/>本文采用<a

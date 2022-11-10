@@ -13,7 +13,7 @@ function themeConfig($form)
 
     /* ---------------------这是一条分割线--------------------- */
 
-    $form->addItem(new Title('初级设置', '网站标题、首页标题后缀、博主名称、博主介绍、头像'));
+    $form->addItem(new Title('初级设置', '首页标题、博主名称、博主介绍、头像'));
 
     // Page Title Separator
     $cut_off = new Radio('cut_off', array('·' => _t('<code>&nbsp;·&nbsp;</code>'), '-' => _t('<code>&nbsp;-&nbsp;</code>')), '-', _t('首页标题后缀分隔符'), _t('请谨慎选择，一旦选择，<b>非特殊情况请不要修改！</b>'));
@@ -39,26 +39,27 @@ function themeConfig($form)
 
     $form->addItem(new Typecho_Widget_Helper_Layout("/div"));
     $form->addItem(new Typecho_Widget_Helper_Layout("/div"));
-    $form->addItem(new Title('背景设置', '日间/夜间背景图，额外背景等'));
+    $form->addItem(new Title('背景设置', '日间/夜间背景图'));
 
     // BackGroundImage
-    $BackGroundImage = new Text('BackGroundImage', NULL, NULL, _t('背景图设置'), _t('此处填写链接URL，若不填写则默认花花背景'));
+    $BackGroundImage = new Text('BackGroundImage', NULL, NULL, _t('日间背景图'), _t('此处填写链接URL，若不填写则默认花花背景'));
     $form->addInput($BackGroundImage);
 
     // BackGroundImage Night Mode
-    $BackGroundImageDark = new Text('BackGroundImageDark', NULL, NULL, _t('<strong style="color: ref">夜间模式</strong> 背景图设置'), _t('此处填写链接URL，若不填写则默认暗色花花背景'));
+    $BackGroundImageDark = new Text('BackGroundImageDark', NULL, NULL, _t('夜间背景图'), _t('此处填写链接URL，若不填写则默认暗色花花背景'));
     $form->addInput($BackGroundImageDark);
 
-    // Extra White Background
-    $UseOtherBackGround = new Select('UseOtherBackGround', array(
-        '0' => '不使用（默认）',
-        '1' => '使用'
-    ), '0', _t('是否使用额外的一个白色背景防止字体不清晰'), '可以在下面选项填入其他的style');
-    $form->addInput($UseOtherBackGround);
-
-    // Custom Background
-    $BackColor = new Text('BackColor', NULL, _t(''), _t('自定义第二背景CSS'), _t('这里填写的需要CSS格式'));
-    $form->addInput($BackColor);
+//    // 未找到相关调用，暂时注释掉
+//    // Extra White Background
+//    $UseOtherBackGround = new Select('UseOtherBackGround', array(
+//        '0' => '不使用（默认）',
+//        '1' => '使用'
+//    ), '0', _t('是否使用额外的一个白色背景防止字体不清晰'), '可以在下面选项填入其他的style');
+//    $form->addInput($UseOtherBackGround);
+//
+//    // Custom Background
+//    $BackColor = new Text('BackColor', NULL, _t(''), _t('自定义第二背景CSS'), _t('这里填写的需要CSS格式'));
+//    $form->addInput($BackColor);
 
     /* ---------------------这是一条分割线--------------------- */
 
@@ -94,7 +95,7 @@ function themeConfig($form)
 
     $Show_what = new Checkbox('Show_what',
         array(
-            'ShowCopyRight' => '显示CopyRight',
+            'ShowCopyRight' => '显示文章转载授权',
             'ShowComment' => '显示评论区',
             'ShowIMouse' => _t('IMouse鼠标🖱️')
         ),
