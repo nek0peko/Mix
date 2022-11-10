@@ -290,8 +290,10 @@
 	position: relative;
 	padding: 10px 25px;
 	background-repeat: no-repeat;
-	-webkit-backdrop-filter: saturate(150%) blur(1px) contrast(50%);
-	backdrop-filter: saturate(150%) blur(1px) contrast(50%);
+	/*-webkit-backdrop-filter: saturate(150%) blur(1px) contrast(50%);*/
+	/*backdrop-filter: saturate(150%) blur(1px) contrast(50%);*/
+	-webkit-backdrop-filter: saturate(150%) blur(1px);
+	backdrop-filter: saturate(150%) blur(1px);
 	z-index: 4
 }
 
