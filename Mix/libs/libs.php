@@ -768,82 +768,90 @@ EOF;
      */
     public static function parseContentPublic($content)
     {
-        //解析短代码功能
+        // 解析短代码功能
         if (strpos($content, '[scode') !== false) {//提高效率，避免每篇文章都要解析
             $pattern = self::get_shortcode_regex(array('scode'));
             $content = preg_replace_callback("/$pattern/", array('Content', 'scodeParseCallback'),
                 $content);
         }
-        //解析防剧透功能
+
+        // 解析防剧透功能
         if (strpos($content, '[see') !== false) {
             $pattern = self::get_shortcode_regex(array('see'));
             $content = preg_replace_callback("/$pattern/", array('Content', 'seeParseCallback'),
                 $content);
         }
-        //文章中标签页的功能
+
+        // 文章中标签页的功能
         if (strpos($content, '[tabs') !== false) {
             $pattern = self::get_shortcode_regex(array('tabs'));
             $content = preg_replace_callback("/$pattern/", array('Content', 'tabsParseCallback'),
                 $content);
         }
 
-        //文章中标签功能
+        // 文章中标签功能
         if (strpos($content, '[tag') !== false) {
             $pattern = self::get_shortcode_regex(array('tag'));
             $content = preg_replace_callback("/$pattern/", array('Content', 'tagParseCallback'),
                 $content);
         }
 
-        //解析文章内图集
+        // 解析文章内图集
         if (strpos($content, '[album') !== false) {
             $pattern = self::get_shortcode_regex(array('album'));
             $content = Utils::handle_preg_replace_callback("/$pattern/", array('Content', 'scodeAlbumParseCallback'),
                 $content);
         }
 
-        //文章中折叠框功能
+        // 文章中折叠框功能
         if (strpos($content, '[collapse') !== false) {
             $pattern = self::get_shortcode_regex(array('collapse'));
             $content = preg_replace_callback("/$pattern/", array('Content', 'collapseParseCallback'),
                 $content);
         }
 
-        //调用其他文章页面的摘要
+        // 调用其他文章页面的摘要
         if (strpos($content, '[post') !== false) {//提高效率，避免每篇文章都要解析
             $pattern = self::get_shortcode_regex(array('post'));
             $content = preg_replace_callback("/$pattern/", array('Content', 'quoteOtherPostCallback'), $content);
         }
-        //解析Bilibili小窗
+
+        // 解析Bilibili小窗
         if (strpos($content, '[bilibili') !== false) {//提高效率，避免每篇文章都要解析
             $pattern = self::get_shortcode_regex(array('bilibili'));
             $content = preg_replace_callback("/$pattern/", array('Content', 'bilibiliCallback'), $content);
         }
-        //解析BBB播放器
+
+        // 解析BBB播放器
         if (strpos($content, '[bplayer') !== false) {//提高效率，避免每篇文章都要解析
             $pattern = self::get_shortcode_regex(array('bplayer'));
             $content = preg_replace_callback("/$pattern/", array('Content', 'bPlayerParseCallback'), $content);
         }
-        //文章中视频播放器功能
+
+        // 文章中视频播放器功能
         if (strpos($content, '[vplayer') !== false) {//提高效率，避免每篇文章都要解析
             $pattern = self::get_shortcode_regex(array('vplayer'));
             $content = Utils::handle_preg_replace_callback("/$pattern/", array('Content', 'videoParseCallback'), $content);
         }
 
-        //文章中播放器功能(适配handsome)
+        // 文章中播放器功能(适配handsome)
         if (strpos($content, '[hplayer') !== false) {//提高效率，避免每篇文章都要解析
             $pattern = self::get_shortcode_regex(array('hplayer'));
             $content = Utils::handle_preg_replace_callback("/$pattern/", array('Content', 'musicParseCallback'), $content);
         }
-        //解析显示按钮短代码
+
+        // 解析显示按钮短代码
         if (strpos($content, '[button') !== false) {//提高效率，避免每篇文章都要解析
             $pattern = self::get_shortcode_regex(array('button'));
             $content = Utils::handle_preg_replace_callback("/$pattern/", array('Content', 'parseButtonCallback'), $content);
         }
-        //解析进度条
+
+        // 解析进度条
         if (strpos($content, '[load') !== false) {//提高效率，避免每篇文章都要解析
             $pattern = self::get_shortcode_regex(array('load'));
             $content = Utils::handle_preg_replace_callback("/$pattern/", array('Content', 'loadCallback'), $content);
         }
+
         return $content;
     }
 
@@ -853,22 +861,25 @@ EOF;
      *
      * @param $obj
      * @param $status
-     * @param $way
      * @return string
      */
-    public static function postContent($obj, $status, $way)
+    public static function postContent($obj, $status)
     {
-        if ($way == "origin") {
-            $content = $obj->content;
-        } else {
-            $content = $obj->content;
+        $db = Typecho_Db::get();
+        $sql = $db->select()->from('table.comments')
+            ->where('cid = ?', $obj->cid)
+            ->where('mail = ?', $obj->remember('mail', true))
+            ->where('status = ?', 'approved')
+            ->limit(1);
+        $result = $db->fetchAll($sql);
 
-
-        }
-        //文章中部分内容隐藏功能（回复后可见）
+        $content = $obj->content;
+        // 文章中部分内容隐藏功能（回复后可见）
         if ($status || $result) {
+            echo '<script>console.log("1")</script>';
             $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<div class=" Scode-tkzj">$1</div>', $content);
         } else {
+            echo '<script>console.log("0")</script>';
             $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<div class=" Scode-tkzj">此处内容需要评论回复后（审核通过）方可阅读。</div>', $content);
         }
         $content = Content::parseContentPublic($content);
@@ -877,13 +888,7 @@ EOF;
 
     public static function postContentHtml($obj, $status)
     {
-
-        $way = "origin";
-
-        $content = Content::postContent($obj, $status, $way);
-
-        echo $content;
-
+        echo Content::postContent($obj, $status);;
     }
 
     /**
