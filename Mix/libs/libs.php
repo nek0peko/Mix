@@ -580,7 +580,7 @@ EOF;
         $attr = htmlspecialchars_decode($matches[3]);//还原转义前的参数列表
         $attrs = self::shortcode_parse_atts($attr);//获取短代码的参数
         if (empty(@$attrs['photo'])) {
-            @$attrs['photo'] = 'https://gitee.com/wibus/blog-assets-goo/raw/master/asset-pic/sM2XCJTW8BdUe5i.jpg';
+            @$attrs['photo'] = '/usr/themes/Mix/assets/img/music.png';
         }
         if (!empty(@$attrs['wangyi'])) {
             $wangyi_url = 'https://api.paugram.com/netease?id=' . @$attrs['wangyi'] . '';
@@ -758,7 +758,7 @@ EOF;
         $attr = htmlspecialchars_decode($matches[3]);//还原转义前的参数列表
         $attrs = self::shortcode_parse_atts($attr);//获取短代码的参数
 
-        $title = $attrs['title'];
+        $title = @$attrs['title'];
         $default = @$attrs['status'];
         if ($default == null || $default == "") {
             $default = "true";
