@@ -27,6 +27,7 @@ function getFirstImg($cid, $site_Url)
         ->order('table.contents.cid', Typecho_Db::SORT_ASC)
         ->limit(1));
 
+    // TODO: 正则会匹配hplayer中的图片
     preg_match_all("/(https:\/\/)[^>]*?.(png|jpg)/i", $rs['text'], $thumbUrl);
 
     if (count($thumbUrl[0]) == 0) {
