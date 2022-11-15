@@ -52,7 +52,7 @@ function rand_thumb($site_Url): string
     if ($isRandom) {
         $img_url = $site_Url . 'img/thumb/' . rand(1, $rand_num) . '.png';
     } else {
-        $img_url = $site_Url . 'img/thumb/0.png';
+        $img_url = $site_Url . 'img/thumb/1.png';
     }
 
     return $img_url;
