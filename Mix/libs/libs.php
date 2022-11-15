@@ -876,10 +876,8 @@ EOF;
         $content = $obj->content;
         // 文章中部分内容隐藏功能（回复后可见）
         if ($status || $result) {
-            echo '<script>console.log("1")</script>';
             $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<div class=" Scode-tkzj">$1</div>', $content);
         } else {
-            echo '<script>console.log("0")</script>';
             $content = preg_replace("/\[hide\](.*?)\[\/hide\]/sm", '<div class=" Scode-tkzj">此处内容需要评论回复后（审核通过）方可阅读。</div>', $content);
         }
         $content = Content::parseContentPublic($content);
