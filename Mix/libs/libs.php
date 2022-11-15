@@ -615,52 +615,77 @@ EOF;
         $attrs = self::shortcode_parse_atts($attr);//获取短代码的参数
         $type = "info";
         switch (@$attrs['type']) {
-            case 'yellow':
-                $type = "Scode-Yellow";
-                break;
-            case 'red':
-                $type = "Scode-Red";
-                break;
-            case 'blue':
-                $type = "Scode-Blue";
-                break;
-            case 'green':
-                $type = "Scode-Green";
-                break;
-            case 'share':
-                $type = "Scode-zise";
-                break;
-            case 'pink':
-                $type = "Scode-Pink";
-                break;
-            case 'pink-pro':
-                $type = "Scode-Pink-Pro";
-                break;
-            case 'black':
-                $type = "Scode-Black";
-                break;
-            case 'mhz':
-                $type = "Scode-mhz";
-                break;
-            case 'xgh':
-                $type = "Scode-xgh";
-                break;
-            case 'tkzj':
-                $type = "Scode-tkzj";
-                break;
-            case 'xyz':
-                $type = "Scode-xyz";
-                break;
-            case 'gll':
-                $type = "Scode-gll";
-                break;
-            case 'xty':
-                $type = "Scode-xty";
-                break;
             case 'Shadow':
                 $type = "Shadow";
                 break;
-
+            case 'red':
+                // 红色
+                $type = "Scode-Red";
+                break;
+            case 'pink':
+                // 粉色
+                $type = "Scode-Pink";
+                break;
+            case 'pink-pro':
+                // 浅粉色
+                $type = "Scode-Pink-Pro";
+                break;
+            case 'yellow':
+                // 黄色
+                $type = "Scode-Yellow";
+                break;
+            case 'green':
+                // 绿色
+                $type = "Scode-Green";
+                break;
+            case 'share':
+                // 浅蓝色
+                $type = "Scode-zise";
+                break;
+            case 'blue':
+                // 蓝色
+                $type = "Scode-Blue";
+                break;
+            case 'mhz':
+                // 迷幻紫
+                $type = "Scode-mhz";
+                break;
+            case 'yyz':
+                // 优雅紫
+                $type = "Scode-yyz";
+                break;
+            case 'wbk':
+                // 无边框
+                $type = "Scode-no-border";
+                break;
+            case 'xgh':
+                // 西瓜红
+                $type = "Scode-xgh";
+                break;
+            case 'tkzj':
+                // 天空之境
+                $type = "Scode-tkzj";
+                break;
+            case 'gll':
+                // 橄榄绿
+                $type = "Scode-gll";
+                break;
+            case 'xyz':
+                // 小宇宙
+                $type = "Scode-xyz";
+                break;
+            case 'xty':
+                // 小太阳
+                $type = "Scode-xty";
+                break;
+            case 'szh':
+                // 深邃黑
+                $type = "Scode-szh";
+                break;
+            case 'black':
+                // 黑色
+                $type = "Scode-Black";
+                break;
         }
         return '<div class=" ' . $type . '">' . "\n\n" . $matches[5] . "\n" . '</div>';
     }
