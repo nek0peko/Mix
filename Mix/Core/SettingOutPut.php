@@ -3,8 +3,8 @@
  * @Name: SettingOutPut.php
  * @author: Wibus
  * @Date: 2021-03-15 22:59:46
- * @LastEditors: Wibus
- * @LastEditTime: 2021-04-03 08:08:50
+ * @LastEditors: nek0peko
+ * @LastEditTime: 2022-11-11 02:37:41
  */
 if (preg_match("/options-theme.php/", $_SERVER['REQUEST_URI'])) {
     $stylehtml = AdminSetting::styleoutput();

@@ -540,7 +540,7 @@ EOF;
         if (array_key_exists('pic', $attrs) && ($attrs['pic'] !== null || $attrs['pic'] !== "")) {
             $pic = $attrs['pic'];
         } else {
-            $pic = 'https://gitee.com/wibus/blog-assets-goo/raw/master/asset-pic/qsNmnC2zHB5FW41.jpg';
+            $pic = '/usr/themes/Mix/assets/img/video.jpg';
         }
         $playCode = '<video src="' . $url . '" style="background-image:url(' .
             $pic . ');background-size: cover;" controls></video>';
