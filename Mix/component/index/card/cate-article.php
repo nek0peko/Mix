@@ -22,7 +22,7 @@
                 <h3 class="assets more"
                     style="background-color: rgb(<?php echo mt_rand(50, 255); ?>, <?php echo mt_rand(50, 255); ?>, <?php echo mt_rand(50, 255); ?>);">
                     <a class="assets"
-                       href="<?php $this->options->MoreURL(); ?>?cate=<?php $categories->slug(); ?>" rel="noopener">
+                       href="<?php $this->options->MoreURL(); ?>index.php/cate/<?php $categories->slug(); ?>" rel="noopener">
                         <svg aria-hidden="true" focusable="false" data-prefix="fas"
                              data-icon="chevron-right" class="svg-inline--fa fa-chevron-right fa-w-10 " role="img"
                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">

@@ -1,7 +1,7 @@
 <?php if (!empty($this->options->Show_what_1) && in_array('ShowHeadSVG', $this->options->Show_what_1)): ?>
     <section class="paul-intro">
         <!--顶部最大的头像-->
-        <div class="intro-avatar "><img src="<?php $this->options->HeaderPhoto(); ?>" style="width:100%" alt="Innei">
+        <div class="intro-avatar "><img src="<?php $this->options->HeaderPhoto(); ?>" style="width:100%" alt="<?php $this->options->HeaderName(); ?>">
         </div>
         <div class="intro-info">
             <h1>

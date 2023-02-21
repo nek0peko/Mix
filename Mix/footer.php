@@ -65,7 +65,9 @@
     </script>
     <!-- IMouse -->
     <?php if (!empty($this->options->Show_what) && in_array('ShowIMouse', $this->options->Show_what)): ?>
-        <script src="https://cdn.jsdelivr.net/gh/rikumi/imouse@master/dist/index.js"></script>
+        <!-- TODO: 当前CDN速度太慢，暂时将部分JS存在本地，后续更换CDN -->
+        <script src="<?php echo $GLOBALS['assetURL'] ?>js/local/index.js"></script>
+        <!--        <script src="https://cdn.jsdelivr.net/gh/rikumi/imouse@master/dist/index.js"></script>-->
         <script>
             window.addEventListener('DOMContentLoaded', () => IMouse.default.init({
                 defaultBackgroundColor: <?php $this->options->IMouseDefaultBackgroundColor(); ?>,
@@ -84,7 +86,7 @@
 
     <!-- 轻量版本Pjax -->
     <?php if ($this->options->PjaxOption == 'MoOxPjax'): ?>
-        <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.js"></script>
+        <script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.js"></script>
         <script>
             var pjax = new Pjax({
                 selectors: [
@@ -127,10 +129,9 @@
             });
         </script>
         <script>ks.image("img");</script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
                 crossorigin="anonymous"></script>
-
 
         <!-- jQuery版本Pjax -->
     <?php elseif ($this->options->PjaxOption == 'jQueryPjax'): ?>

@@ -69,17 +69,17 @@ function threadedComments($comments, $options)
                     </p>
                 <?php else: ?>
                     <div class="col-3">
-                        <input type="text" name="author" id="author" placeholder="你叫什么~"
+                        <input type="text" name="author" id="author" placeholder="你叫什么~ (name)"
                                value="<?php $this->remember('author'); ?>"
                                required/>
-                        <input type="text" name="mail" id="mail" placeholder="邮箱~"
+                        <input type="text" name="mail" id="mail" placeholder="邮箱~ (mail)"
                                value="<?php $this->remember('mail'); ?>"
                                required/>
-                        <input type="text" name="url" id="url" placeholder="网站~"
+                        <input type="text" name="url" id="url" placeholder="网站~ (website)"
                                value="<?php $this->remember('url'); ?>"/>
                     </div>
                 <?php endif; ?>
-                <textarea id="text" rows="8" cols="100" name="text" placeholder="回复内容 ☆´∀｀☆"
+                <textarea id="text" rows="8" cols="100" name="text" placeholder="回复内容 (comment here) ☆´∀｀☆"
                           required><?php $this->remember('text'); ?></textarea>
 
                 <div class="submit">
@@ -115,16 +115,16 @@ function threadedComments($comments, $options)
                         <a href="<?php $this->options->logoutUrl(); ?>" title="Logout"><?php _e('退出'); ?> &raquo;</a>
                     </p>
                 <?php else: ?>
-                    <input type="text" name="author" id="author" placeholder="你叫什么~"
+                    <input type="text" name="author" id="author" placeholder="你叫什么~ (name)"
                            value="<?php $this->remember('author'); ?>"
                            required/>
-                    <input type="text" name="mail" id="mail" placeholder="邮箱~"
+                    <input type="text" name="mail" id="mail" placeholder="邮箱~ (mail)"
                            value="<?php $this->remember('mail'); ?>"
                            required/>
-                    <input type="text" name="url" id="url" placeholder="网站~"
+                    <input type="text" name="url" id="url" placeholder="网站~ (website)"
                            value="<?php $this->remember('url'); ?>"/>
                 <?php endif; ?>
-                <textarea id="text" rows="8" name="text" placeholder="谢谢评论 ☆´∀｀☆"
+                <textarea id="text" rows="8" name="text" placeholder="谢谢评论 (comment here) ☆´∀｀☆"
                           required><?php $this->remember('text'); ?></textarea>
                 <div class="submit">
                     <button class="btn yellow" id="submit"><i class="fa fa-paper-plane"></i> 提交</button>
