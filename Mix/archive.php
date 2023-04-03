@@ -52,6 +52,20 @@ $this->need('component/headnav.php');
                 </ul>
             </article>
         </article>
+
+        <div class="page-navigator">
+            <?php $this->pageNav('&laquo; 前一页', '后一页 &raquo;', 5, '...', array(
+                'wrapTag' => 'nav',
+                'wrapClass' => 'pagination justify-content-center',
+                'itemTag' => '',
+                'textTag' => '',
+                'currentClass' => 'active',
+                'prevClass' => 'page-item',
+                'nextClass' => 'page-item',
+                'itemClass' => 'page-item',
+                'linkClass' => 'page-link'
+            )); ?>
+        </div>
     </main>
 </div>
 

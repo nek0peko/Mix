@@ -5771,3 +5771,27 @@ body * {
 .display_none {
     display: none;
 }
+
+.page-navigator {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.page-navigator a {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    background-color: transparent;
+    color: #4c4c4c;
+    font-size: 16px;
+    font-weight: 300;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+}
+
+.page-navigator a:hover,
+.page-navigator a.active {
+    background-color: #FFA500;
+    color: #fff;
+}

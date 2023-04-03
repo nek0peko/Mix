@@ -2,7 +2,7 @@
 <?php $this->widget('Widget_Metas_Category_List')->to($categories); ?>
 <?php while ($categories->next()): ?>
     <?php if (count($categories->children) === 0): ?>
-        <?php $this->widget('Widget_Archive@category-' . $categories->mid, 'order=order&pageSize=4&type=category', 'mid=' . $categories->mid)->to($posts); ?>
+        <?php $this->widget('Widget_Archive@category-' . $categories->mid, 'order=order&pageSize=8&type=category', 'mid=' . $categories->mid)->to($posts); ?>
 
         <section class="paul-news" style="min-height:34rem; animation: <?php $this->options->IndexAction(); ?>;">
         <div class="demo-content">
