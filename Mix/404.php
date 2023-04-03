@@ -22,7 +22,8 @@ $this->need('component/headnav.php');
                 <p>该页面被魔法阵传送走啦Σ(ﾟдﾟ;)</p><br>
             </div>
             <div class="menhera">
-                <img src="<?php echo $GLOBALS['assetURL'] . 'img/menhera.png' ?>" alt="可爱的Menhera酱"/>
+<!--                <img src="--><?php //echo $GLOBALS['assetURL'] . 'img/menhera.png' ?><!--" alt="可爱的Menhera酱"/>-->
+                <img src="<?php echo 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/menhera.png' ?>" alt="可爱的Menhera酱"/>
             </div>
 
             <div class="wrapper-inner">

@@ -540,7 +540,8 @@ EOF;
         if (array_key_exists('pic', $attrs) && ($attrs['pic'] !== null || $attrs['pic'] !== "")) {
             $pic = $attrs['pic'];
         } else {
-            $pic = '/usr/themes/Mix/assets/img/video.jpg';
+//            $pic = '/usr/themes/Mix/assets/img/video.jpg';
+            $pic = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/video.jpg';
         }
         $playCode = '<video src="' . $url . '" style="background-image:url(' .
             $pic . ');background-size: cover;" controls></video>';
@@ -580,7 +581,8 @@ EOF;
         $attr = htmlspecialchars_decode($matches[3]);//还原转义前的参数列表
         $attrs = self::shortcode_parse_atts($attr);//获取短代码的参数
         if (empty(@$attrs['photo'])) {
-            @$attrs['photo'] = '/usr/themes/Mix/assets/img/music.png';
+//            @$attrs['photo'] = '/usr/themes/Mix/assets/img/music.png';
+            @$attrs['photo'] = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/music.png';
         }
         if (!empty(@$attrs['wangyi'])) {
             $wangyi_url = 'https://api.paugram.com/netease?id=' . @$attrs['wangyi'] . '';

@@ -15,8 +15,10 @@
 
     <link rel="stylesheet" href="<?php echo $GLOBALS['assetURL'] ?>css/style1.css" data-n-g="">
 
-    <link rel="shortcut icon" href="<?php echo $GLOBALS['assetURL'] ?>img/favicon.ico" type="image/x-icon"/>
-    <link rel="apple-touch-icon" href="<?php echo $GLOBALS['assetURL'] ?>img/favicon.png"/>
+<!--    <link rel="shortcut icon" href="--><?php //echo $GLOBALS['assetURL'] ?><!--img/favicon.ico" type="image/x-icon"/>-->
+<!--    <link rel="apple-touch-icon" href="--><?php //echo $GLOBALS['assetURL'] ?><!--img/favicon.png"/>-->
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/favicon.ico" type="image/x-icon"/>
+    <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/favicon.png"/>
 
     <meta itemprop="image" content="<?php $this->options->HeaderPhoto(); ?>"/>
     <!--<link href="<?php echo $GLOBALS['assetURL'] ?>kico.css" rel="stylesheet" type="text/css">-->

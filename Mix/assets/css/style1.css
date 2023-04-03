@@ -1,10 +1,12 @@
 @media all and (max-width: 600px) {
     html.dark nav#Header_head-menu__ofiV5 {
-        background: url(/usr/themes/Mix/assets/img/background-night.png) top fixed !important
+        /*background: url(/usr/themes/Mix/assets/img/background-night.png) top fixed !important*/
+        background: url(https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/background-night.png) top fixed !important
     }
 
     nav#Header_head-menu__ofiV5 {
-        background: url(/usr/themes/Mix/assets/img/background-night.png) top fixed
+        /*background: url(/usr/themes/Mix/assets/img/background-night.png) top fixed*/
+        background: url(https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/background-night.png) top fixed !important
     }
 }
 
@@ -2884,7 +2886,8 @@ notice {
 
 body {
     padding-top: 4em;
-    background: url(/usr/themes/Mix/assets/img/background.png) top fixed
+    /*background: url(/usr/themes/Mix/assets/img/background.png) top fixed*/
+    background: url(https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/background.png) top fixed
 }
 
 /* body:before {
@@ -2985,7 +2988,8 @@ html.light {
 }
 
 html.light body {
-    background: url(/usr/themes/Mix/assets/img/background.png) top fixed !important
+    /*background: url(/usr/themes/Mix/assets/img/background.png) top fixed !important*/
+    background: url(https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/background.png) top fixed !important
 }
 
 html.light img {
@@ -3017,7 +3021,8 @@ html.dark {
 }
 
 html.dark body {
-    background: #000 url(/usr/themes/Mix/assets/img/background-night.png) top fixed !important
+    /*background: #000 url(/usr/themes/Mix/assets/img/background-night.png) top fixed !important*/
+    background: #000 url(https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/background-night.png) top fixed !important
 }
 
 html.dark img {
@@ -3040,7 +3045,8 @@ html.dark img {
     }
 
     body {
-        background: #000 url(/usr/themes/Mix/assets/img/background-night.png) top fixed
+        /*background: #000 url(/usr/themes/Mix/assets/img/background-night.png) top fixed*/
+        background: #000 url(https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/background-night.png) top fixed
     }
 
     img {
@@ -4078,7 +4084,8 @@ footer:before {
     content: "";
     z-index: -1;
     position: absolute;
-    background: url(/usr/themes/Mix/assets/img/footer.png) top/cover
+    /*background: url(/usr/themes/Mix/assets/img/footer.png) top/cover*/
+    background: url(https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/footer.png) top/cover
 }
 
 @media screen and (max-width: 600px) {

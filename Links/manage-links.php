@@ -77,7 +77,8 @@ include 'menu.php';
                                                 echo '<a href="' . $link['image'] . '" title="点击放大" target="_blank"><img class="avatar" src="' . $link['image'] . '" alt="' . $link['name'] . '" width="32" height="32"/></a>';
                                             } else {
                                                 $options = Typecho_Widget::widget('Widget_Options');
-                                                $nopic_url = Typecho_Common::url('/usr/themes/Mix/assets/img/icon/' . $rand_nums[$count] . '.png', $options->siteUrl);
+//                                                $nopic_url = Typecho_Common::url('/usr/themes/Mix/assets/img/icon/' . $rand_nums[$count] . '.png', $options->siteUrl);
+                                                $nopic_url = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/icon/' . $rand_nums[$count] . '.png';
                                                 if ($count == 9) {
                                                     shuffle($rand_nums);
                                                     $count = 0;
