@@ -28,7 +28,7 @@ function getFirstImg($cid, $site_Url)
         ->limit(1));
 
     // TODO: 正则会匹配hplayer中的图片
-    preg_match_all("/(https:\/\/)[^>]*?.(png|jpg)/i", $rs['text'], $thumbUrl);
+    preg_match_all("/(https:\/\/)[^>]*?.(png|jpg|jpeg)/i", $rs['text'], $thumbUrl);
 
     if (count($thumbUrl[0]) == 0) {
         echo rand_thumb($site_Url);
