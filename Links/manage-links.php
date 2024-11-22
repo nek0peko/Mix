@@ -78,7 +78,7 @@ include 'menu.php';
                                             } else {
                                                 $options = Typecho_Widget::widget('Widget_Options');
 //                                                $nopic_url = Typecho_Common::url('/usr/themes/Mix/assets/img/icon/' . $rand_nums[$count] . '.png', $options->siteUrl);
-                                                $nopic_url = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/icon/' . $rand_nums[$count] . '.png';
+                                                $nopic_url = 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/icon/' . $rand_nums[$count] . '.png';
                                                 if ($count == 9) {
                                                     shuffle($rand_nums);
                                                     $count = 0;

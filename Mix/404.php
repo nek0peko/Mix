@@ -23,7 +23,7 @@ $this->need('component/headnav.php');
             </div>
             <div class="menhera">
 <!--                <img src="--><?php //echo $GLOBALS['assetURL'] . 'img/menhera.png' ?><!--" alt="可爱的Menhera酱"/>-->
-                <img src="<?php echo 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/menhera.png' ?>" alt="可爱的Menhera酱"/>
+                <img src="<?php echo 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/menhera.png' ?>" alt="可爱的Menhera酱"/>
             </div>
 
             <div class="wrapper-inner">

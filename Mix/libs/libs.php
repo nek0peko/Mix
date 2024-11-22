@@ -541,7 +541,8 @@ EOF;
             $pic = $attrs['pic'];
         } else {
 //            $pic = '/usr/themes/Mix/assets/img/video.jpg';
-            $pic = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/video.jpg';
+//            $pic = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/video.jpg';
+            $pic = 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/video.jpg';
         }
         $playCode = '<video src="' . $url . '" style="background-image:url(' .
             $pic . ');background-size: cover;" controls></video>';
@@ -582,7 +583,8 @@ EOF;
         $attrs = self::shortcode_parse_atts($attr);//获取短代码的参数
         if (empty(@$attrs['photo'])) {
 //            @$attrs['photo'] = '/usr/themes/Mix/assets/img/music.png';
-            @$attrs['photo'] = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/music.png';
+//            @$attrs['photo'] = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/music.png';
+			@$attrs['photo'] = 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/music.png';
         }
         if (!empty(@$attrs['wangyi'])) {
             $wangyi_url = 'https://api.paugram.com/netease?id=' . @$attrs['wangyi'] . '';
