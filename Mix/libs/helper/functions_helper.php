@@ -51,10 +51,12 @@ function rand_thumb($site_Url): string
 
     if ($isRandom) {
 //        $img_url = $site_Url . 'img/thumb/' . rand(1, $rand_num) . '.png';
-        $img_url = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/thumb/' . rand(1, $rand_num) . '.png';
+//        $img_url = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/thumb/' . rand(1, $rand_num) . '.png';
+	$img_url = 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/thumb/' . rand(1, $rand_num) . '.png';
     } else {
 //        $img_url = $site_Url . 'img/thumb/1.png';
-        $img_url = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/thumb/1.png';
+//        $img_url = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/thumb/1.png';
+        $img_url = 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/thumb/1.png';
     }
 
     return $img_url;
@@ -76,7 +78,8 @@ function parse_RSS($url, $site)
                 // ';
                 $rand_num = 23; //随机图片数量，根据图片目录中图片实际数量设置
 //                $img = $GLOBALS['assetURL'] . 'img/' . rand(1, $rand_num) . '.png';
-                $img = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/' . rand(1, $rand_num) . '.png';
+//                $img = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/thumb/' . rand(1, $rand_num) . '.png';
+		$img = 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/thumb/' . rand(1, $rand_num) . '.png';
                 $body .= '
                 <div class="col-6 col-m-3">' . '<a class="SectionNews_news-article__3ttyR" href="' . $file[$i]->link . '" target="_blank" rel="noopener">
                       <div class="SectionNews_card-container__1nays">
