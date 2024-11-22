@@ -194,20 +194,20 @@ function getCatalog()
                     $to_depth2 = ($to_depth > ($prev_depth - $catalog_depth)) ? ($prev_depth - $catalog_depth) : $to_depth;
                     if ($to_depth2) {
                         for ($i = 0; $i < $to_depth2; $i++) {
-                            $index .= '</li>' . "\n" . '</ul>' . "\n";
+                            $index .= '</div>' . "\n";
                             $to_depth--;
                         }
                     }
-                    $index .= '</li>';
+                    $index .= '</a>' . "\n";
                 }
             }
-            // $index .= '<li><a href="#cl-' . $catalog_item['count'] . '">' . $catalog_item['text'] . '</a>';
             $index .= '<a data-scroll="true" href="#cl-' . $catalog_item['count'] . '" data-index="0" class="Toc_toc-link__1Yat3" data-depth="2" style="opacity: 1; transform: translate(0px, 0px);" ><span class="Toc_a-pointer__3AN3u">' . $catalog_item['text'] . '</span>';
             $prev_depth = $catalog_item['depth'];
         }
-        for ($i = 0; $i <= $to_depth; $i++) {
-            $index .= '</a>' . "\n" . '</div>' . "\n";
+        for ($i = 0; $i < $to_depth; $i++) {
+            $index .= '</div>' . "\n";
         }
+        $index .= '</a>' . "\n";
         $index = '<div class="container Toc_container__100rU" style="max-width: 184.5px;">' .
             '<div class="Toc_anime-wrapper__1l8Kz">' . "\n" .
             $index .
