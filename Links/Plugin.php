@@ -267,8 +267,7 @@ class Links_Plugin implements Typecho_Plugin_Interface
         foreach ($links as $link) {
             if ($link['image'] == NULL) {
                 // 友链如果没有头像，则从10张猫猫中随机生成
-//                $link['image'] = Typecho_Common::url('/usr/themes/Mix/assets/img/icon/' . $rand_nums[$count] . '.png', $options->siteUrl);
-                $link['image'] = 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/icon/' . $rand_nums[$count] . '.png';
+                $link['image'] = 'https://raw.githubusercontent.com/nek0peko/cdn-static/main/Mix/img/icon/' . $rand_nums[$count] . '.png';
                 if ($count == 9) {
                     shuffle($rand_nums);
                     $count = 0;

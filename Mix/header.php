@@ -32,8 +32,8 @@ $mixOnlineCount = in_array('ShowAly', mixEnabledComponents($this->options), true
 
 <!--    <link rel="shortcut icon" href="--><?php //echo $GLOBALS['assetURL'] ?><!--img/favicon.ico" type="image/x-icon"/>-->
 <!--    <link rel="apple-touch-icon" href="--><?php //echo $GLOBALS['assetURL'] ?><!--img/favicon.png"/>-->
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/favicon.ico" type="image/x-icon"/>
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/favicon.png"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/nek0peko/cdn-static/main/Mix/img/favicon.ico" type="image/x-icon"/>
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/nek0peko/cdn-static/main/Mix/img/favicon.png"/>
 
     <meta itemprop="image" content="<?php echo htmlspecialchars((string) $this->options->HeaderPhoto, ENT_QUOTES, 'UTF-8'); ?>"/>
     <!--<link href="<?php echo $GLOBALS['assetURL'] ?>kico.css" rel="stylesheet" type="text/css">-->

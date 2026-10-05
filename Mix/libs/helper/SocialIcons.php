@@ -2,9 +2,9 @@
 
 class MixSocialIcons
 {
-    public static function defaults(string $themeUrl = '/usr/themes/Mix'): array
+    public static function defaults(): array
     {
-        $base = rtrim($themeUrl, '/') . '/assets/img/social/';
+        $base = 'https://raw.githubusercontent.com/nek0peko/cdn-static/main/Mix/img/social/';
         return [
             ['icon' => $base . 'bilibili.svg', 'url' => ''],
             ['icon' => $base . 'github.svg', 'url' => ''],
@@ -33,7 +33,7 @@ class MixSocialIcons
             return self::valid($options->SocialIcons) ? json_decode($options->SocialIcons, true) : [];
         }
         // Preserve original links when restoring a backup made before the list editor.
-        $items = self::defaults((string) $options->themeUrl);
+        $items = self::defaults();
         foreach (['HeaderBiliBili', 'HeaderGitHub', 'HeaderPixiv'] as $number => $field) {
             $url = trim((string) $options->$field);
             if (MixHyperlinks::validUrl($url)) {
