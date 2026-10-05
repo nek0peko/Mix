@@ -7,6 +7,7 @@
  * @LastEditTime: 2021-03-21 10:54:58
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
+require_once __DIR__ . '/Core/version.php';
 
 $options = Typecho_Widget::widget('Widget_Options');
 
@@ -44,6 +45,9 @@ require("libs/helper/functions_helper.php"); //一些额外的functions
 require("libs/helper/plugins_helper.php"); //使用插件接口实现的东西
 require("libs/helper/Admin_Helper.php");
 require("libs/helper/AdminSetting.php");
+require("libs/helper/Hyperlinks.php");
+require("libs/helper/SocialIcons.php");
+require("libs/helper/Navigation.php");
 
 /**
  * 主题参数设置应用类
@@ -59,5 +63,3 @@ require('libs/admin/Text.php');
 require('libs/admin/Radio.php');
 require('libs/admin/Select.php');
 require('libs/admin/Textarea.php');
-
-

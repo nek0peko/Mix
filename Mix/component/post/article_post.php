@@ -25,7 +25,7 @@
         <!--<section class="kami-toc Toc_toc__1AtMD" style="z-index: 3;"><div class="container Toc_container__100rU" style="max-width: 184.5px;"><div class="Toc_anime-wrapper__1l8Kz"><a data-scroll="true" href="#0¡菜品介绍" data-index="0" class="Toc_toc-link__1Yat3" data-depth="2" style="opacity: 1; transform: translate(0px, 0px);"><span class="Toc_a-pointer__3AN3u">菜品介绍</span></a><a data-scroll="true" href="#1¡由来传说" data-index="1" class="Toc_toc-link__1Yat3" data-depth="2" style="opacity: 1; transform: translate(0px, 0px);"><span class="Toc_a-pointer__3AN3u">由来传说</span></a><a data-scroll="true" href="#2¡制作方法" data-index="2" class="Toc_toc-link__1Yat3 Toc_active__1DI_m" data-depth="2" style="opacity: 1; transform: translate(0px, 0px);"><span class="Toc_a-pointer__3AN3u">制作方法</span></a><a data-scroll="true" href="#3¡心得体会" data-index="3" class="Toc_toc-link__1Yat3" data-depth="2" style="opacity: 1; transform: translate(0px, 0px);"><span class="Toc_a-pointer__3AN3u">心得体会</span></a></div></div></section>-->
         <section class="kami-toc Toc_toc__1AtMD" style="z-index: 3;"><?php getCatalog(); ?></section>
     </div>
-    <?php if (!empty($this->options->Show_what) && in_array('ShowCopyRight', $this->options->Show_what)): ?>
+    <?php if (in_array('ShowCopyRight', mixEnabledComponents($this->options), true)): ?>
         <section class="Copyright_copyright-session__3Q0fD">
             <p>文章标题：<?php $this->title() ?></p>
             <p>文章作者：<?php $this->author(); ?></p>
@@ -64,7 +64,7 @@
 
     </div>
 </article>
-<?php if (!empty($this->options->Show_what) && in_array('ShowComment', $this->options->Show_what)): ?>
+<?php if (in_array('ShowComment', mixEnabledComponents($this->options), true)): ?>
     <?php $this->need('comments.php') ?>
 <?php endif; ?>
 </div>

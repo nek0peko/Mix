@@ -3,9 +3,9 @@
  * 空间混合体
  *
  * @package Mix
- * @author Wibus
- * @version 2.0.0
- * @link https://blog.iucky.cn
+ * @author Wibus & nek0peko
+ * @version 2.1.0
+ * @link https://nek0peko.com
  */
 
 // 头部必要元素
@@ -86,19 +86,19 @@ $this->need('component/headnav.php');
                     <!--显示所有分类&文章-->
                     <?php $this->need('component/index/card/cate-article.php'); ?>
 
-                    <!--友链-->
-                    <?php $this->need('component/index/card/friends.php'); ?>
 
 
-                    <?php if (!empty($this->options->Show_what_1) && in_array('ShowMore', $this->options->Show_what_1)): ?>
-                        <!--更多输出配件-->
-                        <?php $this->need('component/index/card/more.php'); ?>
-                    <?php endif; ?>
                     <?php elseif ($this->options->showIndexStyle == 2):
                         debug('纯文字样式', $this->options->debug);
                         $this->need('component/index/text/show_article.php');
                     endif;
                     ?>
+                    <!--友链-->
+                    <?php if (mixFriendsVisible($this->options) || MixHyperlinks::enabled($this->options)): ?>
+                        <!--更多输出配件-->
+                        <?php $this->need('component/index/card/more.php'); ?>
+                    <?php endif; ?>
+
                 </div>
             </section>
 

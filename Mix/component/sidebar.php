@@ -59,8 +59,9 @@
             <?php endif; ?>
         </div>
     </div>
+    <?php if (Admin_Helper::isPluginAvailable('Links_Plugin', 'Links') && trim((string) $this->options->FriendURL) !== '' && MixHyperlinks::validUrl((string) $this->options->FriendURL)): ?>
     <div class="Header_link-section__1JFc9 global-link-section">
-        <a href="<?php $this->options->FriendURL(); ?>">
+        <a href="<?php echo htmlspecialchars(trim((string) $this->options->FriendURL), ENT_QUOTES, 'UTF-8'); ?>">
             <div class="Header_parent__3EA6A global-parent">
                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user-friends"
                      class="svg-inline--fa fa-user-friends fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg"
@@ -73,13 +74,12 @@
         </a>
         <div class="Header_children-wrapper__1z9Ni global-children-wrapper"></div>
     </div>
+    <?php endif; ?>
     <?php
     $hideHomeItem = false;
     if (!empty(Typecho_Widget::widget('Widget_Options')->headnavItems)) {
-        $json = '[' . Utils::remove_last_comma(Typecho_Widget::widget('Widget_Options')->headnavItems) . ']';
-
-        $headnavItems = json_decode($json);
-        $headnavItemsOutput = "";
+        $headnavItems = MixNavigation::items(Typecho_Widget::widget('Widget_Options')->headnavItems);
+                $headnavItemsOutput = "";
         foreach ($headnavItems as $headnavItem) {
 
             @$itemName = $headnavItem->name;
@@ -106,7 +106,7 @@
             }
             // $headnavItemsOutput .= '<div class="Header_link-section__1JFc9 global-link-section">';
             $headnavItemsOutput .= Content::returnHeadSideItem($headnavItem, $haveSub, $subListHtml, 'no');
-            $headnavItemsOutput .= $subListHtml;
+
             // $headnavItemsOutput .= '<div>';
         }
     }

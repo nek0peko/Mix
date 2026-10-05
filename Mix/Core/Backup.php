@@ -40,97 +40,61 @@ EOF;
 
     static function echoBackup()
     {
+        $action = $_POST['type'] ?? '';
+        $actions = ['备份模板设置数据', '还原模板设置数据', '删除现有Mix备份'];
+        if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST' || !in_array($action, $actions, true)) {
+            return;
+        }
 
-        $str1 = explode('/themes/', Helper::options()->themeUrl);
-        $str2 = explode('/', $str1[1]);
-        $name = $str2[0];
+        Typecho_Widget::widget('Widget_User')->pass('administrator');
+        Helper::security()->protect();
+        $name = Helper::options()->theme;
         $db = Typecho_Db::get();
-        $sjdq = $db->fetchRow($db->select()->from('table.options')->where('name = ?', 'theme:' . $name));
-        $ysj = $sjdq['value'];
-        if (isset($_POST['type'])) {
-            if ($_POST["type"] == "备份模板设置数据") {
-                if ($db->fetchRow($db->select()->from('table.options')->where('name = ?', 'theme:' . $name . 'bf'))) {
-                    $update = $db->update('table.options')->rows(array('value' => $ysj))->where('name = ?', 'theme:' . $name . 'bf');
-                    $updateRows = $db->query($update);
-                    echo "<script>
-        mdui.snackbar({
-            message: '数据备份更新成功，自动刷新中...'
-        });
-        </script>";
-                    ?>
+        $currentName = 'theme:' . $name;
+        $backupName = $currentName . 'bf';
+        $current = $db->fetchRow($db->select()->from('table.options')->where('name = ?', $currentName)->where('user = ?', 0));
+        $backup = $db->fetchRow($db->select()->from('table.options')->where('name = ?', $backupName)->where('user = ?', 0));
 
-                    <script language="JavaScript">window.setTimeout("location=\'<?php Helper::options()->adminUrl('options-theme.php'); ?>\'", 2500);</script>
-                    <?php
-                } else {
-                    if ($ysj) {
-                        $insert = $db->insert('table.options')
-                            ->rows(array('name' => 'theme:' . $name . 'bf', 'user' => '0', 'value' => $ysj));
-                        $insertId = $db->query($insert);
-                        // echo '<div class="tongzhi col-mb-12 home">备份完成，请等待自动刷新！如果等不到请点击';
-                        echo "<script>
-            mdui.snackbar({
-                message: '数据备份成功，自动刷新中...'
-            });
-            </script>";
-
-                        ?>
-
-                        <script language="JavaScript">window.setTimeout("location=\'<?php Helper::options()->adminUrl('options-theme.php'); ?>\'", 2500);</script>
-                        <?php
-                    }
-                }
-            }
-            if ($_POST["type"] == "还原模板设置数据") {
-                if ($db->fetchRow($db->select()->from('table.options')->where('name = ?', 'theme:' . $name . 'bf'))) {
-                    $sjdub = $db->fetchRow($db->select()->from('table.options')->where('name = ?', 'theme:' . $name . 'bf'));
-                    $bsj = $sjdub['value'];
-                    $update = $db->update('table.options')->rows(array('value' => $bsj))->where('name = ?', 'theme:' . $name);
-                    $updateRows = $db->query($update);
-                    echo "<script>
-            mdui.snackbar({
-                message: '数据恢复成功，自动刷新中...'
-            });
-            </script>";
-                }
-                ?>
-
-                <script language="JavaScript">window.setTimeout("location=\'<?php Helper::options()->adminUrl('options-theme.php'); ?>\'", 2000);</script>
-                <?php
+        if ($action === '备份模板设置数据') {
+            if (!$current) {
+                $message = '没有可备份的主题设置。';
+            } elseif ($backup) {
+                $db->query($db->update('table.options')->rows(['value' => $current['value']])->where('name = ?', $backupName)->where('user = ?', 0));
+                $message = '主题设置备份已更新。';
             } else {
-                echo "<script>
-            mdui.snackbar({
-                message: '数据库中没有当前主题的备份数据！自动刷新中...'
-            });
-            </script>";
-                ?>
-                <script language="JavaScript">window.setTimeout("location=\'<?php Helper::options()->adminUrl('options-theme.php'); ?>\'", 2000);</script>
-                <?php
+                $db->query($db->insert('table.options')->rows(['name' => $backupName, 'user' => 0, 'value' => $current['value']]));
+                $message = '主题设置已备份。';
+            }
+        } elseif ($action === '还原模板设置数据') {
+            if (!$backup) {
+                $message = '没有可还原的主题设置备份。';
+            } elseif (!$current) {
+                $message = '当前主题设置不存在，无法还原。';
+            } else {
+                $restoredValue = $backup['value'];
+                $restored = @unserialize($restoredValue, ['allowed_classes' => false]);
+                if (is_array($restored) && array_key_exists('Show_what_1', $restored)) {
+                    $restored['Show_what'] = array_values(array_unique(array_merge(
+                        is_array($restored['Show_what'] ?? null) ? $restored['Show_what'] : [],
+                        is_array($restored['Show_what_1']) ? $restored['Show_what_1'] : []
+                    )));
+                    unset($restored['Show_what_1']);
+                    $restoredValue = serialize($restored);
+                }
+                $db->query($db->update('table.options')->rows(['value' => $restoredValue])->where('name = ?', $currentName)->where('user = ?', 0));
+                $message = '已从备份还原主题设置。';
+            }
+        } else {
+            if (!$backup) {
+                $message = '没有可删除的主题设置备份。';
+            } else {
+                $db->query($db->delete('table.options')->where('name = ?', $backupName)->where('user = ?', 0));
+                $message = '主题设置备份已删除，当前设置保持不变。';
             }
         }
-        if ($_POST["type"] == "删除现有Mix备份") {
-            if ($db->fetchRow($db->select()->from('table.options')->where('name = ?', 'theme:' . $name . 'bf'))) {
-                $delete = $db->delete('table.options')->where('name = ?', 'theme:' . $name . 'bf');
-                $deletedRows = $db->query($delete);
-                echo "<script>
-        mdui.snackbar({
-            message: '已删除备份数据，自动刷新中...'
-        });
-        </script>";
-                ?>
 
-                <script language="JavaScript">window.setTimeout("location=\'<?php Helper::options()->adminUrl('options-theme.php'); ?>\'", 2500);</script>
-                <?php
-            } else {
-                echo "<script>
-            mdui.snackbar({
-                message: '数据库中没有当前主题的备份数据！自动刷新中...'
-            });
-            </script>";
-                ?>
-                <script language="JavaScript">window.setTimeout("location=\'<?php Helper::options()->adminUrl('options-theme.php'); ?>\'", 2000);</script>
-                <?php
-            }
-        }
+        $messageJson = json_encode($message, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG);
+        $urlJson = json_encode(Helper::options()->adminUrl . 'options-theme.php', JSON_HEX_TAG);
+        echo '<script>document.addEventListener("DOMContentLoaded",function(){mdui.snackbar({message:' . $messageJson . '});window.setTimeout(function(){window.location.href=' . $urlJson . ';},1500);});</script>';
     }
 }
-    

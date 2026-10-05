@@ -7,8 +7,9 @@
  * @LastEditTime: 2021-03-27 15:04:32
  */
 $GLOBALS['options'] = Typecho_Widget::widget('Widget_Options');
-if ($GLOBALS['options']->UseCDNAssets) {
-    $GLOBALS['assetURL'] = $GLOBALS['options']->CDNURL;
+$cdnUrl = trim((string) $GLOBALS['options']->CDNURL);
+if ($cdnUrl !== '') {
+    $GLOBALS['assetURL'] = rtrim($cdnUrl, '/') . '/';
 } else {
     $GLOBALS['assetURL'] = $GLOBALS['options']->themeUrl . '/assets/';
 }

@@ -5795,3 +5795,12 @@ body * {
     background-color: #FFA500;
     color: #fff;
 }
+.paul-intro .social-icons .mix-social-icon {
+    display: block;
+    width: 1em;
+    height: 1em;
+    object-fit: contain;
+}
+html.dark .paul-intro .social-icons .mix-social-icon[src$="/github.svg"] {
+    filter: invert(1);
+}
