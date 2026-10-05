@@ -65,7 +65,7 @@ function getFirstImg($cid, $site_Url)
  */
 function rand_thumb($site_Url): string
 {
-    return 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/thumb/'
+    return 'https://raw.githubusercontent.com/nek0peko/cdn-static/main/Mix/img/thumb/'
         . MixRandomThumb::next() . '.png';
 }
 

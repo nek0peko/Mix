@@ -1,6 +1,6 @@
 # Mix Reborn
 
-**2026 持续更新中 · 当前版本 v2.2.0**
+**2026 持续更新中 · 当前版本 v2.2.1**
 
 基于 [Mix 2.0.0](https://github.com/wibus-wee/Mix/tree/v2.0.0) 继续维护的 Typecho 主题
 
@@ -22,6 +22,10 @@ Wibus 佬已停止维护原版，原版本未适配 Typecho 1.2 系列。Mix Reb
 | 设置备份 | 支持将主题设置备份到数据库，并从备份还原 |
 
 ## 更新日志
+
+### v2.2.1
+
+- **图片资源迁移**：迁移至 [cdn-static](https://github.com/nek0peko/cdn-static/tree/main/Mix/img)，移除主题仓库内图片
 
 ### v2.2.0
 
