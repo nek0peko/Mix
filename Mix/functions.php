@@ -46,6 +46,8 @@ require("libs/helper/plugins_helper.php"); //使用插件接口实现的东西
 require("libs/helper/Admin_Helper.php");
 require("libs/helper/AdminSetting.php");
 require("libs/helper/Hyperlinks.php");
+require("libs/helper/PostPreview.php");
+require("libs/helper/RandomThumb.php");
 require("libs/helper/SocialIcons.php");
 require("libs/helper/Navigation.php");
 

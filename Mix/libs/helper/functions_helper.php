@@ -41,27 +41,21 @@ function mixFriendsVisible($options): bool
 }
 
 /**
- * getFirstImg 正则获取文章中的图片链接
- * 若无图片附件，则使用随机图片
+ * getFirstImg 使用与分类页相同的封面提取逻辑
+ * 若无可展示的图片，则使用随机图片
  * @author nek0peko
  */
 function getFirstImg($cid, $site_Url)
 {
     $db = Typecho_Db::get();
-    $rs = $db->fetchRow($db->select('table.contents.text')
+    $rs = $db->fetchRow($db->select('table.contents.text', 'table.contents.password')
         ->from('table.contents')
         ->where('table.contents.cid=?', $cid)
         ->order('table.contents.cid', Typecho_Db::SORT_ASC)
         ->limit(1));
 
-    // TODO: 正则会匹配hplayer中的图片
-    preg_match_all("/(https:\/\/)[^>]*?.(png|jpg|jpeg)/i", $rs['text'], $thumbUrl);
-
-    if (count($thumbUrl[0]) == 0) {
-        echo rand_thumb($site_Url);
-    } else {
-        echo $thumbUrl[0][0];
-    }
+    $cover = MixPostPreview::cover((string) ($rs['text'] ?? ''), !empty($rs['password']));
+    echo $cover !== '' ? htmlspecialchars($cover, ENT_QUOTES, 'UTF-8') : rand_thumb($site_Url);
 }
 
 /**
@@ -71,22 +65,8 @@ function getFirstImg($cid, $site_Url)
  */
 function rand_thumb($site_Url): string
 {
-    // 是否随机图片，如果为false，则固定为一张图
-    $isRandom = true;
-    // assets/img/thumb目录中随机图片数量
-    $rand_num = 22;
-
-    if ($isRandom) {
-//        $img_url = $site_Url . 'img/thumb/' . rand(1, $rand_num) . '.png';
-//        $img_url = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/thumb/' . rand(1, $rand_num) . '.png';
-	$img_url = 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/thumb/' . rand(1, $rand_num) . '.png';
-    } else {
-//        $img_url = $site_Url . 'img/thumb/1.png';
-//        $img_url = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/thumb/1.png';
-        $img_url = 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/thumb/1.png';
-    }
-
-    return $img_url;
+    return 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/thumb/'
+        . MixRandomThumb::next() . '.png';
 }
 
 function parse_RSS($url, $site)
@@ -103,10 +83,7 @@ function parse_RSS($url, $site)
                 // $body .= '
                 // <div class="col-6 col-m-3">' . '<a href="' . $file[$i]->link . '" class="news-article" target="_blank">' . '<img src="' . $site . '/src/img/' . array_pop($rand_arr) . '.jpg">' . '<h4>' . $file[$i]->title . '</h4></a></div>
                 // ';
-                $rand_num = 22; //随机图片数量，根据图片目录中图片实际数量设置
-//                $img = $GLOBALS['assetURL'] . 'img/' . rand(1, $rand_num) . '.png';
-//                $img = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/thumb/' . rand(1, $rand_num) . '.png';
-		$img = 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/thumb/' . rand(1, $rand_num) . '.png';
+                $img = rand_thumb($site);
                 $body .= '
                 <div class="col-6 col-m-3">' . '<a class="SectionNews_news-article__3ttyR" href="' . $file[$i]->link . '" target="_blank" rel="noopener">
                       <div class="SectionNews_card-container__1nays">

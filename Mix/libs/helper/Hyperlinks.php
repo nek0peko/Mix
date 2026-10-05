@@ -60,7 +60,7 @@ class MixHyperlinks
         $modules = self::modules($options);
         if (mixFriendsVisible($options)) {
             $position = $options->FriendsModulePosition;
-            $position = $position === null || (int) $position < 0 ? count($modules) : min((int) $position, count($modules));
+            $position = $position === null ? 0 : ((int) $position < 0 ? count($modules) : min((int) $position, count($modules)));
             array_splice($modules, max(0, $position), 0, [['friends' => true]]);
         }
         return $modules;

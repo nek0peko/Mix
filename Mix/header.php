@@ -28,7 +28,7 @@ $mixOnlineCount = in_array('ShowAly', mixEnabledComponents($this->options), true
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="next-head-count" content="9">
 
-    <link rel="stylesheet" href="<?php echo $GLOBALS['assetURL'] ?>css/style1.css" data-n-g="">
+    <link rel="stylesheet" href="<?php echo $GLOBALS['assetURL'] ?>css/style1.css?v=<?php echo filemtime(__DIR__ . '/assets/css/style1.css'); ?>" data-n-g="">
 
 <!--    <link rel="shortcut icon" href="--><?php //echo $GLOBALS['assetURL'] ?><!--img/favicon.ico" type="image/x-icon"/>-->
 <!--    <link rel="apple-touch-icon" href="--><?php //echo $GLOBALS['assetURL'] ?><!--img/favicon.png"/>-->

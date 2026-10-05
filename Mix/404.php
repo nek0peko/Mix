@@ -5,7 +5,7 @@ $this->need('component/headnav.php');
 ?>
 
 <div id="main_load">
-    <main>
+    <main class="mix-error-page">
         <?php
         if ($this->options->sideBarStyle == 2) {
             $this->need('component/sidebar.php');
@@ -28,7 +28,7 @@ $this->need('component/headnav.php');
 
             <div class="wrapper-inner">
                 <form id="search" method="post" action="<?php $this->options->siteUrl(); ?>" role="search">
-                    <input type="text" class="main-search" id="s" name="s" class="text"
+                    <input type="text" class="main-search" id="s" name="s"
                            placeholder="<?php _e('输入关键词按下回车再召唤一个吧~'); ?>"/>
                 </form>
             </div>
@@ -93,7 +93,7 @@ $this->need('component/headnav.php');
         white-space: nowrap;
     }
 
-    .main-search {
+    .mix-error-page .main-search {
         box-sizing: border-box;
         display: flex;
         position: relative;
@@ -102,13 +102,13 @@ $this->need('component/headnav.php');
         margin-top: 50px;
         border-width: 1px;
         border-radius: 28px;
-        /*padding-right: 661px;*/
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5),
         inset 0 1px 3px 0 rgba(0, 0, 0, 0.5);
         border-style: solid;
         border-color: #979797;
         background-color: #ffffff;
-        padding-left: 28px;
+        padding-left: 20px;
+        padding-right: 20px;
         height: 56px;
         font-weight: normal;
         line-height: 15px;
