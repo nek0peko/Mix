@@ -1,3 +1,6 @@
+<?php
+$mixOnlineCount = in_array('ShowAly', mixEnabledComponents($this->options), true) ? online_users() : null;
+?>
 <!DOCTYPE html>
 <html id="html">
 <?php require_once("Core/globals.php"); //$GLOBALS ?>
@@ -9,7 +12,19 @@
             'search' => _t('包含关键字 %s 的文章'),
             'tag' => _t('标签 %s 下的文章'),
             'author' => _t('%s 发布的文章')
-        ), '', ' - '); ?><?php $this->options->title(); ?><?php $this->options->cut_off(); ?><?php $this->options->HeaderDescription(); ?></title>
+        ), '', ' - '); ?><?php
+        $websiteTitle = $this->options->WebsiteTitle;
+        // Backups made before the merged option still use the original fields.
+        if ($websiteTitle === null) {
+            $suffix = (string) $this->options->HeaderDescription;
+            $websiteTitle = (string) $this->options->title . ($suffix !== '' ? (string) $this->options->cut_off . $suffix : '');
+        }
+        $websiteTitle = trim((string) $websiteTitle);
+        echo htmlspecialchars($websiteTitle !== '' ? $websiteTitle : 'Create Your World!', ENT_QUOTES, 'UTF-8');
+        if ($mixOnlineCount !== null) {
+            echo ' · ' . $mixOnlineCount . ' 人在线';
+        }
+        ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="next-head-count" content="9">
 
@@ -20,7 +35,7 @@
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/favicon.ico" type="image/x-icon"/>
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/favicon.png"/>
 
-    <meta itemprop="image" content="<?php $this->options->HeaderPhoto(); ?>"/>
+    <meta itemprop="image" content="<?php echo htmlspecialchars((string) $this->options->HeaderPhoto, ENT_QUOTES, 'UTF-8'); ?>"/>
     <!--<link href="<?php echo $GLOBALS['assetURL'] ?>kico.css" rel="stylesheet" type="text/css">-->
     <!-- TODO: 当前CDN速度太慢，暂时将部分JS存在本地，后续更换CDN -->
     <script src="<?php echo $GLOBALS['assetURL'] ?>js/local/kico.min.js"></script>
@@ -33,13 +48,13 @@
             /* body, nav#Header_head-menu__ofiV5 {
               background: url(
 
-            <?php $this->options->BackGroundImage() ?>
+            <?php echo json_encode(str_replace(['<', '>'], ['%3C', '%3E'], (string) $this->options->BackGroundImage), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?>
 
                         ) top fixed!important;
                           } */
             @media all and (max-width: 600px) {
                 nav#Header_head-menu__ofiV5 {
-                    background: url(<?php $this->options->BackGroundImage() ?>) top fixed !important;
+                    background: url(<?php echo json_encode(str_replace(['<', '>'], ['%3C', '%3E'], (string) $this->options->BackGroundImage), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?>) top fixed !important;
                 }
             }
 
@@ -50,21 +65,22 @@
             /* html.dark body, html.dark nav#Header_head-menu__ofiV5 {
               background: url(
 
-            <?php $this->options->BackGroundImageDark() ?>
+            <?php echo json_encode(str_replace(['<', '>'], ['%3C', '%3E'], (string) $this->options->BackGroundImageDark), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?>
 
                         ) top fixed!important;
                           } */
             @media all and (max-width: 600px) {
                 html.dark nav#Header_head-menu__ofiV5 {
-                    background: url(<?php $this->options->BackGroundImageDark() ?>) top fixed !important;
+                    background: url(<?php echo json_encode(str_replace(['<', '>'], ['%3C', '%3E'], (string) $this->options->BackGroundImageDark), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?>) top fixed !important;
                 }
             }
         </style>
     <?php endif; ?>
+    <?php $this->options->HeaderHTML(); ?>
     <?php $this->header(); ?>
     <script>
         window.MIX_CONFIG = {
-            VERSION: '2.0.0',
+            VERSION: <?php echo json_encode(MIX_VERSION); ?>,
             <?php if ($this->options->sideBarStyle == 1):?>
             SIDEBAR: 1,
             <?php elseif ($this->options->sideBarStyle == 2):?>
@@ -74,5 +90,4 @@
     </script>
 </head>
 <body class="loading">
-<?php $this->options->HeaderHTML(); ?>
 <div id="progress" class="header-progress"></div>

@@ -15,7 +15,7 @@
        </section>
     -->
     <script>//ks.lazy("img");</script>
-    <?php if (!empty($this->options->Show_what) && in_array('ShowComment', $this->options->Show_what)): ?>
+    <?php if (in_array('ShowComment', mixEnabledComponents($this->options), true)): ?>
         <?php $this->need('comments.php') ?>
     <?php endif; ?>
 </article>

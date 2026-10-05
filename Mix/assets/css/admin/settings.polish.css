@@ -1,0 +1,679 @@
+/* Keep Typecho's page grid and tabs; polish only the Mix settings form. */
+#mix-theme-settings {
+    --mix-accent: #467b96;
+    --mix-border: #e2e8ed;
+    --mix-muted: #606970;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 32px 0 40px;
+    color: #333;
+    background: transparent;
+    line-height: 1.6;
+}
+
+#mix-theme-settings .mix-welcome {
+    margin-bottom: 24px;
+    padding: 8px;
+    border: 1px solid var(--mix-border);
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f5f9fc, #fff 65%);
+    box-shadow: 0 4px 18px rgba(42, 62, 80, .04);
+}
+
+#mix-theme-settings .mix-welcome .mdui-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 76px;
+    padding: 16px;
+}
+
+#mix-theme-settings .mix-welcome .mdui-card-header-avatar {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    float: none;
+    margin: 0;
+    box-sizing: border-box;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(42, 62, 80, .1);
+}
+
+#mix-theme-settings .mix-welcome .mdui-card-header-title {
+    margin: 0;
+    padding-top: 0;
+    font-size: 19px;
+    font-weight: 600;
+    color: #333;
+    line-height: 24px;
+}
+
+#mix-theme-settings .mix-welcome .mdui-card-header-subtitle {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 10px;
+    margin: 4px 0 0;
+    color: var(--mix-muted);
+    font-size: 13px;
+    line-height: 20px;
+    opacity: 1;
+}
+
+#mix-theme-settings .mix-welcome-copy {
+    min-width: 0;
+}
+
+#mix-theme-settings .mix-imouse-toggle {
+    padding: 8px 0;
+}
+
+#mix-theme-settings .mix-imouse-toggle ~ [hidden] {
+    display: none !important;
+}
+
+#mix-theme-settings .mix-hyperlink-toggle {
+    padding: 12px 0;
+}
+
+#mix-theme-settings .mix-imouse-toggle .typecho-option,
+#mix-theme-settings .mix-hyperlink-toggle .typecho-option {
+    margin: 0;
+    padding: 0;
+    float: none;
+    width: auto;
+}
+
+#mix-theme-settings .mix-hyperlink-toggle .description {
+    margin: 6px 0 0;
+    color: var(--mix-muted);
+    font-size: 12px;
+}
+
+#mix-theme-settings .mix-hyperlink-editor[hidden] {
+    display: none !important;
+}
+
+#mix-theme-settings .mix-hyperlink-editor {
+    padding: 0 0 16px;
+}
+
+#mix-theme-settings .mix-hyperlink-module {
+    margin-bottom: 14px;
+    padding: 16px;
+    border: 1px solid var(--mix-border);
+    border-radius: 8px;
+    background: #f7fafc;
+}
+
+#mix-theme-settings .mix-hyperlink-module-heading,
+#mix-theme-settings .mix-hyperlink-item-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+#mix-theme-settings .mix-hyperlink-module-heading > .mix-hyperlink-field {
+    flex: 1;
+}
+
+#mix-theme-settings .mix-hyperlink-item {
+    margin: 12px 0;
+    padding: 12px;
+    border: 1px solid var(--mix-border);
+    border-radius: 6px;
+    background: #fff;
+}
+
+#mix-theme-settings .mix-hyperlink-item-heading {
+    align-items: center;
+    margin-bottom: 10px;
+    color: var(--mix-muted);
+    font-size: 12px;
+}
+
+#mix-theme-settings .mix-hyperlink-fields {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1fr;
+    gap: 10px;
+}
+
+#mix-theme-settings .mix-icon-fields {
+    grid-template-columns: 1fr 1fr;
+}
+
+#mix-theme-settings .mix-hyperlink-field {
+    display: block;
+    min-width: 0;
+    margin: 0;
+    font-size: 13px;
+}
+
+#mix-theme-settings .mix-hyperlink-field > span {
+    display: block;
+    margin-bottom: 6px;
+}
+
+#mix-theme-settings .mix-hyperlink-field > input {
+    width: 100%;
+    height: 36px;
+    padding: 7px 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccd6dd;
+    border-radius: 5px;
+    background: #fff;
+    color: #333;
+    font: inherit;
+    line-height: 20px;
+}
+
+#mix-theme-settings .mix-hyperlink-field > input:focus {
+    outline: none;
+    border-color: var(--mix-accent);
+    box-shadow: 0 0 0 2px rgba(70, 123, 150, .12);
+}
+
+#mix-theme-settings .mix-hyperlink-editor .mdui-btn {
+    min-width: 0;
+    margin: 0;
+    padding: 0 12px;
+    border: 1px solid var(--mix-border);
+    border-radius: 5px;
+    background: #fff;
+    color: var(--mix-accent);
+}
+
+#mix-theme-settings .mix-hyperlink-editor .mix-delete-module,
+#mix-theme-settings .mix-hyperlink-editor .mix-delete-link {
+    flex-shrink: 0;
+    color: #b34343;
+}
+
+@media (max-width: 600px) {
+    #mix-theme-settings .mix-hyperlink-fields {
+        grid-template-columns: 1fr;
+    }
+
+    #mix-theme-settings .mix-hyperlink-module {
+        padding: 12px;
+    }
+}
+
+#mix-theme-settings .mix-imouse-toggle .description {
+    margin: 6px 0 0;
+    color: var(--mix-muted);
+    font-size: 12px;
+}
+
+#mix-theme-settings .mix-welcome .mdui-card-primary {
+    padding: 8px 16px 16px;
+}
+
+#mix-theme-settings .mix-status-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+}
+
+#mix-theme-settings .mix-welcome .mdui-chip {
+    margin: 0;
+    background: #edf3f6;
+    font-size: 12px;
+}
+
+#mix-theme-settings .mix-welcome .mdui-card-actions {
+    padding: 12px 16px;
+    border-top: 1px solid var(--mix-border);
+}
+
+#mix-theme-settings .mix-backup-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    order: 0;
+}
+
+#mix-theme-settings .mix-backup-actions .mdui-btn {
+    margin: 0;
+    border: 1px solid var(--mix-border);
+    background: #fff;
+}
+
+#mix-theme-settings .mix-backup-actions::before,
+#mix-theme-settings .mix-backup-actions::after {
+    display: none;
+}
+
+#mix-theme-settings > .mdui-panel {
+    margin: 0;
+    border: 1px solid var(--mix-border);
+    border-radius: 10px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(42, 62, 80, .035);
+}
+
+#mix-theme-settings .mdui-panel {
+    margin: 0;
+}
+
+#mix-theme-settings .mdui-panel-item,
+#mix-theme-settings .mdui-panel-item-open {
+    margin: 0;
+    border: 0;
+    border-bottom: 1px solid var(--mix-border);
+    border-radius: 0;
+    background: #fff;
+    box-shadow: none;
+}
+
+#mix-theme-settings .mdui-panel-item:last-child {
+    border-bottom: 0;
+}
+
+#mix-theme-settings .mdui-panel-item-header {
+    height: 48px;
+    padding: 0 20px;
+    font-weight: 500;
+    color: #333;
+    border-radius: 0;
+}
+
+#mix-theme-settings .mdui-panel-item-header::after {
+    content: '';
+    flex: 0 0 6px;
+    width: 6px;
+    height: 6px;
+    margin-left: auto;
+    border-right: 1.5px solid #93a2af;
+    border-bottom: 1.5px solid #93a2af;
+    transform: rotate(45deg);
+    transition: transform .2s;
+}
+
+#mix-theme-settings .mdui-panel-item-open > .mdui-panel-item-header::after {
+    transform: rotate(225deg);
+}
+
+#mix-theme-settings .mdui-panel-item-open > .mdui-panel-item-header {
+    height: 48px;
+    background: #f7fafc;
+    border-radius: 0;
+}
+
+#mix-theme-settings .mdui-panel-item-sub-header {
+    margin-left: 16px;
+    color: var(--mix-muted);
+    font-size: 12px;
+    font-weight: 400;
+}
+
+#mix-theme-settings .mdui-panel-item-body {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+#mix-theme-settings .mdui-panel-item-body > ul {
+    margin: 10px 0;
+    padding: 0;
+}
+
+#mix-theme-settings .mdui-panel-item-body::after {
+    height: 6px;
+}
+
+#mix-theme-settings .mdui-panel-item-body .mdui-textfield {
+    padding: 0;
+}
+
+#mix-theme-settings .mdui-panel-item .mdui-panel-item {
+    margin: 0;
+    border-color: #edf0f3;
+    box-shadow: none;
+}
+
+#mix-theme-settings .description {
+    margin-top: 6px;
+    color: var(--mix-muted);
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+#mix-theme-settings input.mdui-textfield-input,
+#mix-theme-settings textarea.mdui-textfield-input,
+#mix-theme-settings select.mdui-select {
+    width: 100%;
+    max-width: 100%;
+    min-height: 36px;
+    padding: 7px 10px;
+    border: 1px solid #dce3e9;
+    border-radius: 6px;
+    background-color: #fcfdfe;
+    font-size: 14px;
+    line-height: 20px;
+    box-sizing: border-box;
+}
+
+#mix-theme-settings input.mdui-textfield-input,
+#mix-theme-settings select.mdui-select {
+    height: 36px;
+}
+
+#mix-theme-settings select.mdui-select {
+    padding-right: 30px;
+    background-position: right 12px center;
+}
+
+#mix-theme-settings textarea.mdui-textfield-input {
+    min-height: 80px;
+    line-height: 20px;
+}
+
+#mix-theme-settings input.mdui-textfield-input:focus,
+#mix-theme-settings textarea.mdui-textfield-input:focus,
+#mix-theme-settings select.mdui-select:focus {
+    border-color: var(--mix-accent);
+    box-shadow: 0 0 0 3px rgba(70, 123, 150, .1);
+}
+
+#mix-theme-settings .mdui-btn {
+    min-width: 0;
+    border-radius: 6px;
+    font-size: 12px;
+    letter-spacing: 0;
+    color: var(--mix-accent);
+}
+
+#mix-theme-settings .mix-welcome input.mdui-btn {
+    border: 1px solid var(--mix-border);
+    background: #fff;
+}
+
+#mix-theme-settings .mix-welcome .un_back_up {
+    color: #a96767;
+}
+
+#mix-theme-settings .mix-backup-actions .mix-danger {
+    color: #b34343;
+    border-color: #e6c7c7;
+}
+
+#mix-theme-settings .mix-backup-actions .mix-danger:hover {
+    background: #fff0f0;
+}
+
+#mix-theme-settings .mix-settings-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    margin-top: 20px;
+    padding: 16px 0;
+    border-top: 1px solid var(--mix-border);
+}
+
+#mix-theme-settings .mix-community {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    color: var(--mix-accent);
+    font-size: inherit;
+    line-height: inherit;
+    text-decoration: none;
+}
+
+#mix-theme-settings .mix-community:hover {
+    text-decoration: underline;
+}
+
+#mix-theme-settings .typecho-option-submit {
+    display: flex;
+    justify-content: flex-end;
+    float: none;
+    clear: both;
+    order: 1;
+    width: auto;
+    margin: 0 0 0 auto;
+    padding: 0;
+    position: static;
+    box-sizing: border-box;
+    border: 0;
+}
+
+#mix-theme-settings .typecho-option-submit button.btn.primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    float: none;
+    min-height: 40px;
+    margin: 0;
+    padding: 0 24px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--mix-accent);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0 2px 6px rgba(70, 123, 150, .15);
+    cursor: pointer;
+}
+
+#mix-theme-settings .typecho-option-submit button.btn.primary:hover {
+    background: #396c86;
+}
+
+@media (max-width: 600px) {
+    #mix-theme-settings {
+        margin-top: 24px;
+    }
+
+    #mix-theme-settings .mix-welcome {
+        padding: 4px;
+    }
+
+    #mix-theme-settings .mdui-panel-item-header,
+    #mix-theme-settings .mdui-panel-item-body {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+
+    #mix-theme-settings .mdui-panel-item-sub-header {
+        display: none;
+    }
+}
+
+#mix-theme-settings #mix-friends-fields[hidden] {
+    display: none !important;
+}
+
+#mix-theme-settings .mix-module-content[hidden] {
+    display: none !important;
+}
+
+#mix-theme-settings .mix-module-toggle {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    #mix-theme-settings .mix-hyperlink-module-heading {
+        flex-wrap: wrap;
+    }
+
+    #mix-theme-settings .mix-hyperlink-module-heading > .mix-hyperlink-field {
+        flex-basis: 100%;
+    }
+}
+
+#mix-theme-settings #mix-friends-module.mix-friends-module {
+    background: #e8f4eb;
+    border-color: #bdd8c9;
+    box-shadow: inset 3px 0 #6a9d81;
+}
+
+#mix-theme-settings .mix-friends-module .typecho-option {
+    margin: 0;
+    padding: 0;
+}
+
+#mix-theme-settings .mix-friends-module .mix-checkbox-control {
+    flex-shrink: 0;
+}
+
+#mix-theme-settings .mix-builtin-badge {
+    align-self: center;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: #dcece2;
+    color: #426750;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+#mix-theme-settings .mix-friends-editor {
+    padding: 0;
+}
+
+#mix-theme-settings .mix-hyperlink-module-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto 88px;
+    align-items: end;
+}
+
+#mix-theme-settings .mix-builtin-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: end;
+    box-sizing: border-box;
+    height: 36px;
+}
+
+@media (max-width: 600px) {
+    #mix-theme-settings .mix-hyperlink-module-heading {
+        grid-template-columns: minmax(0, 1fr) 88px;
+    }
+
+    #mix-theme-settings .mix-hyperlink-module-heading > .mix-hyperlink-field {
+        grid-column: 1 / -1;
+    }
+}
+
+#mix-theme-settings .mix-navigation-target {
+    height: 28px;
+    padding-left: 24px;
+    margin-top: 8px;
+    margin-right: 12px;
+    font-size: 13px;
+    line-height: 28px;
+}
+
+#mix-theme-settings .mix-navigation-target .mdui-checkbox-icon {
+    top: 5px;
+    transform: scale(.777778);
+    transform-origin: left center;
+}
+
+#mix-theme-settings .mix-hyperlink-editor .mix-link-step-button {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+#mix-theme-settings .mix-link-step-button svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+/* Flat checkbox groups share the spacing used by the standalone switches. */
+#mix-theme-settings .mix-checkbox-control > .typecho-option {
+    margin: 0 !important;
+    padding: 0;
+    float: none;
+    width: auto;
+}
+
+#mix-theme-settings .mix-checkbox-control .multiline {
+    display: flex;
+    align-items: center;
+}
+
+#mix-theme-settings .mix-checkbox-control > [id^="typecho-option-item-Show_what-"] {
+    padding-top: 8px;
+}
+
+#mix-theme-settings .mix-module-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+#mix-theme-settings .mix-hyperlink-editor .mix-link-step-button:disabled {
+    opacity: .35;
+    cursor: default;
+}
+
+#mix-theme-settings .mix-link-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Keep list spacing independent of whether the last item has been removed. */
+#mix-theme-settings .mix-icon-list,
+#mix-theme-settings .mix-navigation-list,
+#mix-theme-settings .mix-hyperlink-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+#mix-theme-settings .mix-icon-list:empty,
+#mix-theme-settings .mix-navigation-list:empty,
+#mix-theme-settings .mix-hyperlink-items:empty {
+    margin-top: 0;
+}
+
+#mix-theme-settings .mix-icon-list > .mix-hyperlink-item,
+#mix-theme-settings .mix-navigation-list > .mix-hyperlink-item,
+#mix-theme-settings .mix-hyperlink-items > .mix-hyperlink-item {
+    margin: 0;
+}
+
+#mix-theme-settings .mix-hyperlink-modules {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+#mix-theme-settings .mix-hyperlink-modules > .mix-hyperlink-module {
+    margin: 0;
+}
+
+#mix-theme-settings .mix-hyperlink-editor > .mix-add-icon,
+#mix-theme-settings .mix-hyperlink-editor > .mix-add-navigation,
+#mix-theme-settings .mix-hyperlink-editor > .mix-add-module {
+    margin-top: 12px;
+}

@@ -923,42 +923,14 @@ EOF;
      */
     public static function returnHeadItem($headnavItem, $haveSub, $subListHtml, $ISsub = 'no')
     {
-
-        $ret = "";
-        @$itemName = $headnavItem->name;
-        @$itemStatus = $headnavItem->status;
-        @$itemLink = $headnavItem->link;
-        @$itemClass = $headnavItem->class;
-        @$itemFeather = $headnavItem->feather;
-        @$itemSub = $headnavItem->sub;
-        @$itemTarget = $headnavItem->target;
-
-
-        if (@$itemTarget) {
-            $linkStatus = 'target="' . $itemTarget . '"';
-        } else {
-            $linkStatus = 'target="_self"';
-        }
-
-
-        if (trim($itemClass) !== "") {
-            $ret = ' 
-            <div class="has-child">
-            <a ' . $linkStatus . ' href="' . $itemLink . '" rel="noreferrer">
-            <i class="' . $itemClass . '"></i>
-            <span>' . $itemName . '</span>
-            </a>' . $subListHtml . '
-            </div>';
-        }
-        if ($ISsub != 'no') {
-            $ret = ' 
-            <a ' . $linkStatus . ' href="' . $itemLink . '" rel="noreferrer">
-            <i class="' . $itemClass . '"></i>
-            <span>' . $itemName . '</span>
-            </a>';
-        }
-        // <li> <a target="_self" href="xxx.com" class="auto" ><span class="nav-icon"><i data-feather="music"></i></span><span>网易云音乐</span></a></li>
-        return $ret;
+        $name = trim((string) ($headnavItem->name ?? ''));
+        $url = trim((string) ($headnavItem->link ?? ''));
+        if ($name === '' || $url === '' || !MixHyperlinks::validUrl($url)) return '';
+        $target = htmlspecialchars($headnavItem->target ?? '_self', ENT_QUOTES, 'UTF-8');
+        $class = htmlspecialchars($headnavItem->class ?? '', ENT_QUOTES, 'UTF-8');
+        $icon = $class !== '' ? '<i class="' . $class . '"></i>' : '';
+        $link = '<a target="' . $target . '" href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" rel="noopener noreferrer">' . $icon . '<span>' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</span></a>';
+        return $ISsub !== 'no' ? $link : '<div class="has-child">' . $link . $subListHtml . '</div>';
     }
 
     /**
@@ -986,34 +958,15 @@ EOF;
      */
     public static function returnHeadSideItem($headnavItem, $haveSub, $subListHtml, $ISsub = 'no')
     {
-
-        $ret = "";
-        @$itemName = $headnavItem->name;
-        @$itemStatus = $headnavItem->status;
-        @$itemLink = $headnavItem->link;
-        @$itemClass = $headnavItem->class;
-        @$itemFeather = $headnavItem->feather;
-        @$itemSub = $headnavItem->sub;
-        @$itemTarget = $headnavItem->target;
-
-
-        if (@$itemTarget) {
-            $linkStatus = 'target="' . $itemTarget . '"';
-        } else {
-            $linkStatus = 'target="_self"';
-        }
-
-
-        if (trim($itemClass) !== "") {
-            $ret = '<a ' . $linkStatus . ' href="' . $itemLink . '" rel="noreferrer"><div class="Header_parent__3EA6A global-parent"><i class="'
-                . $itemClass . '"></i><span>' . $itemName . '</span></div></a>';
-        }
-        if ($ISsub != 'no') { //如果是小分支，children，覆盖上面的内容
-            $ret = '<a ' . $linkStatus . ' href="' . $itemLink . '" rel="noreferrer"><div class="Header_children__2ZydX global-children"><i class="'
-                . $itemClass . '"></i><span>' . $itemName . '</span></a>';
-        }
-        // <li> <a target="_self" href="xxx.com" class="auto" ><span class="nav-icon"><i data-feather="music"></i></span><span>网易云音乐</span></a></li>
-        return $ret;
+        $name = trim((string) ($headnavItem->name ?? ''));
+        $url = trim((string) ($headnavItem->link ?? ''));
+        if ($name === '' || $url === '' || !MixHyperlinks::validUrl($url)) return '';
+        $target = htmlspecialchars($headnavItem->target ?? '_self', ENT_QUOTES, 'UTF-8');
+        $class = htmlspecialchars($headnavItem->class ?? '', ENT_QUOTES, 'UTF-8');
+        $icon = $class !== '' ? '<i class="' . $class . '"></i>' : '';
+        $wrapper = $ISsub !== 'no' ? 'Header_children__2ZydX global-children' : 'Header_parent__3EA6A global-parent';
+        $link = '<a target="' . $target . '" href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" rel="noopener noreferrer"><div class="' . $wrapper . '">' . $icon . '<span>' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</span></div></a>';
+        return $ISsub !== 'no' ? $link : '<div class="Header_link-section__1JFc9 global-link-section">' . $link . $subListHtml . '</div>';
     }
 
     /*

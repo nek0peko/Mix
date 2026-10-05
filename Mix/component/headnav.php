@@ -82,7 +82,7 @@
     </div>
 
     <div class="assets head-logo"><a id="headnav-a" href="<?php Helper::options()->siteUrl() ?>">
-            <?php if ($this->options->HeadNavPhoto): ?>
+            <?php if (trim((string) $this->options->HeadNavPhoto) !== ''): ?>
                 <?php $this->options->HeadNavPhoto(); ?><h1
                         class="Header_title__1THMF Header_title__EwaWq global-title"><?php $this->options->title(); ?></h1>
             <?php else: ?>
@@ -138,14 +138,14 @@
             <!--                    <a href="#"><i class="fa fa-book-open"></i><span>博文</span></a>-->
             <!--                </div>-->
             <!--            </div>-->
-            <div class="menu-link"><a href="<?php $this->options->FriendURL(); ?>"><i
+            <?php if (Admin_Helper::isPluginAvailable('Links_Plugin', 'Links') && trim((string) $this->options->FriendURL) !== '' && MixHyperlinks::validUrl((string) $this->options->FriendURL)): ?>
+            <div class="menu-link"><a href="<?php echo htmlspecialchars(trim((string) $this->options->FriendURL), ENT_QUOTES, 'UTF-8'); ?>"><i
                             class="fa fa-users"></i><span>友链</span></a></div>
+            <?php endif; ?>
             <?php
             $hideHomeItem = false;
             if (!empty(Typecho_Widget::widget('Widget_Options')->headnavItems)) {
-                $json = '[' . Utils::remove_last_comma(Typecho_Widget::widget('Widget_Options')->headnavItems) . ']';
-
-                $headnavItems = json_decode($json);
+                $headnavItems = MixNavigation::items(Typecho_Widget::widget('Widget_Options')->headnavItems);
                 $headnavItemsOutput = "";
                 foreach ($headnavItems as $headnavItem) {
 
@@ -168,7 +168,7 @@
                         foreach ($itemSub as $subItem) {
                             $subListHtml .= Content::returnHeadItem($subItem, false, "", 'yes');
                         }
-                        // $subListHtml .= '</div>';
+                        $subListHtml .= '</div>';
                     }
 
                     $headnavItemsOutput .= Content::returnHeadItem($headnavItem, $haveSub, $subListHtml);

@@ -68,13 +68,13 @@ $this->need('component/headnav.php');
                 <article class="post-content paul-note article-list">
                     <ul>
                         <div>
-                            <?php Links_Plugin::output('<li class="links"><a href="{url}" title="{title}" target="_blank">{name}</a><span class="meta">{description}<span></li>'); ?>
+                            <?php if (Admin_Helper::isPluginAvailable('Links_Plugin', 'Links')) Links_Plugin::output('<li class="links"><a href="{url}" title="{title}" target="_blank">{name}</a><span class="meta">{description}<span></li>'); ?>
                         </div>
                     </ul>
                 </article>
             </article>
         </div>
-        <?php $this->need('comments.php') ?>
+        <?php if (in_array('ShowComment', mixEnabledComponents($this->options), true)) $this->need('comments.php'); ?>
     </main>
 </div>
 

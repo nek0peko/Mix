@@ -13,6 +13,33 @@ Helper::options()->commentsOrder = 'DESC'; //将最新的评论展示在前
 Helper::options()->commentsHTMLTagAllowed = '<a href=""> <img src=""> <img src="" class=""> <code> <del>';
 Helper::options()->commentsMarkdown = true;
 
+function mixEnabledComponents($options): array
+{
+    // Accept backups created before the two groups were merged.
+    $components = is_array($options->Show_what) ? $options->Show_what : [];
+    $legacy = is_array($options->Show_what_1) ? $options->Show_what_1 : [];
+    $components = array_values(array_unique(array_merge($components, $legacy)));
+    if ($options->IMouseEnabled !== null) {
+        $components = array_values(array_diff($components, ['ShowIMouse']));
+        if (is_array($options->IMouseEnabled) && in_array('enabled', $options->IMouseEnabled, true)) {
+            $components[] = 'ShowIMouse';
+        }
+    }
+    return $components;
+}
+
+function mixFriendsEnabled($options): bool
+{
+    // Existing installations keep their friend links enabled until explicitly disabled.
+    return $options->FriendsEnabled === null || (is_array($options->FriendsEnabled) && in_array('enabled', $options->FriendsEnabled, true));
+}
+
+function mixFriendsVisible($options): bool
+{
+    return Admin_Helper::isPluginAvailable('Links_Plugin', 'Links') && mixFriendsEnabled($options)
+        && ($options->FriendsModuleTitle === null || trim((string) $options->FriendsModuleTitle) !== '');
+}
+
 /**
  * getFirstImg 正则获取文章中的图片链接
  * 若无图片附件，则使用随机图片
@@ -47,7 +74,7 @@ function rand_thumb($site_Url): string
     // 是否随机图片，如果为false，则固定为一张图
     $isRandom = true;
     // assets/img/thumb目录中随机图片数量
-    $rand_num = 23;
+    $rand_num = 22;
 
     if ($isRandom) {
 //        $img_url = $site_Url . 'img/thumb/' . rand(1, $rand_num) . '.png';
@@ -76,7 +103,7 @@ function parse_RSS($url, $site)
                 // $body .= '
                 // <div class="col-6 col-m-3">' . '<a href="' . $file[$i]->link . '" class="news-article" target="_blank">' . '<img src="' . $site . '/src/img/' . array_pop($rand_arr) . '.jpg">' . '<h4>' . $file[$i]->title . '</h4></a></div>
                 // ';
-                $rand_num = 23; //随机图片数量，根据图片目录中图片实际数量设置
+                $rand_num = 22; //随机图片数量，根据图片目录中图片实际数量设置
 //                $img = $GLOBALS['assetURL'] . 'img/' . rand(1, $rand_num) . '.png';
 //                $img = 'https://cdn.jsdelivr.net/gh/nek0peko/cdn-static/Mix/img/thumb/' . rand(1, $rand_num) . '.png';
 		$img = 'https://raw.githubusercontent.com/nek0peko/cdn-static/master/Mix/img/thumb/' . rand(1, $rand_num) . '.png';
@@ -115,45 +142,49 @@ function parse_RSS($url, $site)
 /**
  * 实时人数显示
  */
-function online_users()
+function online_users(): ?int
 {
+    // Share successful counts and failures between the title and footer.
+    static $count = null;
+    static $initialized = false;
+    if ($initialized) return $count;
+    $initialized = true;
     $filename = __TYPECHO_ROOT_DIR__ . __TYPECHO_THEME_DIR__ . '/Mix/online.txt';
-    $cookiename = 'Mix_OnLineCount'; //Cookie名称
-    $onlinetime = 30; //在线有效时间
-    $online = file($filename);
-    $nowtime = $_SERVER['REQUEST_TIME'];
-    $nowonline = array();
-    foreach ($online as $line) {
-        $row = explode('|', $line);
-        $sesstime = trim($row[1]);
-        if (($nowtime - $sesstime) <= $onlinetime) {
-            $nowonline[$row[0]] = $sesstime;
+    $unavailable = static function ($reason) use ($filename) {
+        error_log('[Mix] 在线人数统计不可用：' . $reason . '（' . $filename . '）');
+        return null;
+    };
+    if (!is_file($filename)) return $unavailable('文件不存在');
+    $handle = @fopen($filename, 'r+');
+    if (!$handle) return $unavailable('无法读写文件，请检查权限');
+    if (!@flock($handle, LOCK_EX | LOCK_NB)) {
+        fclose($handle);
+        return $unavailable('文件暂时被占用，已跳过统计');
+    }
+    $now = $_SERVER['REQUEST_TIME'] ?? time();
+    $uid = $_COOKIE['Mix_OnLineCount'] ?? '';
+    if (!is_string($uid) || !preg_match('/^[a-zA-Z0-9]{1,64}$/D', $uid)) {
+        $uid = bin2hex(random_bytes(16));
+        if (!headers_sent()) {
+            setcookie('Mix_OnLineCount', $uid, 0, '/', '', !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', true);
         }
     }
-    if (isset($_COOKIE[$cookiename])) {
-        $uid = $_COOKIE[$cookiename];
-    } else {
-        $vid = 0;
-        do {
-            $vid++;
-            $uid = 'U' . $vid;
-        } while (array_key_exists($uid, $nowonline));
-        setcookie($cookiename, $uid);
-    }
-    $nowonline[$uid] = $nowtime;
-    $total_online = count($nowonline);
-    if ($fp = @fopen($filename, 'w')) {
-        if (flock($fp, LOCK_EX)) {
-            rewind($fp);
-            foreach ($nowonline as $fuid => $ftime) {
-                $fline = $fuid . '|' . $ftime . "\n";
-                @fputs($fp, $fline);
-            }
-            flock($fp, LOCK_UN);
-            fclose($fp);
+    $visitors = [];
+    while (($line = @fgets($handle)) !== false) {
+        $row = explode('|', trim($line));
+        if (count($row) === 2 && preg_match('/^[a-zA-Z0-9]{1,64}$/D', $row[0]) && ctype_digit($row[1])) {
+            $seen = (int) $row[1];
+            if ($seen <= $now && $now - $seen <= 30) $visitors[$row[0]] = $seen;
         }
     }
-    echo "$total_online";
+    $visitors[$uid] = $now;
+    $contents = '';
+    foreach ($visitors as $visitor => $seen) $contents .= $visitor . '|' . $seen . "\n";
+    $written = @rewind($handle) && @ftruncate($handle, 0) && @fwrite($handle, $contents) === strlen($contents) && @fflush($handle);
+    @flock($handle, LOCK_UN);
+    fclose($handle);
+    if (!$written) return $unavailable('写入失败，已跳过统计');
+    return $count = count($visitors);
 }
 
 function createCatalog($obj)

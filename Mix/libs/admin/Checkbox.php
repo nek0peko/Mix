@@ -21,6 +21,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  */
 class Checkbox extends Typecho_Widget_Helper_Form_Element
 {
+    private $flat = false;
 
     public function start()
     {
@@ -28,15 +29,17 @@ class Checkbox extends Typecho_Widget_Helper_Form_Element
 
     public function end()
     {
-        echo '</ul></div></div></div>';
+        echo $this->flat ? '</ul></div>' : '</ul></div></div></div>';
     }
 
 
-    public function __construct($name = NULL, array $options = NULL, $value = NULL, $label = NULL, $description = NULL)
+    public function __construct($name = NULL, array $options = NULL, $value = NULL, $label = NULL, $description = NULL, bool $flat = false)
     {
         /** 创建html元素,并设置class */
         //parent::__construct('ul', array('class' => 'typecho-option', 'id' => 'typecho-option-item-' . $name . '-' . self::$uniqueId));
-        $this->addItem(new CustomLabel('<div class="mdui-panel" mdui-panel=""><div class="mdui-panel-item"><div class="mdui-panel-item-header">' . $label . '</div><div class="mdui-panel-item-body"><ul class="typecho-option" id="typecho-option-item-' . $name . '-' . self::$uniqueId . '">'));
+        $this->flat = $flat;
+        $opening = $flat ? '<div class="mix-checkbox-control">' : '<div class="mdui-panel" mdui-panel=""><div class="mdui-panel-item"><div class="mdui-panel-item-header">' . $label . '</div><div class="mdui-panel-item-body">';
+        $this->addItem(new CustomLabel($opening . '<ul class="typecho-option" id="typecho-option-item-' . $name . '-' . self::$uniqueId . '">'));
 
         $this->name = $name;
         self::$uniqueId++;
