@@ -135,7 +135,7 @@ function themeConfig($form)
         $form->addItem(new CustomLabel('</div>'));
     }
     $form->addInput(new Typecho_Widget_Helper_Form_Element_Hidden('FriendsModuleTitle', null, '友情链接'));
-    $FriendsModulePosition = new Typecho_Widget_Helper_Form_Element_Hidden('FriendsModulePosition', null, '-1');
+    $FriendsModulePosition = new Typecho_Widget_Helper_Form_Element_Hidden('FriendsModulePosition', null, '0');
     $FriendsModulePosition->addRule(function ($value) { return filter_var($value, FILTER_VALIDATE_INT) !== false && (int) $value >= -1; }, _t('友链模块顺序无效'));
     $form->addInput($FriendsModulePosition);
     $HyperlinkModules = new Typecho_Widget_Helper_Form_Element_Hidden('HyperlinkModules', null, json_encode(MixHyperlinks::modules(Helper::options()), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));

@@ -54,7 +54,7 @@ foreach (MixHyperlinks::orderedModules($this->options) as $module) {
                             <h3><?php echo htmlspecialchars($card['name'], ENT_QUOTES, 'UTF-8'); ?></h3>
                         </div>
                         <div class="SectionNews_card-body__1Tj-4">
-                            <span><?php echo htmlspecialchars($card['description'], ENT_QUOTES, 'UTF-8'); ?></span>
+                            <div class="SectionNews_text-mask__21UEm"><span><?php echo htmlspecialchars($card['description'], ENT_QUOTES, 'UTF-8'); ?></span></div>
                         </div>
                         <div class="SectionNews_text-shade__QzdgY"></div>
                     </div>

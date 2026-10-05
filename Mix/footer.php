@@ -77,6 +77,7 @@
         <!--        <script src="https://cdn.jsdelivr.net/gh/rikumi/imouse@master/dist/index.js"></script>-->
         <script>
             window.addEventListener('DOMContentLoaded', () => IMouse.default.init({
+                hoverSelector: 'a:not(.mix-category-cover-wrap), button, input[type="button"], input[type="checkbox"], input[type="radio"], input[type="file"], input[type="submit"]',
                 defaultBackgroundColor: <?php $this->options->IMouseDefaultBackgroundColor(); ?>,
                 activeBackgroundColor: <?php $this->options->IMouseActiveBackgroundColor();?>,
                 defaultSize: <?php $this->options->IMouseDefaultSize(); ?>,
@@ -106,6 +107,17 @@
                 ],
                 cacheBust: false // 关闭cacheBust，取消后缀
             })
+            // MoOx Pjax discards non-200 responses, including our themed 404 page.
+            // Let the browser load failed GET destinations normally instead.
+            var mixPjaxHandleResponse = pjax.handleResponse;
+            pjax.handleResponse = function (html, request, href, options) {
+                var method = options && options.requestOptions && options.requestOptions.requestMethod || 'GET';
+                if (typeof html !== 'string' && method.toUpperCase() === 'GET') {
+                    document.body.classList.remove('loading');
+                    return this.latestChance(href);
+                }
+                return mixPjaxHandleResponse.call(this, html, request, href, options);
+            };
         </script>
         <script>
             // 用于MoOx Pjax的绑定与解除loading
@@ -121,7 +133,7 @@
                 // 需要重载的 JS 函数
                 <?php $this->options->PjaxReLoad(); ?>
                 SQP.init(); // 重载 SQP
-                ks.image("img:not(.mix-social-icon)"); // 重载 Kico Style 的图片灯箱
+                ks.image("img:not(.mix-social-icon):not(.mix-category-cover)"); // 重载 Kico Style 的图片灯箱
                 if (typeof Prism !== 'undefined') {
                     var pres = document.getElementsByTagName('pre');
                     for (var i = 0; i < pres.length; i++) {
@@ -138,7 +150,7 @@
                 }
             });
         </script>
-        <script>ks.image("img:not(.mix-social-icon)");</script>
+        <script>ks.image("img:not(.mix-social-icon):not(.mix-category-cover)");</script>
         <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
                 crossorigin="anonymous"></script>
@@ -163,7 +175,7 @@
                 function () {
                     // 加载动画效果结束
                     NProgress.done();
-                    ks.image("img:not(.mix-social-icon)");
+                    ks.image("img:not(.mix-social-icon):not(.mix-category-cover)");
                     SQP.init();
                     if (typeof Prism !== 'undefined') {
                         var pres = document.getElementsByTagName('pre');
@@ -181,7 +193,7 @@
     <link rel="stylesheet" href="<?php echo $GLOBALS['assetURL'] ?>css/mix.dark.css">
     <?php $this->need('component/index/sidebar.tool.php'); ?>
 
-    <script src="<?php echo $GLOBALS['assetURL'] ?>js/Mix.js"></script>
+    <script src="<?php echo $GLOBALS['assetURL'] ?>js/Mix.js?v=<?php echo filemtime(__DIR__ . '/assets/js/Mix.js'); ?>"></script>
     <script><?php $this->options->JavaScript(); ?></script>
 </footer>
 <script>

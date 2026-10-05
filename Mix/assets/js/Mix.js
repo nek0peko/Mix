@@ -57,17 +57,10 @@ if (window.MIX_CONFIG.SIDEBAR == 1) {
  * 回到顶部 按钮
  * 绑定回到顶部动画
  */
-var timer = null;
 document.getElementById('top').onclick = function () {
-    cancelAnimationFrame(timer);
-    timer = requestAnimationFrame(function fn() {
-        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
-        if (oTop > 0) {
-            document.body.scrollTop = document.documentElement.scrollTop = oTop - 150;
-            timer = requestAnimationFrame(fn);
-        } else {
-            cancelAnimationFrame(timer);
-        }
+    window.scrollTo({
+        top: 0,
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
     });
 }
 /**
@@ -78,7 +71,8 @@ var Time = new Date();
 var NowTime = Time.getHours();
 
 function setDarkStyle($need) {
-    document.getElementById('html').className = 'dark'
+    document.getElementById('html').classList.remove('light');
+    document.getElementById('html').classList.add('dark');
     localStorage.setItem("html_style", "dark");
     if ($need) {
         ks.notice(
@@ -92,7 +86,8 @@ function setDarkStyle($need) {
 }
 
 function setLightStyle($need) {
-    document.getElementById('html').className = ''
+    document.getElementById('html').classList.remove('dark');
+    document.getElementById('html').classList.add('light');
     localStorage.setItem("html_style", "light");
     if ($need) {
         ks.notice(
@@ -105,13 +100,45 @@ function setLightStyle($need) {
     }
 }
 
+var mixModeTransition = null;
+var mixRequestedMode = null;
+var mixModeRequest = 0;
 document.getElementById('dark_button').onclick = function () {
-    if (document.getElementById('html').className != 'dark') {
-        setDarkStyle("yes")
-        console.log('%cChanging into Night Mode ~ 🌙', 'color: #00009C')
+    var root = document.documentElement;
+    var current = mixRequestedMode || (root.classList.contains('dark') ? 'dark' : 'light');
+    var target = current === 'dark' ? 'light' : 'dark';
+    mixRequestedMode = target;
+    var request = ++mixModeRequest;
+    var applyMode = function () {
+        if (request !== mixModeRequest) return;
+        if (target === 'dark') setDarkStyle('yes');
+        else setLightStyle('yes');
+    };
+    if (mixModeTransition) mixModeTransition.skipTransition();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        applyMode();
+        mixRequestedMode = null;
+        root.classList.remove('mix-mode-transition', 'mix-mode-fallback');
+        return;
+    }
+    root.classList.add('mix-mode-transition');
+    if (typeof document.startViewTransition === 'function') {
+        // Snapshot both themes so background images crossfade along with the UI.
+        var transition = document.startViewTransition(applyMode);
+        mixModeTransition = transition;
+        transition.finished.catch(function () {}).then(function () {
+            if (mixModeTransition !== transition) return;
+            mixModeTransition = null;
+            mixRequestedMode = null;
+            root.classList.remove('mix-mode-transition');
+        });
     } else {
-        setLightStyle("yes")
-        console.log('%cChanging into Day Mode ~ 🌞', 'color: #FF7F00')
+        root.classList.add('mix-mode-fallback');
+        applyMode();
+        mixRequestedMode = null;
+        window.setTimeout(function () {
+            if (request === mixModeRequest) root.classList.remove('mix-mode-transition', 'mix-mode-fallback');
+        }, 420);
     }
 }
 
@@ -140,3 +167,76 @@ getWebScrollProgress(); //首次加载，渲染进度条
 window.onscroll = function () { //监听滚动事件
     getWebScrollProgress();
 };
+
+// Delegate status hints so cards replaced by Pjax keep the same behavior.
+(function () {
+    if (window.mixCategoryTooltipBound) return;
+    window.mixCategoryTooltipBound = true;
+    var tooltip = document.createElement('div');
+    tooltip.className = 'mix-category-tooltip';
+    tooltip.hidden = true;
+    tooltip.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(tooltip);
+    var active = null;
+    var width = 0;
+    var height = 0;
+    var frame = 0;
+    var point = { x: 0, y: 0 };
+    function position() {
+        frame = 0;
+        if (!active || !active.isConnected) return hide();
+        var x = Math.max(8, Math.min(point.x + 12, window.innerWidth - width - 8));
+        var y = point.y + 16;
+        if (y + height > window.innerHeight - 8) y = point.y - height - 12;
+        y = Math.max(8, Math.min(y, window.innerHeight - height - 8));
+        tooltip.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
+    }
+    function show(icon, x, y) {
+        active = icon;
+        tooltip.textContent = icon.getAttribute('aria-label');
+        tooltip.hidden = false;
+        width = tooltip.offsetWidth;
+        height = tooltip.offsetHeight;
+        point.x = x;
+        point.y = y;
+        position();
+    }
+    function hide() {
+        active = null;
+        tooltip.hidden = true;
+        if (frame) cancelAnimationFrame(frame);
+        frame = 0;
+    }
+    function iconAt(target) {
+        return target instanceof Element ? target.closest('.mix-category-heading .mix-category-visibility') : null;
+    }
+    document.addEventListener('pointerover', function (event) {
+        if (event.pointerType === 'touch') return;
+        var icon = iconAt(event.target);
+        if (icon && icon !== active) show(icon, event.clientX, event.clientY);
+    });
+    document.addEventListener('pointermove', function (event) {
+        if (!active || event.pointerType === 'touch') return;
+        point.x = event.clientX;
+        point.y = event.clientY;
+        if (!frame) frame = requestAnimationFrame(position);
+    });
+    document.addEventListener('pointerout', function (event) {
+        if (active && iconAt(event.target) === active && !active.contains(event.relatedTarget)) hide();
+    });
+    document.addEventListener('focusin', function (event) {
+        var icon = iconAt(event.target);
+        if (!icon) return;
+        var rect = icon.getBoundingClientRect();
+        show(icon, rect.left, rect.bottom);
+    });
+    document.addEventListener('focusout', function (event) {
+        if (iconAt(event.target) === active) hide();
+    });
+    document.addEventListener('keydown', function (event) { if (event.key === 'Escape') hide(); });
+    document.addEventListener('pjax:send', hide);
+    document.addEventListener('pjax:complete', hide);
+    window.addEventListener('scroll', hide, true);
+    window.addEventListener('resize', hide);
+    window.addEventListener('blur', hide);
+})();

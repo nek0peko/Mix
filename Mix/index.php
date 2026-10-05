@@ -4,7 +4,7 @@
  *
  * @package Mix
  * @author Wibus & nek0peko
- * @version 2.1.0
+ * @version 2.2.0
  * @link https://nek0peko.com
  */
 
