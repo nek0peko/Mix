@@ -33,6 +33,45 @@ class MixPostPreview
         return self::prepare($source, $protected, false)['cover'];
     }
 
+    /** Covers for linked local posts/pages, without issuing HTTP requests. */
+    public static function linkedCover(string $url, string $custom, string $assetUrl): string
+    {
+        $custom = trim($custom);
+        if ($custom !== '' && MixHyperlinks::validImageUrl($custom)) return $custom;
+        static $covers = [];
+        if (!array_key_exists($url, $covers)) {
+            $covers[$url] = '';
+            $options = Helper::options();
+            $target = parse_url($url);
+            $base = parse_url($options->index);
+            // Only same-site content is read; external sites never trigger HTTP requests.
+            if (is_array($target) &&
+                (!isset($target['host']) || (strcasecmp($target['host'], $base['host'] ?? '') === 0
+                    && ($target['port'] ?? null) === ($base['port'] ?? null)))) {
+                $path = rawurldecode($target['path'] ?? '');
+                $prefix = rtrim(rawurldecode($base['path'] ?? ''), '/');
+                if ($prefix !== '' && strpos($path, $prefix . '/') === 0) $path = substr($path, strlen($prefix));
+                foreach (['post', 'page'] as $type) {
+                    $route = Typecho_Router::get($type);
+                    if (!$route || !preg_match($route['regx'], $path, $matches)) continue;
+                    array_shift($matches);
+                    $params = array_combine($route['params'], $matches);
+                    if (!isset($params['cid']) && !isset($params['slug'])) continue;
+                    $db = Typecho_Db::get();
+                    $query = $db->select('text', 'password', 'status')->from('table.contents')->where('type = ?', $type);
+                    if (isset($params['cid'])) $query->where('cid = ?', $params['cid']);
+                    if (isset($params['slug'])) $query->where('slug = ?', $params['slug']);
+                    $row = $db->fetchRow($query->limit(1));
+                    if ($row && ($row['status'] === 'publish' || ($type === 'page' && $row['status'] === 'hidden'))) {
+                        $covers[$url] = self::cover((string) $row['text'], (string) $row['password'] !== '');
+                    }
+                    break;
+                }
+            }
+        }
+        return $covers[$url] !== '' ? $covers[$url] : rand_thumb($assetUrl);
+    }
+
     public static function prepare(string $source, bool $protected = false, bool $withSummary = true): array
     {
         if ($protected) return ['cover' => '', 'summary' => ''];

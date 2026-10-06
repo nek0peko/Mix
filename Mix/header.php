@@ -40,7 +40,7 @@ $mixOnlineCount = in_array('ShowAly', mixEnabledComponents($this->options), true
     <!-- TODO: 当前CDN速度太慢，暂时将部分JS存在本地，后续更换CDN -->
     <script src="<?php echo $GLOBALS['assetURL'] ?>js/local/kico.min.js"></script>
     <!--    <script src="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Kico-Style/kico.min.js"></script>-->
-    <script src="<?php echo $GLOBALS['assetURL'] ?>js/pre.js"></script>
+    <script src="<?php echo $GLOBALS['assetURL'] ?>js/pre.js?v=<?php echo filemtime(__DIR__ . '/assets/js/pre.js'); ?>"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
     <style><?php $this->options->CSS(); ?></style>
     <?php if ($this->options->BackGroundImage): ?>

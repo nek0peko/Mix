@@ -34,10 +34,13 @@
                 <?php endif; ?>
             </div>
             <div class="col-m-6 right to-center">
-                <?php if (in_array('ShowAly', mixEnabledComponents($this->options), true)): ?>
-                    <?php $footerOnlineCount = online_users(); ?>
-                    <p data-mix-online data-endpoint="<?php echo htmlspecialchars(BLOG_URL_PHP . '?mix_online=1', ENT_QUOTES, 'UTF-8'); ?>" data-count="<?php echo $footerOnlineCount === null ? '' : $footerOnlineCount; ?>"<?php if ($footerOnlineCount === null): ?> hidden<?php endif; ?>><span data-mix-online-count><?php echo $footerOnlineCount === null ? '' : $footerOnlineCount; ?></span> 个小伙伴正在浏览</p>
-                    <p><a href="https://travellings.link/" target="_blank" rel="noreferrer">点击开往下一站→</a></p>
+                <?php $mixOnlineDisplay = in_array('ShowAly', mixEnabledComponents($this->options), true); ?>
+                <?php $footerOnlineCount = $mixOnlineDisplay ? online_users() : null; ?>
+                <?php $mixTodayVisitors = $mixOnlineDisplay ? MixVisitorStats::today((int) $this->options->timezone) : null; ?>
+                <p data-mix-today data-count="<?php echo $mixTodayVisitors === null ? '' : $mixTodayVisitors; ?>"<?php if (!$mixOnlineDisplay || $mixTodayVisitors === null): ?> hidden<?php endif; ?>>今日有 <span data-mix-today-count><?php echo $mixTodayVisitors === null ? '' : $mixTodayVisitors; ?></span> 位旅人降临本站 ✨</p>
+                <p data-mix-online data-display="<?php echo $mixOnlineDisplay ? '1' : '0'; ?>" data-endpoint="<?php echo htmlspecialchars(BLOG_URL_PHP . '?mix_online=1', ENT_QUOTES, 'UTF-8'); ?>" data-count="<?php echo $footerOnlineCount === null ? '' : $footerOnlineCount; ?>"<?php if (!$mixOnlineDisplay || $footerOnlineCount === null): ?> hidden<?php endif; ?>><span data-mix-online-count><?php echo $footerOnlineCount === null ? '' : $footerOnlineCount; ?></span> 位冒险者正在攻略地下城 ⚔️</p>
+                <?php if ($mixOnlineDisplay): ?>
+                    <p><a href="https://travellings.link/" target="_blank" rel="noreferrer">点击传送至下一站→</a></p>
                     <!-- 暂时隐藏RSS -->
                     <p style="display: none">
                         <a href="/feed" target="_blank rel=" noopener"">RSS订阅</a>·
@@ -76,6 +79,7 @@
         <!--        <script src="https://cdn.jsdelivr.net/gh/rikumi/imouse@master/dist/index.js"></script>-->
         <script>
             window.addEventListener('DOMContentLoaded', () => IMouse.default.init({
+                zIndex: 10030, // Keep the cursor above navigation panels.
                 hoverSelector: 'a:not(.mix-category-cover-wrap), button, input[type="button"], input[type="checkbox"], input[type="radio"], input[type="file"], input[type="submit"]',
                 defaultBackgroundColor: <?php $this->options->IMouseDefaultBackgroundColor(); ?>,
                 activeBackgroundColor: <?php $this->options->IMouseActiveBackgroundColor();?>,
@@ -98,7 +102,7 @@
         <script src="https://cdn.bootcdn.net/ajax/libs/pjax/0.2.8/pjax.js"></script>
         <script>
             var pjax = new Pjax({
-                elements: 'a[href]:not([target="_blank"]):not([download]):not([no-pjax]), form[action]',
+                elements: 'a[href]:not([target="_blank"]):not([download]):not([no-pjax]), form[action]:not([data-mix-comment-form])',
                 selectors: [
                     "title",
                     "main", // 这个位置直接舍弃掉<div id="main"></div>
@@ -195,12 +199,14 @@
     <script src="<?php echo $GLOBALS['assetURL'] ?>js/Mix.js?v=<?php echo filemtime(__DIR__ . '/assets/js/Mix.js'); ?>"></script>
     <script src="<?php echo $GLOBALS['assetURL'] ?>js/article.toc.js?v=<?php echo filemtime(__DIR__ . '/assets/js/article.toc.js'); ?>" defer></script>
     <script src="<?php echo $GLOBALS['assetURL'] ?>js/article.navigation.js?v=<?php echo filemtime(__DIR__ . '/assets/js/article.navigation.js'); ?>" defer></script>
+    <script src="<?php echo $GLOBALS['assetURL'] ?>js/article.actions.js?v=<?php echo filemtime(__DIR__ . '/assets/js/article.actions.js'); ?>" defer></script>
+    <script src="<?php echo $GLOBALS['assetURL'] ?>js/visitors.js?v=<?php echo filemtime(__DIR__ . '/assets/js/visitors.js'); ?>" data-mix-visit-endpoint="<?php echo htmlspecialchars(BLOG_URL_PHP . '?mix_visit=1', ENT_QUOTES, 'UTF-8'); ?>" defer></script>
+    <script src="<?php echo $GLOBALS['assetURL'] ?>js/comments.js?v=<?php echo filemtime(__DIR__ . '/assets/js/comments.js'); ?>" defer></script>
     <?php if (mixNavigationSearchEnabled($this->options)): ?>
     <script src="<?php echo $GLOBALS['assetURL'] ?>js/navigation.search.js?v=<?php echo filemtime(__DIR__ . '/assets/js/navigation.search.js'); ?>" defer></script>
     <?php endif; ?>
-    <?php if (in_array('ShowAly', mixEnabledComponents($this->options), true)): ?>
+    <script src="<?php echo $GLOBALS['assetURL'] ?>js/navigation.stats.js?v=<?php echo filemtime(__DIR__ . '/assets/js/navigation.stats.js'); ?>" defer></script>
     <script src="<?php echo $GLOBALS['assetURL'] ?>js/online.js?v=<?php echo filemtime(__DIR__ . '/assets/js/online.js'); ?>" defer></script>
-    <?php endif; ?>
     <script><?php $this->options->JavaScript(); ?></script>
 </footer>
 <script>

@@ -16,9 +16,7 @@ function themeConfig($form)
         $mouseEnabled = Helper::options()->Show_what === null || in_array('ShowIMouse', mixEnabledComponents(Helper::options()), true);
         Helper::options()->IMouseEnabled = $mouseEnabled ? ['enabled'] : [];
     }
-    if (Helper::options()->NavSearchEnabled === null) {
-        Helper::options()->NavSearchEnabled = ['enabled'];
-    }
+    Helper::options()->headnavItems = json_encode(MixNavigation::configured(Helper::options()), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     Helper::options()->HyperlinkModules = json_encode(MixHyperlinks::modules(Helper::options()), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     $form->addItem(new CustomLabel(AdminSetting::Welcome(Helper::options()->HeaderPhoto, Helper::options()->HeaderName)));
     Backup::echoBackup();
@@ -80,10 +78,10 @@ function themeConfig($form)
     $form->addInput($HeadNavPhoto);
 
     $form->addItem(new CustomLabel('<div class="mdui-panel" mdui-panel=""><div class="mdui-panel-item"><div class="mdui-panel-item-header">顶部右侧模块</div><div class="mdui-panel-item-body">'));
-    $headnavItems = new Typecho_Widget_Helper_Form_Element_Hidden('headnavItems', null, '{"name":"开往","link":"https://travellings.link/","class":"fas fa-subway","target":"_blank"},{"name":"主题","link":"https://github.com/nek0peko/Mix","class":"fab fa-github","target":"_blank"}');
+    $headnavItems = new Typecho_Widget_Helper_Form_Element_Hidden('headnavItems', null, json_encode(MixNavigation::defaults(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     $headnavItems->addRule(['MixNavigation', 'valid'], _t('请检查导航链接，填写 https://、http:// 或站内地址'));
     $form->addInput($headnavItems);
-    $form->addItem(new CustomLabel('<div id="mix-navigation-editor" class="mix-hyperlink-editor"><p class="description">图标使用 <a href="https://fontawesome.com/v5/search?m=free" target="_blank" rel="noopener noreferrer">Font Awesome 类名</a>，可留空</p><div class="mix-navigation-list"></div><button type="button" class="mdui-btn mix-add-navigation">添加模块</button></div></div></div></div>'));
+    $form->addItem(new CustomLabel('<div id="mix-navigation-editor" class="mix-hyperlink-editor" data-friends-available="' . (Admin_Helper::isPluginAvailable('Links_Plugin', 'Links') ? '1' : '0') . '"><p class="description">图标使用 <a href="https://fontawesome.com/v5/search?m=free" target="_blank" rel="noopener noreferrer">Font Awesome 类名</a>，可留空</p><div class="mix-navigation-list"></div><button type="button" class="mdui-btn mix-add-navigation">添加模块</button></div></div></div></div>'));
 
     if (Admin_Helper::isPluginAvailable('Links_Plugin', 'Links')) {
         $FriendURL = new Text('FriendURL', NULL, _t(''), _t('友链页面链接'), _t('创建独立页面，模板选择“友链页面”，可设置隐藏（不在导航栏下拉框展示），发布后在这里填入地址；留空则不显示'));
@@ -112,18 +110,15 @@ function themeConfig($form)
 
     $form->addItem(new Typecho_Widget_Helper_Layout("/div"));
     $form->addItem(new Typecho_Widget_Helper_Layout("/div"));
-    $form->addItem(new Title('部件设置', '导航栏搜索、顶部博主信息、转载授权、评论区与在线人数'));
-    $NavSearchEnabled = new Checkbox('NavSearchEnabled', ['enabled' => _t('导航栏搜索')], ['enabled'], null, null, true);
-    $form->addInput($NavSearchEnabled->multiMode());
-    $onlineStatsFile = htmlspecialchars(__TYPECHO_ROOT_DIR__ . __TYPECHO_THEME_DIR__ . '/Mix/online.txt', ENT_QUOTES, 'UTF-8');
+    $form->addItem(new Title('部件设置', '顶部博主信息、转载授权、评论区与在线人数'));
     $Show_what = new Checkbox('Show_what',
         array(
             'ShowHeadSVG' => _t('顶部博主信息'),
             'ShowCopyRight' => '显示文章转载授权',
             'ShowComment' => '显示评论区',
-            'ShowAly' => _t('在线人数统计')
+            'ShowAly' => _t('在线人数展示')
         ),
-        Helper::options()->Show_what_1 !== null ? mixEnabledComponents(Helper::options()) : array('ShowHeadSVG', 'ShowCopyRight', 'ShowComment', 'ShowAly'), null, _t('在线人数显示在浏览器标题和博客底部右侧，每 15 秒更新，按浏览器去重；90 秒未收到心跳则退出统计，切到后台暂停、返回时立即更新。如需赋予统计文件读写权限，执行 <code>chown xxx:xxx ' . $onlineStatsFile . '</code> 和 <code>chmod 600 ' . $onlineStatsFile . '</code>；请将 xxx 替换为执行 PHP 的系统账号，例如 apache 或 www-data'), true);
+        Helper::options()->Show_what_1 !== null ? mixEnabledComponents(Helper::options()) : array('ShowHeadSVG', 'ShowCopyRight', 'ShowComment', 'ShowAly'), null, null, true);
     $form->addInput($Show_what->multiMode());
 
     $form->addItem(new Typecho_Widget_Helper_Layout("/div"));
@@ -144,7 +139,7 @@ function themeConfig($form)
     $FriendsModulePosition->addRule(function ($value) { return filter_var($value, FILTER_VALIDATE_INT) !== false && (int) $value >= -1; }, _t('友链模块顺序无效'));
     $form->addInput($FriendsModulePosition);
     $HyperlinkModules = new Typecho_Widget_Helper_Form_Element_Hidden('HyperlinkModules', null, json_encode(MixHyperlinks::modules(Helper::options()), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-    $HyperlinkModules->addRule(['MixHyperlinks', 'valid'], _t('超链设置未能保存，请检查链接地址，使用 http://、https:// 或以 / 开头的站内地址'));
+    $HyperlinkModules->addRule(['MixHyperlinks', 'valid'], _t('超链设置未能保存，请检查链接及封面图片地址，使用 http://、https:// 或以 / 开头的站内地址'));
     $form->addInput($HyperlinkModules);
     $form->addItem(new CustomLabel('<div id="mix-hyperlink-editor" class="mix-hyperlink-editor"><div class="mix-hyperlink-modules"></div><button type="button" class="mdui-btn mix-add-module">添加模块</button></div>'));
 
@@ -248,17 +243,4 @@ function themeConfig($form)
     $form->addItem(new Typecho_Widget_Helper_Layout("/div"));
     $form->addItem(new Typecho_Widget_Helper_Layout("/div"));
     $form->addItem(new CustomLabel(AdminSetting::Actions()));
-}
-
-/*
- * 编写文章设置
- * themeFields(Typecho_Widget_Helper_Layout $layout){}控制
- */
-function themeFields(Typecho_Widget_Helper_Layout $layout)
-{
-    $PostChoice = new Typecho_Widget_Helper_Form_Element_Select('PostChoice', array(
-        '0' => '文章样式',
-        '1' => '日记样式'
-    ), '0', _t('当前文章页面样式类型'), '<strong style="color:red;">该设置仅对该篇文章有效</strong></br>默认选项是「文章」样式</br> 选择「日记」当前文章页面样式将会改为日记样式</br>不建议文章使用日记样式，日记使用文章样式');
-    $layout->addItem($PostChoice);
 }

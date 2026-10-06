@@ -4,7 +4,7 @@
  *
  * @package Mix
  * @author Wibus & nek0peko
- * @version 2.3.0
+ * @version 2.4.0
  * @link https://nek0peko.com
  */
 
@@ -57,7 +57,7 @@ $this->need('component/headnav.php');
                             </h3>
                             <h3
                                     class="assets more"
-                                    style="background-color: rgb(<?php echo mt_rand(50, 255); ?>, <?php echo mt_rand(50, 255); ?>, <?php echo mt_rand(50, 255); ?>);">
+                                    style="background-color: <?php echo mixHomeModuleColor('rss'); ?>;">
                                 <a class="assets" href="<?php $this->options->RSS_Site(); ?>" rel="noopener">
                                     <svg
                                             aria-hidden="true"

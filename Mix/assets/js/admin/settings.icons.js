@@ -25,18 +25,7 @@
             var fields = document.createElement('div');
             fields.className = 'mix-hyperlink-fields mix-icon-fields';
             [['图标地址', 'icon', '图片 URL，例如 SVG 或 PNG'], ['跳转链接', 'url', '留空不显示图标']].forEach(function (entry) {
-                var label = document.createElement('label');
-                label.className = 'mix-hyperlink-field';
-                var caption = document.createElement('span');
-                caption.textContent = entry[0];
-                var input = document.createElement('input');
-                input.type = 'text';
-                input.dataset.field = entry[1];
-                input.value = item[entry[1]] || '';
-                input.placeholder = entry[2];
-                label.appendChild(caption);
-                label.appendChild(input);
-                fields.appendChild(label);
+                fields.appendChild(window.MixSettingControls.field(entry[0], entry[1], item[entry[1]], entry[2]));
             });
             row.appendChild(fields);
             list.appendChild(row);

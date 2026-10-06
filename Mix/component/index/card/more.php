@@ -6,7 +6,7 @@ foreach (MixHyperlinks::orderedModules($this->options) as $module) {
     $cards = [];
     foreach ($module['items'] as $item) {
         if (trim($item['title']) !== '' && trim($item['url']) !== '' && MixHyperlinks::validUrl($item['url'])) {
-            $cards[] = ['name' => $item['title'], 'link' => $item['url'], 'description' => $item['description']];
+            $cards[] = ['name' => $item['title'], 'link' => $item['url'], 'description' => $item['description'], 'image' => $item['image'] ?? ''];
         }
     }
     if ($cards) {
@@ -20,7 +20,7 @@ foreach (MixHyperlinks::orderedModules($this->options) as $module) {
      style="opacity: 1; transform: translate(0px, 0px);animation: <?php $this->options->IndexAction(); ?>;">
     <div class="assets news-head">
         <h3 class="assets title"
-            style="background-color: rgb(<?php echo mt_rand(50, 255); ?>, <?php echo mt_rand(50, 255); ?>, <?php echo mt_rand(50, 255); ?>);">
+            style="background-color: <?php echo mixHomeModuleColor('module:' . $module['title']); ?>;">
             <svg aria-hidden="true"
                  focusable="false" data-prefix="fas" data-icon="heart"
                  class="svg-inline--fa fa-heart fa-w-16 SectionNews_icon__w_rh8" role="img"
@@ -42,7 +42,7 @@ foreach (MixHyperlinks::orderedModules($this->options) as $module) {
                             <div>
                                 <div style="position: relative; max-width: 100%; margin: auto;">
                                     <div class="lazyload-image">
-                                        <img src="<?php echo htmlspecialchars(rand_thumb($GLOBALS['assetURL']), ENT_QUOTES, 'UTF-8'); ?>" alt="photo"/>
+                                        <img src="<?php echo htmlspecialchars(MixPostPreview::linkedCover($card['link'], $card['image'], $GLOBALS['assetURL']), ENT_QUOTES, 'UTF-8'); ?>" alt="" loading="lazy" decoding="async"/>
                                     </div>
                                     <div class="placeholder-image hide"
                                          style="max-width: 100%; position: absolute; filter: brightness(1.3); z-index: -1;"></div>

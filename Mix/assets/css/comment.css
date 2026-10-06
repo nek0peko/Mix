@@ -269,7 +269,24 @@ article.mix-comment-section {
     margin-left: auto;
 }
 .mix-comment-section .comment_reply .fa-reply::before {
-    margin-right: 6px;
+    margin-right: 0;
+}
+.mix-comment-section .comment_reply {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+}
+.mix-comment-section .submit button,
+#comment-form .submit button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+#comment-form .submit button .fa {
+    margin-right: 0;
+}
+#comment-form[hidden] {
+    display: none;
 }
 .mix-comment-section .reply_form .submit {
     display: flex;

@@ -9,50 +9,9 @@
         editor.dataset.initialized = 'true';
 
         var list = editor.querySelector('.mix-hyperlink-modules');
-        var nextId = 0;
-
-        function button(text, className) {
-            var element = document.createElement('button');
-            element.type = 'button';
-            element.className = 'mdui-btn ' + className;
-            var symbols = {'mix-add-link': '+', 'mix-delete-link': '-', 'mix-move-module-up': '↑', 'mix-move-module-down': '↓', 'mix-move-link-up': '↑', 'mix-move-link-down': '↓'};
-            element.textContent = symbols[className] || text;
-            if (symbols[className]) {
-                var paths = {'+': 'M12 5v14M5 12h14', '-': 'M5 12h14', '↑': 'm6 14 6-6 6 6', '↓': 'm6 10 6 6 6-6'};
-                var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                svg.setAttribute('viewBox', '0 0 24 24');
-                svg.setAttribute('aria-hidden', 'true');
-                svg.setAttribute('focusable', 'false');
-                var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                path.setAttribute('d', paths[symbols[className]]);
-                svg.appendChild(path);
-                element.textContent = '';
-                element.appendChild(svg);
-            }
-            if (symbols[className]) {
-                element.classList.add('mix-link-step-button');
-                element.setAttribute('aria-label', text);
-                element.title = text;
-            }
-            return element;
-        }
-
-        function field(title, key, value, placeholder) {
-            var label = document.createElement('label');
-            label.className = 'mix-hyperlink-field';
-            var caption = document.createElement('span');
-            caption.textContent = title;
-            var input = document.createElement('input');
-            input.type = 'text';
-            input.id = 'mix-hyperlink-field-' + (++nextId);
-            input.dataset.field = key;
-            input.value = value || '';
-            input.placeholder = placeholder || '';
-            label.htmlFor = input.id;
-            label.appendChild(caption);
-            label.appendChild(input);
-            return label;
-        }
+        var button = window.MixSettingControls.button;
+        var field = window.MixSettingControls.field;
+        var moveRow = window.MixSettingControls.moveRow;
 
         var friendsCard = form.querySelector('#mix-friends-module');
         var friendsPosition = form.querySelector('input[name="FriendsModulePosition"]');
@@ -93,6 +52,7 @@
             fields.appendChild(field('标题', 'title', item.title, '留空不展示'));
             fields.appendChild(field('链接', 'url', item.url, 'https:// 或站内地址，留空不展示'));
             fields.appendChild(field('介绍', 'description', item.description, '可留空'));
+            fields.appendChild(field('封面图片', 'image', item.image || '', '图片地址，留空取站内内容首图或随机图'));
             row.appendChild(fields);
             module.querySelector('.mix-hyperlink-items').appendChild(row);
             return row;
@@ -134,28 +94,6 @@
             else list.appendChild(section);
             (module.items || []).forEach(function (item) { addItem(section, item); });
             return section;
-        }
-
-        function moveRow(row, upward) {
-            var parent = row.parentElement;
-            var neighbor = upward ? row.previousElementSibling : row.nextElementSibling;
-            if (!neighbor) return;
-            var elements = Array.prototype.slice.call(parent.children);
-            elements.forEach(function (element) {
-                if (element._mixMoveAnimation) element._mixMoveAnimation.cancel();
-            });
-            var positions = elements.map(function (element) { return element.getBoundingClientRect().top; });
-            if (upward) parent.insertBefore(row, neighbor);
-            else parent.insertBefore(neighbor, row);
-            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-            elements.forEach(function (element, index) {
-                var distance = positions[index] - element.getBoundingClientRect().top;
-                if (!distance || !element.animate) return;
-                element._mixMoveAnimation = element.animate([
-                    {transform: 'translateY(' + distance + 'px)'},
-                    {transform: 'translateY(0)'}
-                ], {duration: 240, easing: 'cubic-bezier(0.2, 0, 0, 1)'});
-            });
         }
 
         var pendingSync = null;

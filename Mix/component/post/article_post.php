@@ -8,10 +8,7 @@
         <div>
             <div class="texty mask-bottom">
                 <!-- <span id="title" style="display: none;"><?php $this->title() ?></span> -->
-                <span id="post_title" style="opacity: 1; transform: translate(0px, 0%);"><?php $this->title() ?></span>&nbsp;&nbsp;<small
-                        style="font-size: 30%">[<a href="javascript:FontZoom(20)">大</a> <a
-                            href="javascript:FontZoom(16)">中</a> <a href="javascript:FontZoom(12)">小</a>]
-                </small>
+                <span id="post_title" style="opacity: 1; transform: translate(0px, 0%);"><?php $this->title() ?></span>&nbsp;&nbsp;<?php include __DIR__ . '/font-controls.php'; ?>
 
             </div>
         </div>

@@ -13,7 +13,7 @@ class AdminSetting
         $settingsVersions = [];
         foreach ([
             'css/admin/settings.scoped.css', 'css/admin/settings.polish.css',
-            'js/admin/mdui.min.js', 'js/admin/settings.actions.js',
+            'js/admin/mdui.min.js', 'js/admin/settings.actions.js', 'js/admin/settings.controls.js',
             'js/admin/settings.hyperlinks.js', 'js/admin/settings.icons.js',
             'js/admin/settings.navigation.js', 'js/admin/settings.validation.js'
         ] as $asset) {
@@ -30,6 +30,7 @@ class AdminSetting
             <link rel="stylesheet" href="{$themeUrl}assets/css/admin/settings.polish.css?v={$settingsVersions['settings.polish.css']}" type="text/css" />
             <script src="{$themeUrl}assets/js/admin/mdui.min.js?v={$settingsVersions['mdui.min.js']}" defer></script>
             <script src="{$themeUrl}assets/js/admin/settings.actions.js?v={$settingsVersions['settings.actions.js']}" defer></script>
+            <script src="{$themeUrl}assets/js/admin/settings.controls.js?v={$settingsVersions['settings.controls.js']}" defer></script>
             <script src="{$themeUrl}assets/js/admin/settings.hyperlinks.js?v={$settingsVersions['settings.hyperlinks.js']}" defer></script>
             <script src="{$themeUrl}assets/js/admin/settings.icons.js?v={$settingsVersions['settings.icons.js']}" defer></script>
             <script src="{$themeUrl}assets/js/admin/settings.navigation.js?v={$settingsVersions['settings.navigation.js']}" defer></script>

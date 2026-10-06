@@ -26,10 +26,7 @@ $this->need('component/headnav.php');
             </div>
 
             <div class="wrapper-inner">
-                <form id="search" method="post" action="<?php $this->options->siteUrl(); ?>" role="search">
-                    <input type="text" class="main-search" id="s" name="s"
-                           placeholder="<?php _e('输入关键词按下回车再召唤一个吧~'); ?>"/>
-                </form>
+                <?php $mixSearchForm = ['class' => '', 'id' => 'search', 'method' => 'post', 'inputType' => 'text', 'inputClass' => 'main-search', 'placeholder' => '输入关键词按下回车再召唤一个吧~', 'button' => false, 'required' => false]; include __DIR__ . '/component/search-form.php'; ?>
             </div>
 
             <div class="wrapper-inner-1">

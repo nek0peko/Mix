@@ -14,6 +14,7 @@
     var requestId = 0;
     var stopped = false;
     var count = null;
+    var today = null;
     var suffix = / · \d+ 人在线$/;
 
     function marker() { return document.querySelector('[data-mix-online]'); }
@@ -22,13 +23,19 @@
         count = value;
         var element = marker();
         if (element) {
-            element.hidden = value === null;
+            element.hidden = element.dataset.display === '0' || value === null;
             element.dataset.count = value === null ? '' : String(value);
             var number = element.querySelector('[data-mix-online-count]');
             if (number) number.textContent = value === null ? '' : String(value);
         }
+        var daily = document.querySelector('[data-mix-today]');
+        if (daily) {
+            daily.hidden = !element || element.dataset.display === '0' || today === null;
+            daily.dataset.count = today === null ? '' : String(today);
+            daily.querySelector('[data-mix-today-count]').textContent = today === null ? '' : String(today);
+        }
         var title = document.title.replace(suffix, '');
-        document.title = title + (value === null ? '' : ' · ' + value + ' 人在线');
+        document.title = title + (value === null || !element || element.dataset.display === '0' ? '' : ' · ' + value + ' 人在线');
     }
 
     function canRefresh() {
@@ -78,10 +85,13 @@
             if (result.enabled !== true || !Number.isInteger(result.count) || result.count < 0) {
                 throw new Error('Invalid online count');
             }
+            if (typeof result.display === 'boolean') element.dataset.display = result.display ? '1' : '0';
+            today = Number.isInteger(result.today_uv) && result.today_uv >= 0 ? result.today_uv : null;
             display(result.count);
             retryDelay = interval;
         }).catch(function () {
             if (currentId !== requestId) return;
+            today = null;
             display(null);
             retryDelay = Math.min(retryDelay * 2, 60000);
         }).then(function () {
@@ -113,7 +123,11 @@
 
     var initial = marker();
     if (initial && /^\d+$/.test(initial.dataset.count)) count = Number(initial.dataset.count);
-    window.MixOnlinePresence = {refresh: refresh};
+    var initialDaily = document.querySelector('[data-mix-today]');
+    if (initialDaily && /^\d+$/.test(initialDaily.dataset.count)) today = Number(initialDaily.dataset.count);
+    window.MixOnlinePresence = {refresh: refresh, setToday: function (value) {
+        if (Number.isInteger(value) && value >= 0) { today = value; display(count); }
+    }};
     document.addEventListener('visibilitychange', refresh);
     document.addEventListener('pjax:complete', refresh);
     // jQuery Pjax uses its own event system rather than native DOM events.

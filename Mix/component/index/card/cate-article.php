@@ -11,7 +11,7 @@
         <div class="assets news-item" style="opacity: 1; transform: translate(0px, 0px);">
             <div class="assets news-head"><!--源：rgb(59, 14,163)-->
                 <h3 class="assets title"
-                    style="background-color: rgb(<?php echo mt_rand(5, 255); ?>, <?php echo mt_rand(5, 255); ?>, <?php echo mt_rand(5, 255); ?>);">
+                    style="background-color: <?php echo mixHomeModuleColor('category:' . $categories->mid); ?>;">
                     <svg aria-hidden="true"
                          focusable="false" data-prefix="fas" data-icon="book-open"
                          class="svg-inline--fa fa-book-open fa-w-18 SectionNews_icon__w_rh8" role="img"
@@ -21,7 +21,7 @@
                         </path>
                     </svg><?php $categories->name(); ?></h3>
                 <h3 class="assets more"
-                    style="background-color: rgb(<?php echo mt_rand(50, 255); ?>, <?php echo mt_rand(50, 255); ?>, <?php echo mt_rand(50, 255); ?>);">
+                    style="background-color: <?php echo mixHomeModuleColor('category:' . $categories->mid); ?>;">
                     <a class="assets"
                        href="<?php echo htmlspecialchars($categories->permalink, ENT_QUOTES, 'UTF-8'); ?>" rel="noopener">
                         <svg aria-hidden="true" focusable="false" data-prefix="fas"
