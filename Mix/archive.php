@@ -2,7 +2,10 @@
 <?php require_once 'libs/libs.php';
 $mixCategory = $this->is('category');
 $mixTag = $this->is('tag');
-$mixCardArchive = $mixCategory || $mixTag;
+$mixSearch = $this->is('search');
+$mixCardArchive = $mixCategory || $mixTag || $mixSearch;
+$mixSearchKeywords = $mixSearch ? (string) $this->getArchiveTitle() : '';
+$mixArchiveLabel = $mixSearch ? '搜索结果' : ($mixCategory ? '分类文章' : '标签文章');
 $mixTagColor = $mixTag ? (int) ($this->getPageRow()['mid'] ?? 0) % 6 : 0;
 $num = 0;
 ?>
@@ -19,7 +22,7 @@ $this->need('component/headnav.php');
 ?>
 
 <div id="main_load">
-    <main class="is-article<?php echo $mixCardArchive ? ' mix-category' : ''; ?>" id="article-wrap">
+    <main class="is-article<?php echo $mixCardArchive ? ' mix-category' : ''; ?><?php echo $mixSearch ? ' mix-search' : ''; ?>" id="article-wrap">
         <?php
         if ($this->options->sideBarStyle == 2) {
             $this->need('component/sidebar.php');
@@ -28,7 +31,7 @@ $this->need('component/headnav.php');
         <section class="post-title">
             <h1>
                 <div class="texty mask-bottom" style="opacity: 1;">
-                        <span style="opacity: 1; transform: translate(0px, 0%);"><?php if ($mixTag): ?><span class="mix-tag-title-mark mix-category-tag--<?php echo $mixTagColor; ?>" aria-hidden="true">#</span><span class="mix-tag-title-name mix-category-tag--<?php echo $mixTagColor; ?>"><?php echo MixPostPreview::escapeText((string) $this->getArchiveTitle()); ?></span> 标签下的文章<?php else: ?><?php $this->archiveTitle(array(
+                        <span style="opacity: 1; transform: translate(0px, 0%);"><?php if ($mixSearch): ?>“<?php echo htmlspecialchars($mixSearchKeywords, ENT_QUOTES, 'UTF-8'); ?>”的搜索结果<?php elseif ($mixTag): ?><span class="mix-tag-title-mark mix-category-tag--<?php echo $mixTagColor; ?>" aria-hidden="true">#</span><span class="mix-tag-title-name mix-category-tag--<?php echo $mixTagColor; ?>"><?php echo MixPostPreview::escapeText((string) $this->getArchiveTitle()); ?></span> 标签下的文章<?php else: ?><?php $this->archiveTitle(array(
                                 'category' => _t('- %s'),
                                 'search' => _t('- 包含关键字“%s”的文章'),
                                 'tag' => _t('- %s 标签下的文章'),
@@ -39,6 +42,12 @@ $this->need('component/headnav.php');
                         <?php endif; ?>
                 </div>
             </h1>
+            <?php if ($mixSearch): ?>
+            <form class="mix-search-form" method="get" action="<?php echo htmlspecialchars((string) $this->options->index, ENT_QUOTES, 'UTF-8'); ?>" role="search">
+                <input type="search" name="s" value="<?php echo htmlspecialchars($mixSearchKeywords, ENT_QUOTES, 'UTF-8'); ?>" placeholder="输入关键词搜索文章" aria-label="搜索关键词" required>
+                <button type="submit">搜索</button>
+            </form>
+            <?php else: ?>
             <h2>
                 <div class="texty mask-bottom" style="opacity: 1;">
                     <span style="opacity: 1; transform: translate(0px, 0%);"><?php
@@ -46,9 +55,10 @@ $this->need('component/headnav.php');
                     </span>
                 </div>
             </h2>
+            <?php endif; ?>
         </section>
         <?php if ($mixCardArchive): ?>
-        <section class="mix-category-list" aria-label="<?php echo $mixCategory ? '分类文章' : '标签文章'; ?>">
+        <section class="mix-category-list" aria-label="<?php echo $mixArchiveLabel; ?>">
             <?php $mixHasPosts = false; ?>
             <?php while ($this->next()): ?>
                 <?php
@@ -65,7 +75,7 @@ $this->need('component/headnav.php');
                     <?php endif; ?>
                     <div class="mix-category-copy">
                         <div class="mix-category-heading">
-                            <h2 class="mix-category-title"><a href="<?php $this->permalink(); ?>"><?php echo MixPostPreview::escapeText((string) $this->title); ?></a></h2>
+                            <h2 class="mix-category-title"><a href="<?php $this->permalink(); ?>"><?php echo $mixSearch ? MixPostPreview::highlightText((string) $this->title, $mixSearchKeywords) : MixPostPreview::escapeText((string) $this->title); ?></a></h2>
                             <?php if ($mixPrivate): ?>
                             <span class="mix-category-visibility" tabindex="0" role="img" aria-label="私密文章">
                                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 5.3A10.8 10.8 0 0 1 12 5c6 0 10 7 10 7a18.5 18.5 0 0 1-3.1 3.8M6.5 6.5A18.6 18.6 0 0 0 2 12s4 7 10 7a10.6 10.6 0 0 0 5.5-1.5"/></svg>
@@ -78,7 +88,7 @@ $this->need('component/headnav.php');
                             <?php endif; ?>
                         </div>
                         <?php if ($preview['summary'] !== ''): ?>
-                        <p class="mix-category-summary"><?php echo htmlspecialchars($preview['summary'], ENT_QUOTES, 'UTF-8'); ?></p>
+                        <p class="mix-category-summary"><?php echo $mixSearch ? MixPostPreview::highlightText($preview['summary'], $mixSearchKeywords, false) : htmlspecialchars($preview['summary'], ENT_QUOTES, 'UTF-8'); ?></p>
                         <?php endif; ?>
                         <div class="mix-category-meta">
                             <time class="mix-category-date" datetime="<?php $this->date('c'); ?>"><?php $this->date('Y-m-d'); ?></time>
@@ -94,7 +104,7 @@ $this->need('component/headnav.php');
                     </div>
                 </article>
             <?php endwhile; ?>
-            <?php if (!$mixHasPosts): ?><p class="mix-category-empty"><?php echo $mixCategory ? '这个分类下还没有文章' : '这个标签下还没有文章'; ?></p><?php endif; ?>
+            <?php if (!$mixHasPosts): ?><p class="mix-category-empty"><?php echo $mixSearch ? '没有找到相关文章，试试其他关键词' : ($mixCategory ? '这个分类下还没有文章' : '这个标签下还没有文章'); ?></p><?php endif; ?>
         </section>
         <?php else: ?>
         <article class="post-content paul-note" style="opacity: 1;">

@@ -1,4 +1,4 @@
-<div class="news-item" style="opacity: 1; transform: translate(0px, 0px);">
+<div class="news-item" style="opacity: 1; transform: translate(0px, 0px); animation: <?php $this->options->IndexAction(); ?>;">
     <div class="news-head">
         <h3 class="title" style="background-color: rgb(19, 142, 8);">
             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="users"

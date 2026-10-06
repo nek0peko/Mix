@@ -28,6 +28,19 @@ function mixEnabledComponents($options): array
     return $components;
 }
 
+function mixCategoryHasPosts($archive, $mid): bool
+{
+    // Reuse the same archive as the homepage, including Typecho's visibility rules.
+    $archive->widget('Widget_Archive@category-' . (int) $mid, 'order=order&pageSize=4&type=category', 'mid=' . (int) $mid)->to($posts);
+    return $posts->have();
+}
+
+function mixNavigationSearchEnabled($options): bool
+{
+    return $options->NavSearchEnabled === null
+        || (is_array($options->NavSearchEnabled) && in_array('enabled', $options->NavSearchEnabled, true));
+}
+
 function mixFriendsEnabled($options): bool
 {
     // Existing installations keep their friend links enabled until explicitly disabled.
@@ -141,7 +154,13 @@ function online_users(): ?int
     $now = $_SERVER['REQUEST_TIME'] ?? time();
     $uid = $_COOKIE['Mix_OnLineCount'] ?? '';
     if (!is_string($uid) || !preg_match('/^[a-zA-Z0-9]{1,64}$/D', $uid)) {
-        $uid = bin2hex(random_bytes(16));
+        try {
+            $uid = bin2hex(random_bytes(16));
+        } catch (Throwable $error) {
+            @flock($handle, LOCK_UN);
+            fclose($handle);
+            return $unavailable('无法生成访客标识');
+        }
         if (!headers_sent()) {
             setcookie('Mix_OnLineCount', $uid, 0, '/', '', !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', true);
         }
@@ -151,7 +170,7 @@ function online_users(): ?int
         $row = explode('|', trim($line));
         if (count($row) === 2 && preg_match('/^[a-zA-Z0-9]{1,64}$/D', $row[0]) && ctype_digit($row[1])) {
             $seen = (int) $row[1];
-            if ($seen <= $now && $now - $seen <= 30) $visitors[$row[0]] = $seen;
+            if ($seen <= $now && $now - $seen <= 90) $visitors[$row[0]] = $seen;
         }
     }
     $visitors[$uid] = $now;
@@ -183,50 +202,47 @@ function createCatalog($obj)
 
 function getCatalog()
 {
-    //输出文章目录容器
     global $catalog;
-    $index = '';
-    if ($catalog) {
-        $index = '<div>' . "\n";
-        $prev_depth = '';
-        $to_depth = 0;
-        foreach ($catalog as $catalog_item) {
-            $catalog_depth = $catalog_item['depth'];
-            if ($prev_depth) {
-                if ($catalog_depth == $prev_depth) {
-                    $index .= '</a>' . "\n";
-                } elseif ($catalog_depth > $prev_depth) {
-                    $to_depth++;
-                    $index .= '<div>' . "\n";
-                } else {
-                    $to_depth2 = ($to_depth > ($prev_depth - $catalog_depth)) ? ($prev_depth - $catalog_depth) : $to_depth;
-                    if ($to_depth2) {
-                        for ($i = 0; $i < $to_depth2; $i++) {
-                            $index .= '</div>' . "\n";
-                            $to_depth--;
-                        }
-                    }
-                    $index .= '</a>' . "\n";
-                }
-            }
-            $index .= '<a data-scroll="true" href="#cl-' . $catalog_item['count'] . '" data-index="0" class="Toc_toc-link__1Yat3" data-depth="2" style="opacity: 1; transform: translate(0px, 0px);" ><span class="Toc_a-pointer__3AN3u">' . $catalog_item['text'] . '</span>';
-            $prev_depth = $catalog_item['depth'];
-        }
-        for ($i = 0; $i < $to_depth; $i++) {
-            $index .= '</div>' . "\n";
-        }
-        $index .= '</a>' . "\n";
-        $index = '<div class="container Toc_container__100rU" style="max-width: 184.5px;">' .
-            '<div class="Toc_anime-wrapper__1l8Kz">' . "\n" .
-            $index .
-            '</div>' . "\n" .
-            '</div>';
+    if (!$catalog) return;
+    $baseDepth = min(array_column($catalog, 'depth'));
+    echo '<nav class="container Toc_container__100rU mix-toc" aria-label="文章目录"><div class="Toc_anime-wrapper__1l8Kz">';
+    foreach ($catalog as $index => $item) {
+        $depth = (int) $item['depth'];
+        $text = htmlspecialchars(html_entity_decode($item['text'], ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8');
+        echo '<a href="#cl-' . (int) $item['count'] . '" data-index="' . $index . '" data-depth="' . $depth . '" class="Toc_toc-link__1Yat3 mix-toc-link" style="--mix-toc-indent:' . (($depth - $baseDepth) * 12) . 'px"><span class="Toc_a-pointer__3AN3u">' . $text . '</span></a>';
     }
-    echo $index;
+    echo '</div></nav>';
+}
+
+function mixOnlineHeartbeat($options): void
+{
+    header('Content-Type: application/json; charset=UTF-8');
+    header('Cache-Control: no-store, max-age=0');
+    header('Pragma: no-cache');
+    // A custom header keeps cross-origin forms from creating visitor heartbeats.
+    if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+        http_response_code(405);
+        header('Allow: POST');
+        echo json_encode(['enabled' => false, 'count' => null]);
+        exit;
+    }
+    if (($_SERVER['HTTP_X_MIX_ONLINE'] ?? '') !== '1') {
+        http_response_code(400);
+        echo json_encode(['enabled' => false, 'count' => null]);
+        exit;
+    }
+    $enabled = in_array('ShowAly', mixEnabledComponents($options), true);
+    $count = $enabled ? online_users() : null;
+    if ($enabled && $count === null) http_response_code(503);
+    echo json_encode(['enabled' => $enabled, 'count' => $count]);
+    exit;
 }
 
 function themeInit($archive)
 {
+    if (isset($_GET['mix_online']) && $_GET['mix_online'] === '1') {
+        mixOnlineHeartbeat(Helper::options());
+    }
     if ($archive->is('single')) {
         $archive->content = createCatalog($archive->content);
     }

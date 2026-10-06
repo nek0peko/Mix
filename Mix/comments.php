@@ -54,7 +54,7 @@ function threadedComments($comments, $options)
 
 
 <?php $this->comments()->to($comments); ?>
-<article class="comment-list">
+<article class="comment-list mix-comment-section">
     <h1><?php $this->commentsNum(_t('暂无评论'), _t('仅有一条评论'), _t('已有 %d 条评论')); ?></h1>
     <!-- 回复评论框 -->
 
@@ -161,6 +161,15 @@ function threadedComments($comments, $options)
         comment_init()
         ajax_init()
 
+        function clearSubmittedComment(form, text) {
+            const field = form.querySelector('[name="text"]')
+            if (field.value === text) field.value = ''
+            // A successful reply may replace its form together with the comment list.
+            const currentForm = document.querySelector(form.classList.contains('reply_form') ? '.reply_form' : '#comment-form')
+            const currentField = currentForm && currentForm.querySelector('[name="text"]')
+            if (currentField && currentField !== field) currentField.value = field.value
+        }
+
         // ajax 提交
         function post_by_ajax(e, sel, reply = false) {
             const isComment = document.querySelector('.post-form.is-comment')
@@ -202,6 +211,7 @@ function threadedComments($comments, $options)
                                 color: 'green',
                                 time: 1000
                             }), (reply ? false : window.scrollSmoothTo(document.body.scrollHeight || document.documentElement.scrollHeight)))
+                            clearSubmittedComment(commentForm, text)
                             comment_init()
                             ajax_init()
                         } catch (e) {
@@ -254,6 +264,7 @@ function threadedComments($comments, $options)
                                 color: 'green',
                                 time: 1000
                             }), (reply ? false : window.scrollSmoothTo(document.body.scrollHeight || document.documentElement.scrollHeight)))
+                            clearSubmittedComment(commentForm, text)
                             comment_init()
                             ajax_init()
                         } catch (e) {

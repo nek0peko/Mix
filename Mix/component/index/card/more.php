@@ -35,7 +35,7 @@ foreach (MixHyperlinks::orderedModules($this->options) as $module) {
     <div class="assets news-body">
         <div class="assets row s">
             <?php foreach ($module['cards'] as $card): ?>
-            <div class="col-6 col-m-3" style="margin-top: 2rem;">
+            <div class="col-6 col-m-3">
                 <a class="SectionNews_news-article__3ttyR" href="<?php echo htmlspecialchars($card['link'], ENT_QUOTES, 'UTF-8'); ?>" rel="noopener">
                     <div class="SectionNews_card-container__1nays">
                         <div class="SectionNews_card-cover-wrap__1DHPb">
