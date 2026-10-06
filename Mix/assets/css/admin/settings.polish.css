@@ -145,6 +145,10 @@
     grid-template-columns: 1fr 1fr;
 }
 
+#mix-theme-settings .mix-hyperlink-item .mix-hyperlink-fields > :last-child:nth-child(4) {
+    grid-column: 1 / -1;
+}
+
 #mix-theme-settings .mix-hyperlink-field {
     display: block;
     min-width: 0;
@@ -566,15 +570,22 @@
     }
 }
 
+/* Keep module switches compact and use the same spacing for each checkbox. */
+#mix-theme-settings .mix-module-toggle,
+#mix-theme-settings .mix-navigation-enabled,
 #mix-theme-settings .mix-navigation-target {
     height: 28px;
-    padding-left: 24px;
-    margin-top: 8px;
-    margin-right: 12px;
+    min-height: 28px;
+    margin: 0;
+    padding: 0 0 0 22px;
     font-size: 13px;
+    font-weight: 400;
     line-height: 28px;
+    white-space: nowrap;
 }
 
+#mix-theme-settings .mix-module-toggle .mdui-checkbox-icon,
+#mix-theme-settings .mix-navigation-enabled .mdui-checkbox-icon,
 #mix-theme-settings .mix-navigation-target .mdui-checkbox-icon {
     top: 5px;
     transform: scale(.777778);
@@ -676,4 +687,34 @@
 #mix-theme-settings .mix-hyperlink-editor > .mix-add-navigation,
 #mix-theme-settings .mix-hyperlink-editor > .mix-add-module {
     margin-top: 12px;
+}
+
+#mix-theme-settings .mix-navigation-builtin {
+    background: rgba(118, 181, 185, .07);
+}
+#mix-theme-settings .mix-navigation-item > .mix-hyperlink-item-heading {
+    flex-wrap: wrap;
+    align-items: center;
+}
+#mix-theme-settings .mix-navigation-options {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+}
+#mix-theme-settings .mix-navigation-item .mix-link-actions { margin-left: auto; }
+#mix-theme-settings .mix-navigation-builtin {
+    padding: 8px 12px;
+}
+#mix-theme-settings .mix-navigation-builtin > .mix-hyperlink-item-heading {
+    min-height: 32px;
+    margin-bottom: 0;
+}
+#mix-theme-settings .mix-navigation-builtin .mix-builtin-badge {
+    height: 24px;
+    align-self: center;
+}
+#mix-theme-settings .mix-navigation-builtin[hidden] { display: none; }
+#mix-theme-settings .mix-hyperlink-module-heading > .mix-module-toggle {
+    margin-bottom: 4px;
 }

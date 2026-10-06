@@ -68,6 +68,7 @@ $this->need('component/headnav.php');
         <p class="mix-friends-empty">还没有添加友链</p>
         <?php endif; ?>
         <?php if (in_array('ShowComment', mixEnabledComponents($this->options), true)) $this->need('comments.php'); ?>
+        <?php $this->need('component/post/article-actions.php'); ?>
     </main>
 </div>
 <?php $this->need('footer.php'); ?>

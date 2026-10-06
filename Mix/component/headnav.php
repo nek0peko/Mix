@@ -111,73 +111,7 @@
             </div>
         </nav>
         <nav class="assets head-menu Header_head-menu__ofiV5" id="Header_head-menu__ofiV5">
-            <div class="has-child"><a href="<?php Helper::options()->siteUrl() ?>"><i
-                            class="fa fa-dot-circle"></i><span>主页</span></a>
-                <div class="sub-menu">
-                    <?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
-                    <?php while ($pages->next()): ?>
-                        <a href="<?php $pages->permalink(); ?>"><span><?php $pages->title(); ?></span></a>
-                    <?php endwhile; ?>
-                </div>
-            </div>
-            <div class="has-child"><a href="#"><i class="fa fa-book"></i><span>文章</span></a>
-                <?php $this->widget('Widget_Metas_Category_List')->to($category); ?>
-                <?php if ($category->have()): ?>
-                <div class="sub-menu">
-                    <?php while ($category->next()): ?>
-                        <?php if (!mixCategoryHasPosts($this, $category->mid)) continue; ?>
-                        <a href="<?php $category->permalink(); ?>"><span><?php $category->name(); ?></span></a>
-                    <?php endwhile; ?>
-                </div>
-                <?php endif; ?>
-            </div>
-            <?php $mixSearchDrawer = false; include __DIR__ . '/navigation-search.php'; ?>
-            <!--            <div class="menu-link"><a href="#"><i class="fa fa-feather-alt"></i><span>记</span></a></div>-->
-            <!--            <div class="menu-link"><a href="#"><i class="fa fa-comments"></i><span>言</span></a></div>-->
-            <!--            <div class="has-child"><a href="#"><i class="fa fa-history"></i><span>览</span></a>-->
-            <!--                <div class="sub-menu">-->
-            <!--                    <a href="#"><i class="fa fa-feather-alt"></i><span>生活</span></a>-->
-            <!--                    <a href="#"><i class="fa fa-book-open"></i><span>博文</span></a>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <?php if (Admin_Helper::isPluginAvailable('Links_Plugin', 'Links') && trim((string) $this->options->FriendURL) !== '' && MixHyperlinks::validUrl((string) $this->options->FriendURL)): ?>
-            <div class="menu-link"><a href="<?php echo htmlspecialchars(trim((string) $this->options->FriendURL), ENT_QUOTES, 'UTF-8'); ?>"><i
-                            class="fa fa-users"></i><span>友链</span></a></div>
-            <?php endif; ?>
-            <?php
-            $hideHomeItem = false;
-            if (!empty(Typecho_Widget::widget('Widget_Options')->headnavItems)) {
-                $headnavItems = MixNavigation::items(Typecho_Widget::widget('Widget_Options')->headnavItems);
-                $headnavItemsOutput = "";
-                foreach ($headnavItems as $headnavItem) {
-
-                    @$itemName = $headnavItem->name;
-                    @$itemStatus = $headnavItem->status;
-
-                    @$itemSub = $headnavItem->sub;
-
-                    if ($itemName === 'home' && strtoupper($itemStatus) === 'HIDE') {
-                        $hideHomeItem = true;
-                        continue; // 本次循环结束，不再执行下面内容
-                    }
-
-                    $haveSub = false;
-                    $subListHtml = "";
-//                      print_r($itemSub);
-                    if (is_array($itemSub)) {
-                        $haveSub = true;
-                        $subListHtml .= '<div class="sub-menu">';
-                        foreach ($itemSub as $subItem) {
-                            $subListHtml .= Content::returnHeadItem($subItem, false, "", 'yes');
-                        }
-                        $subListHtml .= '</div>';
-                    }
-
-                    $headnavItemsOutput .= Content::returnHeadItem($headnavItem, $haveSub, $subListHtml);
-                }
-            }
-            ?>
-            <?php echo @$headnavItemsOutput; ?>
+<?php $mixNavigationDrawer = false; include __DIR__ . '/navigation-items.php'; ?>
         </nav>
     </div>
 </header>

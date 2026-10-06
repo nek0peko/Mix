@@ -50,6 +50,8 @@ require("libs/helper/PostPreview.php");
 require("libs/helper/RandomThumb.php");
 require("libs/helper/SocialIcons.php");
 require("libs/helper/Navigation.php");
+require("libs/helper/VisitorStats.php");
+require("libs/helper/ArticleLikes.php");
 
 /**
  * 主题参数设置应用类

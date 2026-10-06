@@ -8,9 +8,10 @@ class MixHyperlinks
             'title' => '了解更多',
             'enabled' => true,
             'items' => [[
-                'title' => '主题交流群',
+                'title' => '主题群',
                 'url' => 'https://qm.qq.com/q/72LJzXIEcE',
-                'description' => '欢迎加入 Mix 交流群喵~'
+                'description' => '欢迎加入 Mix 交流群喵~',
+                'image' => ''
             ]]
         ]];
     }
@@ -47,12 +48,18 @@ class MixHyperlinks
             foreach ($module['items'] as $item) {
                 if (!is_array($item) || !is_string($item['title'] ?? null)
                     || !is_string($item['url'] ?? null) || !is_string($item['description'] ?? null)
-                    || !self::validUrl($item['url'])) {
+                    || !self::validUrl($item['url'])
+                    || (array_key_exists('image', $item) && (!is_string($item['image']) || !self::validImageUrl($item['image'])))) {
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    public static function validImageUrl(string $url): bool
+    {
+        return trim($url) === '' || (trim($url)[0] !== '#' && self::validUrl($url));
     }
 
     public static function orderedModules($options): array

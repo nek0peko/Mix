@@ -103,7 +103,8 @@ article:not(.comment-list) li::before, .torTree li::before {
 .Toc_toc__1AtMD {
     position: absolute;
     top: 0;
-    right: -24px;
+    /* #write sits inside the reading container's 2rem side padding. */
+    right: -2rem;
     bottom: 0;
     width: var(--mix-aside-width, min(240px, calc((100vw - 860px) / 2 - 40px)));
     transform: translateX(100%);

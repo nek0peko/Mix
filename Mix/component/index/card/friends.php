@@ -1,6 +1,6 @@
 <div class="news-item" style="opacity: 1; transform: translate(0px, 0px); animation: <?php $this->options->IndexAction(); ?>;">
     <div class="news-head">
-        <h3 class="title" style="background-color: rgb(19, 142, 8);">
+        <h3 class="title" style="background-color: <?php echo mixHomeModuleColor('friends'); ?>;">
             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="users"
                  class="svg-inline--fa fa-users fa-w-20 SectionNews_icon__w_rh8" role="img"
                  xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 512">
@@ -10,7 +10,7 @@
             <?php echo htmlspecialchars(trim((string) $this->options->FriendsModuleTitle) !== '' ? $this->options->FriendsModuleTitle : '友情链接', ENT_QUOTES, 'UTF-8'); ?>
         </h3>
         <?php if (trim((string) $this->options->FriendURL) !== '' && MixHyperlinks::validUrl((string) $this->options->FriendURL)): ?>
-        <h3 class="more" style="background-color: rgb(19, 142, 8);"><a class=""
+        <h3 class="more" style="background-color: <?php echo mixHomeModuleColor('friends'); ?>;"><a class=""
                                                                        href="<?php echo htmlspecialchars(trim((string) $this->options->FriendURL), ENT_QUOTES, 'UTF-8'); ?>"
                                                                        rel="noopener">
                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right"

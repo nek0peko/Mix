@@ -37,8 +37,7 @@ function mixCategoryHasPosts($archive, $mid): bool
 
 function mixNavigationSearchEnabled($options): bool
 {
-    return $options->NavSearchEnabled === null
-        || (is_array($options->NavSearchEnabled) && in_array('enabled', $options->NavSearchEnabled, true));
+    return MixNavigation::enabled($options, 'search');
 }
 
 function mixFriendsEnabled($options): bool
@@ -53,11 +52,14 @@ function mixFriendsVisible($options): bool
         && ($options->FriendsModuleTitle === null || trim((string) $options->FriendsModuleTitle) !== '');
 }
 
-/**
- * getFirstImg 使用与分类页相同的封面提取逻辑
- * 若无可展示的图片，则使用随机图片
- * @author nek0peko
- */
+/** Stable, muted colors shared by each home module's heading and arrow. */
+function mixHomeModuleColor(string $key): string
+{
+    $colors = ['#537b82', '#a65f7b', '#637b9f', '#a66d5d'];
+    return $colors[(int) sprintf('%u', crc32($key)) % count($colors)];
+}
+
+/** Use the shared Markdown/HTML cover extractor, then a random thumbnail. */
 function getFirstImg($cid, $site_Url)
 {
     $db = Typecho_Db::get();
@@ -132,55 +134,15 @@ function parse_RSS($url, $site)
 /**
  * 实时人数显示
  */
-function online_users(): ?int
+function online_users(bool $heartbeat = false): ?int
 {
-    // Share successful counts and failures between the title and footer.
-    static $count = null;
     static $initialized = false;
-    if ($initialized) return $count;
-    $initialized = true;
-    $filename = __TYPECHO_ROOT_DIR__ . __TYPECHO_THEME_DIR__ . '/Mix/online.txt';
-    $unavailable = static function ($reason) use ($filename) {
-        error_log('[Mix] 在线人数统计不可用：' . $reason . '（' . $filename . '）');
-        return null;
-    };
-    if (!is_file($filename)) return $unavailable('文件不存在');
-    $handle = @fopen($filename, 'r+');
-    if (!$handle) return $unavailable('无法读写文件，请检查权限');
-    if (!@flock($handle, LOCK_EX | LOCK_NB)) {
-        fclose($handle);
-        return $unavailable('文件暂时被占用，已跳过统计');
+    static $count = null;
+    if (!$initialized) {
+        $initialized = true;
+        $count = MixVisitorStats::online($heartbeat);
     }
-    $now = $_SERVER['REQUEST_TIME'] ?? time();
-    $uid = $_COOKIE['Mix_OnLineCount'] ?? '';
-    if (!is_string($uid) || !preg_match('/^[a-zA-Z0-9]{1,64}$/D', $uid)) {
-        try {
-            $uid = bin2hex(random_bytes(16));
-        } catch (Throwable $error) {
-            @flock($handle, LOCK_UN);
-            fclose($handle);
-            return $unavailable('无法生成访客标识');
-        }
-        if (!headers_sent()) {
-            setcookie('Mix_OnLineCount', $uid, 0, '/', '', !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off', true);
-        }
-    }
-    $visitors = [];
-    while (($line = @fgets($handle)) !== false) {
-        $row = explode('|', trim($line));
-        if (count($row) === 2 && preg_match('/^[a-zA-Z0-9]{1,64}$/D', $row[0]) && ctype_digit($row[1])) {
-            $seen = (int) $row[1];
-            if ($seen <= $now && $now - $seen <= 90) $visitors[$row[0]] = $seen;
-        }
-    }
-    $visitors[$uid] = $now;
-    $contents = '';
-    foreach ($visitors as $visitor => $seen) $contents .= $visitor . '|' . $seen . "\n";
-    $written = @rewind($handle) && @ftruncate($handle, 0) && @fwrite($handle, $contents) === strlen($contents) && @fflush($handle);
-    @flock($handle, LOCK_UN);
-    fclose($handle);
-    if (!$written) return $unavailable('写入失败，已跳过统计');
-    return $count = count($visitors);
+    return $count;
 }
 
 function createCatalog($obj)
@@ -221,28 +183,44 @@ function mixOnlineHeartbeat($options): void
     header('Pragma: no-cache');
     // A custom header keeps cross-origin forms from creating visitor heartbeats.
     if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+        Typecho_Response::getInstance()->setStatus(405);
         http_response_code(405);
         header('Allow: POST');
         echo json_encode(['enabled' => false, 'count' => null]);
         exit;
     }
     if (($_SERVER['HTTP_X_MIX_ONLINE'] ?? '') !== '1') {
+        Typecho_Response::getInstance()->setStatus(400);
         http_response_code(400);
         echo json_encode(['enabled' => false, 'count' => null]);
         exit;
     }
-    $enabled = in_array('ShowAly', mixEnabledComponents($options), true);
-    $count = $enabled ? online_users() : null;
-    if ($enabled && $count === null) http_response_code(503);
-    echo json_encode(['enabled' => $enabled, 'count' => $count]);
+    $display = in_array('ShowAly', mixEnabledComponents($options), true);
+    $count = online_users(true);
+    if ($count === null) {
+        Typecho_Response::getInstance()->setStatus(503);
+        http_response_code(503);
+    }
+    echo json_encode(['enabled' => true, 'display' => $display, 'count' => $count, 'today_uv' => MixVisitorStats::today((int) $options->timezone)]);
     exit;
 }
 
 function themeInit($archive)
 {
+    if (isset($_GET['mix_stats']) && $_GET['mix_stats'] === '1') {
+        MixVisitorStats::handleSummary();
+    }
+    if (isset($_GET['mix_visit']) && $_GET['mix_visit'] === '1') {
+        MixVisitorStats::handle();
+    }
+    if (isset($_GET['mix_like']) && $_GET['mix_like'] === '1') {
+        MixArticleLikes::handle();
+    }
     if (isset($_GET['mix_online']) && $_GET['mix_online'] === '1') {
         mixOnlineHeartbeat(Helper::options());
     }
+    try { MixVisitorStats::visitor(); }
+    catch (Throwable $error) { error_log('[Mix] Visitor identity unavailable: ' . $error->getMessage()); }
     if ($archive->is('single')) {
         $archive->content = createCatalog($archive->content);
     }

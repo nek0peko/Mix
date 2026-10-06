@@ -43,10 +43,7 @@ $this->need('component/headnav.php');
                 </div>
             </h1>
             <?php if ($mixSearch): ?>
-            <form class="mix-search-form" method="get" action="<?php echo htmlspecialchars((string) $this->options->index, ENT_QUOTES, 'UTF-8'); ?>" role="search">
-                <input type="search" name="s" value="<?php echo htmlspecialchars($mixSearchKeywords, ENT_QUOTES, 'UTF-8'); ?>" placeholder="输入关键词搜索文章" aria-label="搜索关键词" required>
-                <button type="submit">搜索</button>
-            </form>
+            <?php $mixSearchForm = ['value' => $mixSearchKeywords, 'placeholder' => '输入关键词搜索文章', 'label' => '搜索关键词']; include __DIR__ . '/component/search-form.php'; ?>
             <?php else: ?>
             <h2>
                 <div class="texty mask-bottom" style="opacity: 1;">
