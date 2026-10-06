@@ -619,7 +619,7 @@
 }
 
 #mix-theme-settings .mix-checkbox-control > [id^="typecho-option-item-Show_what-"] {
-    padding-top: 8px;
+    padding-top: 0;
 }
 
 #mix-theme-settings .mix-module-actions {

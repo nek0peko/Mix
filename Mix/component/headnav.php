@@ -125,11 +125,13 @@
                 <?php if ($category->have()): ?>
                 <div class="sub-menu">
                     <?php while ($category->next()): ?>
+                        <?php if (!mixCategoryHasPosts($this, $category->mid)) continue; ?>
                         <a href="<?php $category->permalink(); ?>"><span><?php $category->name(); ?></span></a>
                     <?php endwhile; ?>
-                    <?php endif; ?>
                 </div>
+                <?php endif; ?>
             </div>
+            <?php $mixSearchDrawer = false; include __DIR__ . '/navigation-search.php'; ?>
             <!--            <div class="menu-link"><a href="#"><i class="fa fa-feather-alt"></i><span>记</span></a></div>-->
             <!--            <div class="menu-link"><a href="#"><i class="fa fa-comments"></i><span>言</span></a></div>-->
             <!--            <div class="has-child"><a href="#"><i class="fa fa-history"></i><span>览</span></a>-->

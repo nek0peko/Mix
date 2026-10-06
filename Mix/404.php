@@ -114,39 +114,49 @@ $this->need('component/headnav.php');
         width: 300px;
     }
 
-    .wrapper-inner-1 {
+    .mix-error-page .wrapper-inner-1 {
         display: flex;
         position: relative;
         align-items: center;
         flex-direction: column;
         margin-top: -46px;
-        /*width: 1440px;*/
-        height: 200px;
+        width: 100%;
+        max-width: 800px;
     }
 
-    .main-1 {
+    .mix-error-page .main-1 {
         display: flex;
         position: relative;
         align-items: flex-start;
         flex-direction: column;
         margin-top: 52px;
+        width: 100%;
     }
 
-    .tags {
+    .mix-error-page .view {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px 10px;
+        width: 100%;
+    }
+
+    .mix-error-page .tags {
         display: inline-block;
         min-width: 10px;
-        padding: 13px 27px;
+        padding: 10px 18px;
         font-size: 12px;
         font-weight: 700;
-        line-height: 1;
+        line-height: 1.5;
         color: #fff;
         text-align: center;
-        white-space: nowrap;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        max-width: 100%;
         vertical-align: middle;
         background-color: #777;
         border-radius: 10px;
-        margin-left: 10px;
-        margin-top: 3px;
+        margin: 0;
     }
 </style>
 

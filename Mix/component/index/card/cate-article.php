@@ -2,9 +2,10 @@
 <?php $this->widget('Widget_Metas_Category_List')->to($categories); ?>
 <?php while ($categories->next()): ?>
     <?php if (count($categories->children) === 0): ?>
-        <?php $this->widget('Widget_Archive@category-' . $categories->mid, 'order=order&pageSize=8&type=category', 'mid=' . $categories->mid)->to($posts); ?>
+        <?php $this->widget('Widget_Archive@category-' . $categories->mid, 'order=order&pageSize=4&type=category', 'mid=' . $categories->mid)->to($posts); ?>
+        <?php if (!$posts->have()) continue; ?>
 
-        <section class="paul-news" style="min-height:34rem; animation: <?php $this->options->IndexAction(); ?>;">
+        <section class="paul-news" style="animation: <?php $this->options->IndexAction(); ?>;">
         <div class="demo-content">
 
         <div class="assets news-item" style="opacity: 1; transform: translate(0px, 0px);">
@@ -83,5 +84,7 @@
                 </div>
             </div>
         </div>
+        </div>
+        </section>
     <?php endif; ?>
 <?php endwhile; ?>

@@ -4,7 +4,8 @@ $PostChoice = $this->fields->PostChoice;
 $this->need('component/headnav.php');
 if ($PostChoice == 0): ?>
     <div id="main_load">
-        <main class="is-article">
+        <main class="is-article mix-reading-page">
+            <?php $this->need('component/post/category-navigation.php'); ?>
             <?php
             if ($this->options->sideBarStyle == 2) {
                 $this->need('component/sidebar.php');
@@ -17,7 +18,8 @@ if ($PostChoice == 0): ?>
     </div>
 <?php elseif ($PostChoice == 1): ?>
     <div id="main_load">
-        <main class="is-article is-note post-content paul-note">
+        <main class="is-article is-note post-content paul-note mix-reading-page">
+            <?php $this->need('component/post/category-navigation.php'); ?>
             <?php $this->need('component/post/dairy_post.php'); ?>
             <?php
             if ($this->options->sideBarStyle == 2) {

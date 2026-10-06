@@ -26,7 +26,8 @@ if (window.MIX_CONFIG.SIDEBAR == 1) {
             document.getElementById('header').className = 'assets';
         }
     }
-    document.getElementById("Header_head-menu__ofiV5").onclick = function () {
+    document.getElementById("Header_head-menu__ofiV5").onclick = function (event) {
+        if (event.target.closest('.mix-nav-search')) return;
         name1 = document.getElementById("header").className;
         if (name1 != 'assets') {
             document.getElementById('header').className = 'assets';
@@ -46,7 +47,8 @@ if (window.MIX_CONFIG.SIDEBAR == 1) {
             // document.getElementById("overlay").className = 'display_yes display_none';
         }
     }
-    document.getElementById("headerr").onclick = function () {
+    document.getElementById("headerr").onclick = function (event) {
+        if (event.target.closest('.mix-nav-search-drawer')) return;
         if (document.getElementById("headerr").className == 'Header_drawer__iQn1p global-drawer Header_show__3R4Sq global-show') {
             document.getElementById('headerr').className = 'Header_drawer__iQn1p global-drawer';
             // document.getElementById("overlay").className = 'display_yes display_none'

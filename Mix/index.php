@@ -4,7 +4,7 @@
  *
  * @package Mix
  * @author Wibus & nek0peko
- * @version 2.2.1
+ * @version 2.3.0
  * @link https://nek0peko.com
  */
 
@@ -14,7 +14,7 @@ $this->need('component/headnav.php');
 ?>
 
     <div id="main_load">
-        <main>
+        <main class="mix-home">
 
             <?php
             if ($this->options->sideBarStyle == 2) {

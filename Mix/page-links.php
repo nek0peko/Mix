@@ -1,82 +1,73 @@
 <?php
-/*
- * @Name: page-links.php
- * @author: Wibus
- * @Date: 2021-03-15 22:51:31
- * @LastEditors: Wibus
- * @LastEditTime: 2021-04-03 10:44:55
- */
-
 /**
  * 友链页面
  *
  * @package custom
  */
-?>
+if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-<!--头部必要元素-->
-<?php $this->need('header.php'); ?>
-<script>
-    function getURL(url) {
-        $.ajax({
-            url: 'https://bird.ioliu.cn/v2/?url=' + url,
-            type: 'GET',
-            complete: function (response) {
-                if (response.status === 200) {
-                    alert('有效');
-                } else {
-                    alert('无效');
-                }
-            }
-        });
-    }
-</script>
-
-<?php
+$mixFriends = [];
+if (Admin_Helper::isPluginAvailable('Links_Plugin', 'Links')) {
+    $mixLinksDb = Typecho_Db::get();
+    $mixFriends = $mixLinksDb->fetchAll($mixLinksDb->select()->from('table.links')->order('order', Typecho_Db::SORT_ASC));
+    $mixFriends = array_values(array_filter($mixFriends, function ($friend) {
+        return trim((string) $friend['name']) !== '' && trim((string) $friend['url']) !== ''
+            && MixHyperlinks::validUrl(trim((string) $friend['url']));
+    }));
+}
+$mixFriendEscape = function ($value) { return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8'); };
+$mixCatAvatars = range(1, 10);
+shuffle($mixCatAvatars);
+$this->need('header.php');
 $this->need('component/headnav.php');
 ?>
-<style>
-    .links {
-        animation: <?php $this->options->LinksAction(); ?>;
-    }
-</style>
 <div id="main_load">
-    <main class="is-article" id="article-wrap">
-        <?php
-        if ($this->options->sideBarStyle == 2) {
-            $this->need('component/sidebar.php');
-        }
-        ?>
-        <section class="post-title">
-            <h1>
-                <div>
-                    <div class="texty mask-bottom" style="opacity: 1;"><span class=""
-                                                                             style="opacity: 1; transform: translate(0px, 0%);"><?php $this->title() ?></span>
-                    </div>
-                </div>
-            </h1>
-            <h2>
-                <div>
-                    <div class="texty mask-bottom" style="opacity: 1;"><span class=""
-                                                                             style="opacity: 1; transform: translate(0px, 0%);">海内存知己，天涯若比邻</span>
-                    </div>
-            </h2>
-            <?php Content::postContentHtml($this, $this->user->hasLogin()); ?>
+    <main class="is-article mix-friends-page" id="article-wrap">
+        <?php if ($this->options->sideBarStyle == 2) $this->need('component/sidebar.php'); ?>
+        <section class="post-title mix-friends-heading">
+            <div class="mix-friends-title-row">
+                <span class="mix-friends-heading-icon" aria-hidden="true"><i class="fas fa-user-friends"></i></span>
+                <h1><?php $this->title(); ?></h1>
+                <span class="mix-friends-count"><?php echo count($mixFriends); ?> 位朋友</span>
+            </div>
+            <h2>海内存知己，天涯若比邻</h2>
         </section>
-        <div>
-            <article class="post-content paul-note" style="opacity: 1;">
-                <article class="post-content paul-note article-list">
-                    <ul>
-                        <div>
-                            <?php if (Admin_Helper::isPluginAvailable('Links_Plugin', 'Links')) Links_Plugin::output('<li class="links"><a href="{url}" title="{title}" target="_blank">{name}</a><span class="meta">{description}<span></li>'); ?>
-                        </div>
-                    </ul>
-                </article>
-            </article>
-        </div>
+        <article class="post-content paul-note mix-friends-intro">
+            <?php Content::postContentHtml($this, $this->user->hasLogin()); ?>
+        </article>
+        <?php if ($mixFriends): ?>
+        <ul class="mix-friends-grid" aria-label="友情链接">
+            <?php foreach ($mixFriends as $mixFriendIndex => $mixFriend):
+                $mixFriendName = trim((string) $mixFriend['name']);
+                $mixFriendUrl = trim((string) $mixFriend['url']);
+                $mixFriendDescription = trim((string) $mixFriend['description']);
+                $mixFriendFallback = 'https://raw.githubusercontent.com/nek0peko/cdn-static/main/Mix/img/icon/' . $mixCatAvatars[$mixFriendIndex % 10] . '.png';
+                if (($mixFriendIndex + 1) % 10 === 0) shuffle($mixCatAvatars);
+                $mixFriendImage = trim((string) $mixFriend['image']);
+                if ($mixFriendImage === '' || !MixHyperlinks::validUrl($mixFriendImage)) $mixFriendImage = $mixFriendFallback;
+            ?>
+            <li class="mix-friend-item">
+                <a class="mix-friend-card" href="<?php echo $mixFriendEscape($mixFriendUrl); ?>" target="_blank" rel="noopener noreferrer">
+                    <span class="mix-friend-avatar" aria-hidden="true">
+                        <i class="fas fa-paw"></i>
+                        <img class="mix-friend-image" src="<?php echo $mixFriendEscape($mixFriendImage); ?>" alt="" width="64" height="64" loading="lazy" decoding="async" data-fallback="<?php echo $mixFriendEscape($mixFriendFallback); ?>" onerror="if(this.src!==this.dataset.fallback){this.src=this.dataset.fallback;}else{this.hidden=true;}">
+                    </span>
+                    <span class="mix-friend-details">
+                        <span class="mix-friend-name"><?php echo $mixFriendEscape($mixFriendName); ?></span>
+                        <?php if ($mixFriendDescription !== ''): ?>
+                        <span class="mix-friend-description"><?php echo $mixFriendEscape($mixFriendDescription); ?></span>
+                        <?php endif; ?>
+                        <span class="mix-friend-url" title="<?php echo $mixFriendEscape($mixFriendUrl); ?>"><?php echo $mixFriendEscape($mixFriendUrl); ?></span>
+                    </span>
+                    <i class="fas fa-arrow-up mix-friend-arrow" aria-hidden="true"></i>
+                </a>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php else: ?>
+        <p class="mix-friends-empty">还没有添加友链</p>
+        <?php endif; ?>
         <?php if (in_array('ShowComment', mixEnabledComponents($this->options), true)) $this->need('comments.php'); ?>
     </main>
 </div>
-
-<!--必要底部元素-->
 <?php $this->need('footer.php'); ?>

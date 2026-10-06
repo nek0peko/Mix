@@ -175,3 +175,153 @@ post-form {
     margin-right: .75em;
     vertical-align: middle
 }
+
+/* Keep section, thread and form spacing independent of the comment count. */
+article.mix-comment-section {
+    display: flow-root;
+    clear: both;
+    margin-top: 40px;
+}
+.mix-comment-section > h1 {
+    margin: 0;
+}
+.mix-comment-section ol.comment-list,
+.mix-comment-section ul.comment-list {
+    margin: 0;
+    padding: 0;
+}
+.mix-comment-section > ol.comment-list,
+.mix-comment-section > ul.comment-list {
+    margin-top: 20px;
+}
+.mix-comment-section .comment-body {
+    margin-bottom: 20px;
+}
+.mix-comment-section .comment-body:last-child {
+    margin-bottom: 0;
+}
+.mix-comment-section .comment_main {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+.mix-comment-section .comment-children {
+    --mix-reply-indent: 20px;
+    margin-top: 16px;
+    margin-left: 1.5rem;
+    padding-left: var(--mix-reply-indent);
+}
+.mix-comment-section .comment-children .comment-children .comment-children {
+    padding-left: 0;
+    margin-left: 0;
+}
+.mix-comment-section .comment-children .comment-body {
+    margin-bottom: 16px;
+}
+.mix-comment-section .comment-children .comment-body:last-child {
+    margin-bottom: 0;
+}
+.mix-comment-section .comment-children .line {
+    display: none;
+}
+.mix-comment-section .comment-children > .comment-list > .comment-body::before,
+.mix-comment-section .comment-children > .comment-list > .comment-body::after {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--mix-reply-indent));
+    pointer-events: none;
+    background: rgba(101, 169, 173, .22);
+}
+.mix-comment-section .comment-children > .comment-list > .comment-body::before {
+    top: -16px;
+    bottom: -16px;
+    width: 1px;
+}
+.mix-comment-section .comment-children > .comment-list > .comment-body:first-child::before {
+    top: 0;
+}
+.mix-comment-section .comment-children > .comment-list > .comment-body:last-child::before {
+    bottom: auto;
+    height: calc(16px + 2rem);
+}
+.mix-comment-section .comment-children > .comment-list > .comment-body:only-child::before {
+    height: 2rem;
+}
+.mix-comment-section .comment-children > .comment-list > .comment-body::after {
+    top: 2rem;
+    width: calc(var(--mix-reply-indent) - 6px);
+    height: 1px;
+}
+.mix-comment-section .comment-children .comment-children .comment-children > .comment-list > .comment-body::before,
+.mix-comment-section .comment-children .comment-children .comment-children > .comment-list > .comment-body::after {
+    display: none;
+}
+.mix-comment-section .comment_meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 12px;
+}
+.mix-comment-section .comment_meta span {
+    margin-right: 0;
+}
+.mix-comment-section .comment_reply {
+    position: static;
+    margin-left: auto;
+}
+.mix-comment-section .comment_reply .fa-reply::before {
+    margin-right: 6px;
+}
+.mix-comment-section .reply_form .submit {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+}
+.mix-comment-section .reply_form .submit button {
+    float: none;
+}
+.mix-comment-section .page-navigator {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 20px 0 0;
+    padding: 0;
+}
+.mix-comment-section .page-navigator li {
+    margin: 0;
+}
+.mix-comment-section + #comment-form {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(101, 169, 173, .22);
+}
+.mix-comment-section + #comment-form .post-form {
+    margin: 0;
+    padding: 0;
+}
+.mix-comment-section + #comment-form .note-comments > p:first-of-type {
+    margin: 0 0 16px;
+    line-height: 1.6;
+}
+.mix-comment-section .reply {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(101, 169, 173, .22);
+}
+.mix-comment-section .reply_form {
+    margin-top: 0;
+}
+.mix-comment-section .reply_form div > input[type=text],
+.mix-comment-section .reply_form textarea {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+@media (max-width: 600px) {
+    article.mix-comment-section { margin-top: 32px; }
+    .mix-comment-section .comment-children { --mix-reply-indent: 12px; }
+    .mix-comment-section .reply_form div.col-3 { column-count: 1; }
+    .mix-comment-section + #comment-form { margin-top: 20px; padding-top: 20px; }
+}

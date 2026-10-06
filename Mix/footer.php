@@ -36,9 +36,7 @@
             <div class="col-m-6 right to-center">
                 <?php if (in_array('ShowAly', mixEnabledComponents($this->options), true)): ?>
                     <?php $footerOnlineCount = online_users(); ?>
-                    <?php if ($footerOnlineCount !== null): ?>
-                    <p><?php echo $footerOnlineCount ?> 个小伙伴正在浏览</p>
-                    <?php endif; ?>
+                    <p data-mix-online data-endpoint="<?php echo htmlspecialchars(BLOG_URL_PHP . '?mix_online=1', ENT_QUOTES, 'UTF-8'); ?>" data-count="<?php echo $footerOnlineCount === null ? '' : $footerOnlineCount; ?>"<?php if ($footerOnlineCount === null): ?> hidden<?php endif; ?>><span data-mix-online-count><?php echo $footerOnlineCount === null ? '' : $footerOnlineCount; ?></span> 个小伙伴正在浏览</p>
                     <p><a href="https://travellings.link/" target="_blank" rel="noreferrer">点击开往下一站→</a></p>
                     <!-- 暂时隐藏RSS -->
                     <p style="display: none">
@@ -61,7 +59,7 @@
     <link href="<?php echo $GLOBALS['assetURL'] ?>css/other.css" rel="stylesheet" type="text/css">
     <link href="<?php echo $GLOBALS['assetURL'] ?>css/mix_style3.css" rel="stylesheet" type="text/css">
     <!-- <link href="<?php echo $GLOBALS['assetURL'] ?>css/OperatorMono.css" rel="stylesheet" type="text/css"> -->
-    <link href="<?php echo $GLOBALS['assetURL'] ?>css/comment.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo $GLOBALS['assetURL'] ?>css/comment.css?v=<?php echo filemtime(__DIR__ . '/assets/css/comment.css'); ?>" rel="stylesheet" type="text/css">
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" /> -->
@@ -74,6 +72,7 @@
     <?php if (in_array('ShowIMouse', mixEnabledComponents($this->options), true)): ?>
         <!-- TODO: 当前CDN速度太慢，暂时将部分JS存在本地，后续更换CDN -->
         <script src="<?php echo $GLOBALS['assetURL'] ?>js/local/index.js"></script>
+        <script src="<?php echo $GLOBALS['assetURL'] ?>js/imouse.input.js?v=<?php echo filemtime(__DIR__ . '/assets/js/imouse.input.js'); ?>" defer></script>
         <!--        <script src="https://cdn.jsdelivr.net/gh/rikumi/imouse@master/dist/index.js"></script>-->
         <script>
             window.addEventListener('DOMContentLoaded', () => IMouse.default.init({
@@ -133,7 +132,7 @@
                 // 需要重载的 JS 函数
                 <?php $this->options->PjaxReLoad(); ?>
                 SQP.init(); // 重载 SQP
-                ks.image("img:not(.mix-social-icon):not(.mix-category-cover)"); // 重载 Kico Style 的图片灯箱
+                ks.image("img:not(.mix-social-icon):not(.mix-category-cover):not(.mix-friend-image)"); // 重载 Kico Style 的图片灯箱
                 if (typeof Prism !== 'undefined') {
                     var pres = document.getElementsByTagName('pre');
                     for (var i = 0; i < pres.length; i++) {
@@ -150,7 +149,7 @@
                 }
             });
         </script>
-        <script>ks.image("img:not(.mix-social-icon):not(.mix-category-cover)");</script>
+        <script>ks.image("img:not(.mix-social-icon):not(.mix-category-cover):not(.mix-friend-image)");</script>
         <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
                 crossorigin="anonymous"></script>
@@ -175,7 +174,7 @@
                 function () {
                     // 加载动画效果结束
                     NProgress.done();
-                    ks.image("img:not(.mix-social-icon):not(.mix-category-cover)");
+                    ks.image("img:not(.mix-social-icon):not(.mix-category-cover):not(.mix-friend-image)");
                     SQP.init();
                     if (typeof Prism !== 'undefined') {
                         var pres = document.getElementsByTagName('pre');
@@ -194,6 +193,14 @@
     <?php $this->need('component/index/sidebar.tool.php'); ?>
 
     <script src="<?php echo $GLOBALS['assetURL'] ?>js/Mix.js?v=<?php echo filemtime(__DIR__ . '/assets/js/Mix.js'); ?>"></script>
+    <script src="<?php echo $GLOBALS['assetURL'] ?>js/article.toc.js?v=<?php echo filemtime(__DIR__ . '/assets/js/article.toc.js'); ?>" defer></script>
+    <script src="<?php echo $GLOBALS['assetURL'] ?>js/article.navigation.js?v=<?php echo filemtime(__DIR__ . '/assets/js/article.navigation.js'); ?>" defer></script>
+    <?php if (mixNavigationSearchEnabled($this->options)): ?>
+    <script src="<?php echo $GLOBALS['assetURL'] ?>js/navigation.search.js?v=<?php echo filemtime(__DIR__ . '/assets/js/navigation.search.js'); ?>" defer></script>
+    <?php endif; ?>
+    <?php if (in_array('ShowAly', mixEnabledComponents($this->options), true)): ?>
+    <script src="<?php echo $GLOBALS['assetURL'] ?>js/online.js?v=<?php echo filemtime(__DIR__ . '/assets/js/online.js'); ?>" defer></script>
+    <?php endif; ?>
     <script><?php $this->options->JavaScript(); ?></script>
 </footer>
 <script>

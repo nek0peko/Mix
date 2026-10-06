@@ -51,6 +51,7 @@
             <?php $this->widget('Widget_Metas_Category_List')->to($category); ?>
             <?php if ($category->have()): ?>
                 <?php while ($category->next()): ?>
+                    <?php if (!mixCategoryHasPosts($this, $category->mid)) continue; ?>
                     <a href="<?php $category->permalink(); ?>">
                         <div class="Header_children__2ZydX global-children"><span><?php $category->name(); ?></span>
                         </div>
@@ -59,6 +60,7 @@
             <?php endif; ?>
         </div>
     </div>
+    <?php $mixSearchDrawer = true; include __DIR__ . '/navigation-search.php'; ?>
     <?php if (Admin_Helper::isPluginAvailable('Links_Plugin', 'Links') && trim((string) $this->options->FriendURL) !== '' && MixHyperlinks::validUrl((string) $this->options->FriendURL)): ?>
     <div class="Header_link-section__1JFc9 global-link-section">
         <a href="<?php echo htmlspecialchars(trim((string) $this->options->FriendURL), ENT_QUOTES, 'UTF-8'); ?>">

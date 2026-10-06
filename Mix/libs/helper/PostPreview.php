@@ -8,6 +8,26 @@ class MixPostPreview
         return htmlspecialchars(html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8'), ENT_QUOTES, 'UTF-8');
     }
 
+    /** Highlight plain text, escaping both matched and unmatched segments. */
+    public static function highlightText(string $text, string $keywords, bool $decodeEntities = true): string
+    {
+        if ($decodeEntities) $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $terms = preg_split('/\s+/u', trim($keywords), -1, PREG_SPLIT_NO_EMPTY);
+        if (!$terms) return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+        $terms = array_values(array_unique($terms));
+        // Prefer the longest match when terms share a prefix.
+        usort($terms, static function ($a, $b) { return strlen($b) <=> strlen($a); });
+        $pattern = '~(' . implode('|', array_map(static function ($term) { return preg_quote($term, '~'); }, $terms)) . ')~iu';
+        $parts = preg_split($pattern, $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+        if ($parts === false) return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+        $result = '';
+        foreach ($parts as $index => $part) {
+            $escaped = htmlspecialchars($part, ENT_QUOTES, 'UTF-8');
+            $result .= $index % 2 ? '<mark class="mix-search-highlight">' . $escaped . '</mark>' : $escaped;
+        }
+        return $result;
+    }
+
     public static function cover(string $source, bool $protected = false): string
     {
         return self::prepare($source, $protected, false)['cover'];
